@@ -1,7 +1,8 @@
 { config, pkgs, lib, ... }:
 let
-  shamos = sep: f: lib.strings.concatStringsSep sep (map f [0 1 2 3 4 5 6 7]);
-in {
+  shamos = sep: f: lib.strings.concatStringsSep sep (map f [ 0 1 2 3 4 5 6 7 ]);
+in
+{
   imports =
     [
       ./hardware-configuration.nix
@@ -11,11 +12,13 @@ in {
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.luks.devices = { crypt = {
-    device = "/dev/disk/by-uuid/4b6c70d3-8d32-4dd1-acfc-ae1b73c67797";
-    preLVM = true;
-    allowDiscards = false;
-  }; }; 
+  boot.initrd.luks.devices = {
+    crypt = {
+      device = "/dev/disk/by-uuid/4b6c70d3-8d32-4dd1-acfc-ae1b73c67797";
+      preLVM = true;
+      allowDiscards = false;
+    };
+  };
 
   time.timeZone = "Asia/Tokyo";
 
@@ -25,10 +28,10 @@ in {
   #  let p = "http://michaelis%%40jp.fujitsu.com:0123456789@10.128.145.88:8080/";
   #  in lib.mkForce { http_proxy = p; https_proxy = p; all_proxy = p; ftp_proxy = p; };
   networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain,${shamos "," (x: "shamo${toString x}")}";
-  networking.interfaces.eth0.ipv4.addresses = [ {
+  networking.interfaces.eth0.ipv4.addresses = [{
     address = "10.38.90.79";
     prefixLength = 24;
-  } ];
+  }];
   networking.defaultGateway = "10.38.90.1";
   networking.nameservers = [ "10.0.238.70" ];
   networking.hostName = "capri";
@@ -49,8 +52,19 @@ in {
       "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNNSNxM0TSVATCXTFinTmy54757P93c7YaesT1X/zIfzar5XwxTj9N0KsjBULgaUChpKKyEvc2DoGdPm2f2/leI= michaelis.g01@ZYPERN"
     ];
     packages = with pkgs; [
-      fish nushell helix git gh logcheck
-      yaml-language-server java-language-server jdt-language-server dot-language-server docker-compose-language-service cmake-language-server rust-analyzer
+      fish
+      nushell
+      helix
+      git
+      gh
+      logcheck
+      yaml-language-server
+      java-language-server
+      jdt-language-server
+      dot-language-server
+      docker-compose-language-service
+      cmake-language-server
+      rust-analyzer
     ];
     shell = pkgs.nushell;
     password = "";
@@ -64,7 +78,8 @@ in {
     rxvt-unicode
     lls
     htop
-    helix nil
+    helix
+    nil
   ];
   #programs.direnv.nix-direnv.enable = true; TODO: IDGI
 
