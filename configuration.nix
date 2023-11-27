@@ -90,7 +90,7 @@ in {
   networking.firewall.allowedUDPPorts = [ ];
   networking.firewall.enable = true;
 
-  system.copySystemConfiguration = true;
+  #system.copySystemConfiguration = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
