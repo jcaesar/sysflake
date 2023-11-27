@@ -11,8 +11,14 @@
         })
       ];
     };
+    mkShamo = index: fromCfg ((import ./shamo/configuration.nix) index);
   in {
-    nixosConfigurations.capri = fromCfg ./configuration.nix; # VM on gemini
+    nixosConfigurations = 
+      { capri = fromCfg ./capri/configuration.nix; } # VM on gemini
+      //  builtins.listToAttrs (map (index: { 
+        name = "shamo${toString index}";
+        value = fromCfg ((import ./shamo/configuration.nix) index); 
+      }) [2 7 8]);
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
   };
 }
