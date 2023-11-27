@@ -12,16 +12,15 @@
           })
         ];
       };
-      mkShamo = index: fromCfg ((import ./shamo/configuration.nix) index);
+      shamos = f: builtins.listToAttrs (builtins.map f [ 2 6 7 ]);
     in
     {
       nixosConfigurations =
         { capri = fromCfg ./capri/configuration.nix; } # VM on gemini
-        // builtins.listToAttrs (map
-          (index: {
-            name = "shamo${toString index}";
-            value = fromCfg ((import ./shamo/configuration.nix) index);
-          }) [ 2 7 8 ]);
+        // shamos (index: {
+          name = "shamo${toString index}";
+          value = fromCfg ((import ./shamo/configuration.nix) index);
+        });
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
     };
 }

@@ -3,7 +3,7 @@ shamoIndex: { pkgs, lib, ... }:
 let
   concatStringsSep = lib.strings.concatStringsSep;
   concatMap = lib.concatMap;
-  shamoF = f: map f [ 0 1 2 3 4 5 6 7 ];
+  shamoF = f: builtins.genList f 8;
   shamoIp = x: "10.25.211." + toString (84 - x);
   shamoName = x: "shamo" + toString x;
 in

@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  shamos = sep: f: lib.strings.concatStringsSep sep (map f [ 0 1 2 3 4 5 6 7 ]);
+  shamos = sep: f: lib.strings.concatStringsSep sep (builtins.genList f 8);
 in
 {
   imports =
