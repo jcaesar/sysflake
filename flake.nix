@@ -2,7 +2,8 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
 
   outputs = { self, nixpkgs }: {
-    nixosConfigurations.julius-dev = nixpkgs.lib.nixosSystem {
+    # VM on gemini
+    nixosConfigurations.capri = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         ./configuration.nix

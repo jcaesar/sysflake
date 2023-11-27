@@ -31,7 +31,7 @@ in {
   } ];
   networking.defaultGateway = "10.38.90.1";
   networking.nameservers = [ "10.0.238.70" ];
-  networking.hostName = "julius-dev";
+  networking.hostName = "capri";
   networking.dhcpcd.enable = true;
   networking.extraHosts = shamos "\n" (x: "10.25.211.${toString (84 - x)} shamo${toString x}");
 
