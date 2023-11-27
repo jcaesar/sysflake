@@ -7,7 +7,10 @@
       system = "x86_64-linux";
       modules = [
         ./configuration.nix
-        ({ ... }: { nix.registry.nixpkgs.flake = nixpkgs; })
+        ({ ... }: {
+          nix.registry.nixpkgs.flake = nixpkgs;
+          system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
+        })
       ];
     };
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
