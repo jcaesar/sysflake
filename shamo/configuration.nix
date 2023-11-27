@@ -52,6 +52,7 @@ in
 
   environment.systemPackages = with pkgs; [
     vim
+    git
     wget
     screen
     rxvt-unicode
