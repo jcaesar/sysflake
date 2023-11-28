@@ -4,17 +4,18 @@
 
 set -euo pipefail
 
-#if ! which nixos-rebuild &>/dev/null; then
-#	nix shell nixpkgs\#nixos-rebuild -c "$0" "$@"
-#fi
-#nixos-rebuild switch --target-host capri --build-host capri --use-remote-sudo --flake .#capri
+if ! which nixos-rebuild &>/dev/null; then
+	nix shell nixpkgs\#nixos-rebuild -c "$0" "$@"
+fi
 
 cd "$(dirname "$0")"
 
-for h in shan{2,6,7}; do
-    echo
-	echo "$h"
-	echo $(sed 's/./=/g' <<<"$h")
-	rsync -ae "ssh -q" . $h:./sysflake
-	ssh -qtt $h sudo nixos-rebuild switch --flake ./sysflake
+export NIX_SSHOPTS=-q
+
+echo -en "\ncapri\n=====\n"
+nixos-rebuild switch --target-host capri --build-host capri --use-remote-sudo --flake .\#capri
+
+for h in {2,6,7}; do
+	echo -en "\nshamo$h\n======\n"
+	nixos-rebuild switch --target-host shan$h --build-host shan2 --flake .\#shamo$h
 done
