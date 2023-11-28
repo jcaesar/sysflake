@@ -4,9 +4,14 @@
 
 set -euo pipefail
 
+#if ! which nixos-rebuild &>/dev/null; then
+#	nix shell nixpkgs\#nixos-rebuild -c "$0" "$@"
+#fi
+#nixos-rebuild switch --target-host capri --build-host capri --use-remote-sudo --flake .#capri
+
 cd "$(dirname "$0")"
 
-for h in drad shan{2,6,7}; do
+for h in shan{2,6,7}; do
     echo
 	echo "$h"
 	echo $(sed 's/./=/g' <<<"$h")
