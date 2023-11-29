@@ -42,7 +42,7 @@ in
     routes = shamo.each (x: {
       prefixLength = 32;
       address = shamo.ip x;
-      via = "192.168.0." + toString (x + 2);
+      via = "192.168.100." + toString (x + 2);
     });
   };
   networking.defaultGateway = "10.25.211.1";
