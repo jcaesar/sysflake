@@ -26,9 +26,6 @@ in
   networking.interfaces.eth0.ipv4.addresses = [{
     address = "10.38.90.22";
     prefixLength = 24;
-  } {
-    address = "10.38.90.79";
-    prefixLength = 24;
   }];
   networking.defaultGateway = "10.38.90.1";
   networking.hostName = "capri";
