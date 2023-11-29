@@ -1,22 +1,20 @@
 shamoIndex: { pkgs, lib, ... }:
 
 let
-  concatStringsSep = lib.strings.concatStringsSep;
-  concatMap = lib.concatMap;
-  shamoF = f: builtins.genList f 8;
-  shamoIp = x: "10.25.211." + toString (84 - x);
-  shamoName = x: "shamo" + toString x;
-in
-let
-  hostname = shamoName shamoIndex;
-  kubeMasterIP = shamoIp 2;
-  kubeMasterHostname = "shamo2";
+  common = import ../common.nix;
+  inherit  (lib.strings) concatStringsSep;
+  inherit (lib) concatMap;
+  shamo = common.shamo;
+  kubeMasterIP = shamo.ip 2;
+  kubeMasterHostname = shamo.name 2;
   kubeMasterAPIServerPort = 6443;
-  proxy = "http://shamo09stratus9flab:9491387463@10.128.145.88:8080/";
-  no_proxy = "127.0.0.1,localhost,fujitsu.co.jp," + concatStringsSep "," (shamoF shamoName);
+  proxy = common.proxy "shamo09stratus9flab" "9491387463";
 in
 {
-  imports = [ ./hardware-shamo${toString shamoIndex}.nix ];
+  imports = [
+    ./hardware-shamo${toString shamoIndex}.nix
+    common.config
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -31,9 +29,9 @@ in
       Port 2222
   '';
   networking.proxy.default = proxy;
-  networking.proxy.noProxy = no_proxy;
+  networking.proxy.noProxy = common.noProxy;
   networking.interfaces.eno1.ipv4.addresses = [{
-    address = shamoIp shamoIndex;
+    address = shamo.ip shamoIndex;
     prefixLength = 24;
   }];
   networking.interfaces.enp216s0f0.ipv4 = {
@@ -41,36 +39,19 @@ in
       address = "192.168.100.${toString (shamoIndex + 2)}";
       prefixLength = 24;
     }];
-    routes = shamoF (x: {
+    routes = shamo.each (x: {
       prefixLength = 32;
-      address = shamoIp x;
+      address = shamo.ip x;
       via = "192.168.0." + toString (x + 2);
     });
   };
   networking.defaultGateway = "10.25.211.1";
-  networking.nameservers = [ "10.0.238.1" ];
-  networking.hostName = hostname;
+  networking.hostName = shamo.name shamoIndex;
   networking.dhcpcd.enable = false;
-  networking.extraHosts = concatStringsSep "\n" (shamoF (x: "${shamoIp x} shamo${toString x}"));
 
-  security.sudo.wheelNeedsPassword = false;
+  environment.systemPackages = with pkgs; [ kompose kubectl kubernetes ] ++ common.packages pkgs;
 
-  environment.systemPackages = with pkgs; [
-    vim
-    git
-    wget
-    screen
-    rxvt-unicode
-    lls
-    helix
-    nil
-    htop
-    kompose
-    kubectl
-    kubernetes
-  ];
-
-  systemd.services.containerd.environment = { http_proxy = proxy; https_proxy = proxy; no_proxy = no_proxy; };
+  systemd.services.containerd.environment = { http_proxy = proxy; https_proxy = proxy; no_proxy = common.noProxy; };
   services.kubernetes =
     let
       api = "https://${kubeMasterHostname}:${toString kubeMasterAPIServerPort}";
@@ -112,7 +93,7 @@ in
       extraRules = (sign: concatStringsSep "\n" (concatMap
         (port: (map
           (idx: "
-      iptables -${sign} INPUT -p tcp -s ${shamoIp idx} -m tcp --dport ${toString port} -j ACCEPT
+      iptables -${sign} INPUT -p tcp -s ${shamo.ip idx} -m tcp --dport ${toString port} -j ACCEPT
     ") [ 2 6 7 ])) [ 10250 8888 ]));
     in
     {
@@ -124,6 +105,5 @@ in
     };
 
   system.stateVersion = "23.05";
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 }
 

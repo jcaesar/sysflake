@@ -2,6 +2,7 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
   outputs = { self, nixpkgs }:
     let
+      common = import ./common.nix;
       fromCfg = cfg: nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
@@ -12,7 +13,7 @@
           })
         ];
       };
-      shamos = f: builtins.listToAttrs (builtins.map f [ 2 6 7 ]);
+      shamos = f: builtins.listToAttrs (map f common.shamo.nixed);
     in
     {
       nixosConfigurations =
