@@ -19,12 +19,22 @@ rec {
     ];
   };
   packages = pkgs: with pkgs; [
-    vim helix nil
-    pv jq rq
-    wget httpie git
-    screen tmux
+    vim
+    helix
+    nil
+    pv
+    jq
+    rq
+    wget
+    httpie
+    git
+    screen
+    tmux
     rxvt-unicode
-    lls htop bottom iotop
+    lls
+    htop
+    bottom
+    iotop
     logcheck
     direnv
   ];
@@ -35,16 +45,31 @@ rec {
   #  in lib.mkForce { http_proxy = p; https_proxy = p; all_proxy = p; ftp_proxy = p; };
   proxy = user: pw: "http://${user}:${pw}@10.128.145.88:8080/";
   config = { lib, ... }: {
+    boot.loader.systemd-boot.enable = true;
     networking.proxy.noProxy = noProxy;
-    networking.extraHosts = (''
+    networking.extraHosts = ''
       10.38.90.22 capri
       ${lib.concatStringsSep "\n" (shamo.each (x: "${shamo.ip x} ${shamo.name x}"))}
-    '');
+    '';
     time.timeZone = "Asia/Tokyo";
     i18n.defaultLocale = "en_US.UTF-8";
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
     networking.firewall.enable = true;
     security.sudo.wheelNeedsPassword = false;
     networking.nameservers = [ "10.0.238.1" "10.0.238.70" ];
+    services.openssh = {
+      enable = true;
+      settings.PasswordAuthentication = false;
+      settings.KbdInteractiveAuthentication = false;
+      settings.PermitRootLogin = "prohibit-password";
+      settings.ListenAddress = "0.0.0.0:2222";
+    };
+    virtualisation.docker = {
+      enable = true;
+      rootless = {
+        enable = true;
+        setSocketVariable = true;
+      };
+    };
   };
 }  

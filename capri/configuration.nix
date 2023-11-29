@@ -11,7 +11,6 @@ in
   #nix.registry.nixpkgs.flake = nixpkgs;
   #nix.package = pkgs.nixFlakes;
 
-  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.luks.devices = {
     crypt = {
@@ -51,21 +50,6 @@ in
 
   services.acpid.enable = true; # 2023-11-17 Might prevent shutdown hang - todo test
   virtualisation.vmware.guest.enable = true;
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-    settings.PermitRootLogin = "prohibit-password";
-    settings.ListenAddress = "0.0.0.0:2222";
-  };
-  virtualisation.docker = {
-    enable = true;
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
-  };
-
 
   networking.firewall.allowedTCPPorts = [ 2222 1337 ];
   networking.firewall.allowedUDPPorts = [ ];

@@ -2,8 +2,6 @@ shamoIndex: { pkgs, lib, ... }:
 
 let
   common = import ../common.nix;
-  inherit  (lib.strings) concatStringsSep;
-  inherit (lib) concatMap;
   shamo = common.shamo;
   kubeMasterIP = shamo.ip 2;
   kubeMasterHostname = shamo.name 2;
@@ -16,12 +14,10 @@ in
     common.config
   ];
 
-  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.initrd.luks.devices."crypt".preLVM = false;
-  users.users.root.openssh.authorizedKeys.keys = [
-    "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEl5k7aYexi95LNugqwBZQAk/qmA3bruEYqQqFgSpnXSLDeNX0ZZNa8NekuN+Cf7qm9ZJsWZpKzEOi7C//hZa2E= julius@julius"
+  users.users.root.openssh.authorizedKeys.keys = common.sshKeys.strong ++ [
     "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLN6IOSFfpYCNhM/Qzj02GdHIblSsvV2LtgTUSawvZNapLxdCThhn6BD863/960MOnUThW9IyXf4jmX4eVzyqFI= root@shamo2"
   ];
   programs.ssh.extraConfig = ''
@@ -29,7 +25,6 @@ in
       Port 2222
   '';
   networking.proxy.default = proxy;
-  networking.proxy.noProxy = common.noProxy;
   networking.interfaces.eno1.ipv4.addresses = [{
     address = shamo.ip shamoIndex;
     prefixLength = 24;
@@ -73,23 +68,11 @@ in
       roles = [ "node" ];
       kubelet.kubeconfig.server = api;
     });
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-    settings.PermitRootLogin = "prohibit-password";
-    settings.ListenAddress = "0.0.0.0:2222";
-  };
-  virtualisation.docker = {
-    enable = true;
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
-  };
 
   networking.firewall =
     let
+      inherit (lib.strings) concatStringsSep;
+      inherit (lib) concatMap;
       extraRules = (sign: concatStringsSep "\n" (concatMap
         (port: (map
           (idx: "
