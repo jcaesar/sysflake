@@ -8,18 +8,44 @@ in
       ./hardware-configuration.nix
       common.config
     ];
-  #nix.registry.nixpkgs.flake = nixpkgs;
-  #nix.package = pkgs.nixFlakes;
 
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    systemd-boot = {
+      enable = true;
+      configurationLimit = 15;
+      editor = false;
+    };
+    efi.canTouchEfiVariables = false;
+  };
   boot.initrd.luks.devices = {
     crypt = {
-      device = "/dev/disk/by-uuid/4b6c70d3-8d32-4dd1-acfc-ae1b73c67797";
+      # cryptsetup conrig /dev/foo --label crypt
+      device = "/dev/disk/by-label/crypt";
       preLVM = true;
       allowDiscards = false;
     };
   };
 
+  # Stage 1 ssh decrypt. Several things about this are dumb
+  #  - Somehow, it includes the /etc/ssh/boot in the initrd, but I have no idea how
+  #  - It does not automatically pick up on the network configuration
+  #  - Need to specify the driver manually
+  #  - The password is entered with "echo pw >/crypt-ramfs/passphrase" (that's not a pipe, its a file that's checked once per second)
+  boot.initrd.kernelModules = [ "e1000" ];
+  boot.initrd.network.enable = true;
+  boot.initrd.network.ssh = {
+    enable = true;
+    port = 2223;
+    hostKeys = [
+	  "/etc/ssh/boot/host_rsa_key"
+	  "/etc/ssh/boot/host_ed25519_key"
+	];
+    authorizedKeys = common.sshKeys.strong;
+  };
+  boot.kernelParams = [ 
+    "ip=10.38.90.22::10.38.90.1:255.255.255.0:capri:eth0:off" # Bit stupid that this isn't taken from networking.interfaces.…
+    # Debugging init: "boot.trace" "boot.debugtrace" "debug1"
+  ];
 
   networking.proxy.default = common.proxy "julius9dev9gemini1" "7049740682";
   networking.interfaces.eth0.ipv4.addresses = [{
@@ -28,7 +54,6 @@ in
   }];
   networking.defaultGateway = "10.38.90.1";
   networking.hostName = "capri";
-  networking.dhcpcd.enable = true;
 
   users.users.julius = {
     isNormalUser = true;
@@ -48,10 +73,10 @@ in
   environment.systemPackages = common.packages pkgs;
   #programs.direnv.nix-direnv.enable = true; TODO: IDGI
 
-  services.acpid.enable = true; # 2023-11-17 Might prevent shutdown hang - todo test
+  services.acpid.enable = true; # Was supposed to prevent shutdown hang, doesn't
   virtualisation.vmware.guest.enable = true;
 
-  networking.firewall.allowedTCPPorts = [ 2222 1337 ];
+  networking.firewall.allowedTCPPorts = [ 2222 2223 1337 ];
   networking.firewall.allowedUDPPorts = [ ];
   networking.firewall.enable = true;
 
