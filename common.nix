@@ -45,7 +45,14 @@ rec {
   #  in lib.mkForce { http_proxy = p; https_proxy = p; all_proxy = p; ftp_proxy = p; };
   proxy = user: pw: "http://${user}:${pw}@10.128.145.88:8080/";
   config = { lib, ... }: {
-    boot.loader.systemd-boot.enable = true;
+    boot.loader = {
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 15;
+        editor = false;
+      };
+      efi.canTouchEfiVariables = false;
+    };
     networking.proxy.noProxy = noProxy;
     networking.extraHosts = ''
       10.38.90.22 capri

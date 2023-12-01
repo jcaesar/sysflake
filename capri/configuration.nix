@@ -3,20 +3,11 @@ let
   common = import ../common.nix;
 in
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      common.config
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    common.config
+  ];
 
-  boot.loader = {
-    systemd-boot = {
-      enable = true;
-      configurationLimit = 15;
-      editor = false;
-    };
-    efi.canTouchEfiVariables = false;
-  };
   boot.initrd.luks.devices = {
     crypt = {
       # cryptsetup conrig /dev/foo --label crypt
@@ -37,12 +28,12 @@ in
     enable = true;
     port = 2223;
     hostKeys = [
-	  "/etc/ssh/boot/host_rsa_key"
-	  "/etc/ssh/boot/host_ed25519_key"
-	];
+      "/etc/ssh/boot/host_rsa_key"
+      "/etc/ssh/boot/host_ed25519_key"
+    ];
     authorizedKeys = common.sshKeys.strong;
   };
-  boot.kernelParams = [ 
+  boot.kernelParams = [
     "ip=10.38.90.22::10.38.90.1:255.255.255.0:capri:eth0:off" # Bit stupid that this isn't taken from networking.interfaces.…
     # Debugging init: "boot.trace" "boot.debugtrace" "debug1"
   ];
