@@ -4,6 +4,7 @@ rec {
     each = f: map f all;
     nixed = [ 2 6 7 ];
     ip = x: "10.25.211." + toString (84 - x);
+    internalIp = x: "192.168.100.${toString (x + 2)}";
     name = x: "shamo" + toString x;
   };
   sshKeys = rec {

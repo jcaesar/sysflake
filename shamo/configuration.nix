@@ -30,13 +30,13 @@ in
   }];
   networking.interfaces.enp216s0f0.ipv4 = {
     addresses = [{
-      address = "192.168.100.${toString (shamoIndex + 2)}";
+      address = shamo.internalIp shamoIndex;
       prefixLength = 24;
     }];
     routes = shamo.each (x: {
       prefixLength = 32;
       address = shamo.ip x;
-      via = "192.168.100." + toString (x + 2);
+      via = shamo.internalIp x;
     });
   };
   networking.defaultGateway = "10.25.211.1";
@@ -76,6 +76,7 @@ in
         (port: (map
           (idx: "
       iptables -${sign} INPUT -p tcp -s ${shamo.ip idx} -m tcp --dport ${toString port} -j ACCEPT
+      iptables -${sign} INPUT -p tcp -s ${shamo.internalIp idx} -m tcp --dport ${toString port} -j ACCEPT
     ") [ 2 6 7 ])) [ 10250 8888 ]));
     in
     {

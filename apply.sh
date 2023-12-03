@@ -13,9 +13,9 @@ cd "$(dirname "$0")"
 export NIX_SSHOPTS=-q
 
 echo -en "\ncapri\n=====\n"
-nixos-rebuild switch --target-host capri --build-host capri --use-remote-sudo --flake .\#capri
+nixos-rebuild switch --target-host capri --build-host capri --use-remote-sudo --flake .\#capri || echo 1>&2 "Capri failed"
 
 for h in {2,6,7}; do
 	echo -en "\nshamo$h\n======\n"
-	nixos-rebuild switch --target-host "shamo$h" --build-host shamo2 --flake ".#shamo$h"
+	nixos-rebuild switch --target-host "shamo$h" --build-host shamo2 --flake ".#shamo$h" || echo 1>&2 "shamo$h failed"
 done
