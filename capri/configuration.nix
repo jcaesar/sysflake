@@ -43,7 +43,10 @@ in
     address = "10.38.90.22";
     prefixLength = 24;
   }];
-  networking.defaultGateway = "10.38.90.1";
+  networking.defaultGateway = {
+    address = "10.38.90.1";
+    interface = "eth0";
+  };
   networking.hostName = "capri";
 
   users.users.julius = {

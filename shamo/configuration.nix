@@ -39,7 +39,10 @@ in
       via = shamo.internalIp x;
     });
   };
-  networking.defaultGateway = "10.25.211.1";
+  networking.defaultGateway = {
+    address = "10.25.211.1";
+    interface = "eno1";
+  };
   networking.hostName = shamo.name shamoIndex;
   networking.dhcpcd.enable = false;
 
