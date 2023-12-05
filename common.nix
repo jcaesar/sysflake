@@ -65,6 +65,8 @@ rec {
     networking.firewall.enable = true;
     security.sudo.wheelNeedsPassword = false;
     networking.nameservers = [ "10.0.238.1" "10.0.238.70" ];
+    networking.useNetworkd = true;
+    boot.initrd.systemd.network.enable = true; # Not sure if necessary or effectful
     services.openssh = {
       enable = true;
       settings.PasswordAuthentication = false;
