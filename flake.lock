@@ -16,9 +16,26 @@
         "type": "github"
       }
     },
+    "nixpkgs-certmgrfix": {
+      "locked": {
+        "lastModified": 1701699333,
+        "narHash": "sha256-ePa4oynwTNXuc4bqbi5ZMrO72yGuTPukptuMmgXPM5k=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "42499b9f6515dbca54cec1cae78165fd4e5eccfe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-23.05-small",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nixpkgs-certmgrfix": "nixpkgs-certmgrfix"
       }
     }
   },

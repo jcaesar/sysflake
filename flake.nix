@@ -1,15 +1,20 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11-small";
-  outputs = { self, nixpkgs }:
+  inputs.nixpkgs-certmgrfix.url = "github:nixos/nixpkgs/nixos-23.05-small";
+  outputs = { self, nixpkgs, nixpkgs-certmgrfix }:
     let
       common = import ./common.nix;
+      system = "x86_64-linux";
       fromCfg = cfg: nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        inherit system;
         modules = [
           cfg
           ({ ... }: {
             nix.registry.nixpkgs.flake = nixpkgs;
             system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
+            nixpkgs.overlays = [
+              (final: prev: { certmgr-selfsigned = (import nixpkgs-certmgrfix { inherit system; }).certmgr-selfsigned; })
+            ];
           })
         ];
       };
