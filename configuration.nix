@@ -49,7 +49,7 @@
   swapDevices = [];
 
   networking.useDHCP = false;
-  systemd.network.enable = true;
+  networking.useNetworkd = true; # TODO translate
   networking.interfaces.eth0.ipv4.addresses = [
     {
       address = "10.13.52.20";
@@ -59,19 +59,15 @@
 
   networking.defaultGateway = {
     address = "10.13.52.1";
-    interface = "enp5s0";
+    interface = "eth0";
   };
 
   nixpkgs.hostPlatform = "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = config.hardware.enableRedistributableFirmware;
 
-  networking.hostName = "pride"; # Define your hostname.
+  networking.hostName = "pride";
   networking.hostId = "7ef47bc5";
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
-  # Set your time zone.
   time.timeZone = "Asia/Tokyo";
 
   # Select internationalisation properties.
