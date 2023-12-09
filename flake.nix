@@ -8,7 +8,11 @@
       system = "x86_64-linux";
       modules = [
         (import ./configuration.nix)
-        ({...}: {nix.settings.experimental-features = ["nix-command" "flakes"];})
+        ({lib, ...}: {
+          nix.settings.experimental-features = ["nix-command" "flakes"];
+          system.configurationRevision = lib.mkIf (self ? rev) self.rev;
+          nix.registry.nixpkgs.flake = nixpkgs;
+        })
       ];
     };
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
