@@ -80,7 +80,15 @@
 
   services.xserver.enable = true;
   services.xserver.videoDrivers = ["nvidia"];
-  nixpkgs.config.allowUnfreePredicate = pkg: true;
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+    enableNvidiaPatches = true;
+  };
+  nixpkgs.config.allowUnfreePredicate = let
+    hasPrefix = pfx: str: lib.strings.removePrefix pfx str != pfx;
+  in
+    pkg: hasPrefix "nvidia-" (lib.getName pkg);
 
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
@@ -118,6 +126,7 @@
     wget
     helix
     git
+    efibootmgr
   ];
 
   services.openssh.enable = true;
