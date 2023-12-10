@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./networking.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -24,8 +25,6 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   networking.firewall.enable = true;
   #security.sudo.wheelNeedsPassword = false;
-  networking.nameservers = [ "10.0.238.1" "10.0.238.70" ];
-  networking.useNetworkd = true;
   services.openssh = {
     enable = true;
     settings.PasswordAuthentication = false;
@@ -123,28 +122,10 @@
     iotop
     logcheck
     direnv
+    nload
+    ripgrep
   ];
 
-  networking.wireguard.interfaces = {
-    gozo = {
-      ips = [ "10.13.26.2/24" ];
-      privateKeyFile = "/etc/secrets/gozo.pk";
-      listenPort = 36749;
-      peers = [
-        {
-          allowedIPs = [ "0.0.0.0/24" ];
-          publicKey = "BThC89DqFj+nGtkCytNSskolwCijeyq/XDiAM8hQJRw=";
-          endpoint = "10.13.25.1:53";
-          persistentKeepalive = 29;
-        }
-      ];
-    };
-  };
-  
-  networking.interfaces.enp0s31f6.ipv4.addresses = [{
-    address = "10.13.25.2";
-    prefixLength = 24;
-  }];
   #system.copySystemConfiguration = true;
 
   system.stateVersion = "24.05";
