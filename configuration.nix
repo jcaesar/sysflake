@@ -99,15 +99,13 @@
       helix
       git
       gh
+      firefox
     ];
     shell = pkgs.nushell;
     password = "";
   };
 
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-
     vim
     helix
     nil
@@ -119,7 +117,6 @@
     git
     screen
     tmux
-    rxvt-unicode
     lls
     htop
     bottom
@@ -151,6 +148,4 @@
   #system.copySystemConfiguration = true;
 
   system.stateVersion = "24.05";
-
 }
-
