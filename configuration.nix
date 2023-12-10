@@ -62,6 +62,17 @@
       ];
     };
   };
+  environment.etc."xsg/user-dirs.defaults".text = ''
+    XDG_DESKTOP_DIR="$HOME/desktop"
+    XDG_DOWNLOAD_DIR="$HOME/downloads"
+    XDG_TEMPLATES_DIR="$HOME/.config/templates"
+    XDG_PUBLICSHARE_DIR="$HOME/public"
+    XDG_DOCUMENTS_DIR="$HOME/docs"
+    XDG_MUSIC_DIR="$HOME/music"
+    XDG_PICTURES_DIR="$HOME/music"
+    XDG_VIDEOS_DIR="$HOME/music"
+  '';
+  programs.helix.defaultEditor = true;
   #services.xserver.xkbd = {
   #  layout = "us";
   #  options = "compose:caps";
@@ -127,7 +138,7 @@
           allowedIPs = [ "0.0.0.0/24" ];
           publicKey = "BThC89DqFj+nGtkCytNSskolwCijeyq/XDiAM8hQJRw=";
           endpoint = "10.13.25.1:53";
-          persistentKeepalive = 29; 
+          persistentKeepalive = 29;
         }
       ];
     };
