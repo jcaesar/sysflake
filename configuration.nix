@@ -45,6 +45,11 @@
 
   services.xserver = {
     enable = true;
+    xkb = {
+      layout = "us";
+      options = "compose:caps";
+      variant = "altgr-intl";
+    };
     desktopManager = {
       xterm.enable = false;
     };
@@ -72,12 +77,7 @@
     XDG_PICTURES_DIR="$HOME/music"
     XDG_VIDEOS_DIR="$HOME/music"
   '';
-  programs.helix.defaultEditor = true;
-  #services.xserver.xkbd = {
-  #  layout = "us";
-  #  options = "compose:caps";
-  #  variant = "altgr-intl";
-  #};
+  environment.variables.EDITOR = "hx";
 
   sound.enable = true;
   security.rtkit.enable = true;
