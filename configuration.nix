@@ -55,6 +55,8 @@
       enable = true;
       extraPackages = with pkgs; [
         rofi
+        alacritty
+        rxvt-unicode
         i3status
         i3lock
       ];
