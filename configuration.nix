@@ -156,6 +156,7 @@
       dunst
       gomuks
       activitywatch
+      sxiv
       # Hyprland stuff
       #qt6-wayland
       wofi
