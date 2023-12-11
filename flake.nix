@@ -1,12 +1,18 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
 
-  outputs = { self, nixpkgs }: {
-
+  outputs = {
+    self,
+    nixpkgs,
+  }: let
+    system = "x86_64-linux";
+    pkgs = import nixpkgs {inherit system;};
+  in {
     nixosConfigurations."korsika" = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [ (import ./configuration.nix) ];
+      inherit system;
+      modules = [(import ./configuration.nix)];
     };
 
+    formatter.${system} = pkgs.alejandra;
   };
 }

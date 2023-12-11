@@ -14,26 +14,26 @@
     };
     netdevs.
       "11-palmarola-wg-dev" = {
-        netdevConfig = {
-          Kind = "wireguard";
-          Name = "gozo";
-          MTUBytes = "1350";
-        };
-        wireguardConfig = {
-          PrivateKeyFile = "/etc/secrets/gozo.pk";
-          ListenPort = 36749;
-        };
-        wireguardPeers = [
-          {
-            wireguardPeerConfig = {
-              PublicKey = "BThC89DqFj+nGtkCytNSskolwCijeyq/XDiAM8hQJRw=";
-              Endpoint = "10.13.25.1:53";
-              AllowedIPs = [ "0.0.0.0/0" ];
-              PersistentKeepalive = 29;
-            };
-          }
-        ];
+      netdevConfig = {
+        Kind = "wireguard";
+        Name = "gozo";
+        MTUBytes = "1350";
       };
+      wireguardConfig = {
+        PrivateKeyFile = "/etc/secrets/gozo.pk";
+        ListenPort = 36749;
+      };
+      wireguardPeers = [
+        {
+          wireguardPeerConfig = {
+            PublicKey = "BThC89DqFj+nGtkCytNSskolwCijeyq/XDiAM8hQJRw=";
+            Endpoint = "10.13.25.1:53";
+            AllowedIPs = ["0.0.0.0/0"];
+            PersistentKeepalive = 29;
+          };
+        }
+      ];
+    };
     networks."11-palmarola-wg-net" = {
       matchConfig.Name = "gozo";
       address = ["10.13.26.2/24"];
@@ -61,6 +61,6 @@
     };
     linkConfig.RequiredForOnline = false;
   };
-  
-  environment.systemPackages = [ pkgs.wireguard-tools ];
+
+  environment.systemPackages = [pkgs.wireguard-tools];
 }

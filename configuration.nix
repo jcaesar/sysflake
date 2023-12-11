@@ -1,28 +1,30 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ config, lib, pkgs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./networking.nix
-    ];
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./networking.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader = {
     systemd-boot = {
-  	enable = true;
-  	configurationLimit = 15;
-  	editor = false;
+      enable = true;
+      configurationLimit = 15;
+      editor = false;
     };
     efi.canTouchEfiVariables = true;
   };
   time.timeZone = "Asia/Tokyo";
   i18n.defaultLocale = "en_US.UTF-8";
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   networking.firewall.enable = true;
   #security.sudo.wheelNeedsPassword = false;
   services.openssh = {
@@ -35,8 +37,8 @@
   virtualisation.docker = {
     enable = true;
     rootless = {
-  	enable = true;
-  	setSocketVariable = true;
+      enable = true;
+      setSocketVariable = true;
     };
   };
 
@@ -90,7 +92,7 @@
 
   users.users.julius = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ];
+    extraGroups = ["wheel" "docker"];
     #openssh.authorizedKeys.keys = common.sshKeys.client;
     packages = with pkgs; [
       fish
