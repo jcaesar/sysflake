@@ -139,7 +139,7 @@
 
   users.users.julius = {
     isNormalUser = true;
-    extraGroups = ["wheel" "docker"];
+    extraGroups = ["wheel"];
     #openssh.authorizedKeys.keys = common.sshKeys.client;
     packages = with pkgs; [
       fish
