@@ -16,7 +16,7 @@
         netdevConfig = {
           Kind = "wireguard";
           Name = "gozo";
-          MTUBytes = "13500";
+          MTUBytes = "1350";
         };
         wireguardConfig = {
           PrivateKeyFile = "/etc/secrets/gozo.pk";
@@ -49,7 +49,7 @@
   };
 
   systemd.network.networks."10-cameo" = {
-    matchConfig.Name = "enp5s2";
+    matchConfig.Name = "enp2s0";
     DHCP = "ipv4";
     networkConfig = {
       IPv6AcceptRA = false;
