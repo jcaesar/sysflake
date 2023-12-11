@@ -157,6 +157,7 @@
       gomuks
       activitywatch
       sxiv
+      barrier
       # Hyprland stuff
       #qt6-wayland
       wofi
