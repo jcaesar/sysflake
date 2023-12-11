@@ -80,6 +80,31 @@
   '';
   environment.variables.EDITOR = "hx";
 
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+    enableNvidiaPatches = true;
+  };
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    #powerManagement.finegrained = false; # Too old
+    open = false; # I wish
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+  nixpkgs.config.allowUnfreePredicate = let
+    startsWith = pfx: str: lib.removePrefix pfx str != str;
+  in
+    pkg: startsWith "nvidia-" (lib.getName pkg);
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
+  services.xserver.videoDrivers = ["nvidia"];
+
   sound.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
