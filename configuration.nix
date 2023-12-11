@@ -41,6 +41,7 @@
       setSocketVariable = true;
     };
   };
+  services.smartd.enable = true;
 
   networking.hostName = "korsika";
 
