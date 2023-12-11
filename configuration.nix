@@ -42,6 +42,7 @@
     };
   };
   services.smartd.enable = true;
+  services.smartd.notifications.wall.enable = true;
 
   networking.hostName = "korsika";
 
@@ -209,6 +210,7 @@
     direnv
     nload
     ripgrep
+    smartmontools
   ];
 
   #system.copySystemConfiguration = true;
