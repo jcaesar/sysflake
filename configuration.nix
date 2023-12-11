@@ -212,7 +212,9 @@
     direnv
     nload
     ripgrep
+    fd
     smartmontools
+    alejandra
   ];
 
   #system.copySystemConfiguration = true;
