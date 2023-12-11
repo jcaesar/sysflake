@@ -184,6 +184,18 @@
     IMSETTINGS_MODULE = "fcitx";
     QT_IM_MODULE = "fcitx";
   };
+  services.greetd = {
+    enable = true;
+    settings = {
+     default_session.command = ''
+      ${pkgs.greetd.tuigreet}/bin/tuigreet \
+        --time \
+        --asterisks \
+        --user-menu \
+        --cmd Hyprland
+    '';
+    };
+  };
   i18n.inputMethod = {
     enabled = "fcitx5";
     fcitx5.addons = with pkgs; [
