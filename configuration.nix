@@ -100,6 +100,7 @@
       gh
       firefox
       mpv
+      pulseaudio-ctl
     ];
     shell = pkgs.nushell;
     password = "";
