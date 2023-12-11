@@ -68,6 +68,25 @@
       ];
     };
   };
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts.githubRelease
+    dina-font
+    proggyfonts
+    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "Terminus" ]; })
+    iosevka
+    sarasa-gothic
+    source-code-pro
+    terminus_font
+    inconsolata
+  ];
+  # fonts.fontDir.enable = true; TODO: ln -s /run/current-system/sw/share/X11/fonts ~/.local/share/fonts
+
   environment.etc."xsg/user-dirs.defaults".text = ''
     XDG_DESKTOP_DIR="$HOME/desktop"
     XDG_DOWNLOAD_DIR="$HOME/downloads"
