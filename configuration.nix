@@ -128,8 +128,8 @@
       gh
       firefox
       mpv
-      pulseaudio-ctl
       helvum
+      pulseaudio
       pavucontrol
     ];
     shell = pkgs.nushell;
