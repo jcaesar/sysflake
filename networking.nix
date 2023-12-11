@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   ...
 }: {
   networking.useDHCP = false;
@@ -60,4 +61,6 @@
     };
     linkConfig.RequiredForOnline = false;
   };
+  
+  environment.systemPackages = [ pkgs.wireguard-tools ];
 }

@@ -99,6 +99,7 @@
       git
       gh
       firefox
+      mpv
     ];
     shell = pkgs.nushell;
     password = "";
