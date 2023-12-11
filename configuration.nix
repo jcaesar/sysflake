@@ -154,6 +154,8 @@
       pulseaudio
       pavucontrol
       dunst
+      gomuks
+      activitywatch
       # Hyprland stuff
       #qt6-wayland
       wofi
