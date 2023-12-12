@@ -5,6 +5,25 @@
 
   programs.home-manager.enable = true;
 
+  programs.helix = {
+    enable = true;
+    defaultEditor = true;
+    settings = {
+      theme = "gruvbox";
+      editor = {
+        auto-pairs = false;
+        auto-completion = false;
+        auto-save = true;
+        bufferline = "multiple";
+        true-color = true;
+        lsp.display-messages = true;
+      };
+      keys.normal = {
+        "C-s" = "split_selection_on_newline";
+      };
+    };
+  };
+
   # Stolen from https://nixos.wiki/wiki/Nushell
   programs = {
     nushell = {
