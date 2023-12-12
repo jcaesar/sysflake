@@ -66,4 +66,9 @@ in
     };
 
     environment.systemPackages = [pkgs.wireguard-tools];
+
+    networking.firewall = {
+      enable = true;
+      interfaces.${palmarolaPort}.allowedTCPPorts = [24800]; # barrier server
+    };
   }
