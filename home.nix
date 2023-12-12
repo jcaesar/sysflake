@@ -29,7 +29,7 @@
     nushell = {
       enable = true;
       extraConfig = builtins.readFile ./config.nu;
-       shellAliases = {
+      shellAliases = {
         vi = "hx";
         vim = "hx";
         nano = "hx";
@@ -37,6 +37,7 @@
     };
     starship = {
       enable = true;
+      enableNushellIntegration = true;
       settings = {
         add_newline = true;
         character = {
