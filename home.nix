@@ -29,8 +29,9 @@
     nushell = {
       enable = true;
       extraConfig = ''
-        let carapace_completer = {|spans|
-          carapace $spans.0 nushell $spans | from json
+        let load_direnv = {
+          if (which direnv | is-empty) { return }
+          direnv export json | from json | default {} | load-env
         }
         $env.config = {
           show_banner: false,
@@ -39,15 +40,16 @@
             quick: true    # set to false to prevent auto-selecting completions
             partial: true    # set to false to prevent partial filling of the prompt
             algorithm: "fuzzy"    # prefix or fuzzy
-            external: {
-              enable: true
-              max_results: 100
-              completer: $carapace_completer
-            }
           }
           hooks: {
-            pre_prompt: [{ print $"(ansi title)(pwd) $(ansi st)" }]
-            pre_execution: [{ print $"(ansi title)(pwd) > (commandline)(ansi st)" }]
+            pre_prompt: [{ print -n $"(ansi title)(pwd) $(ansi st)" }]
+            pre_execution: [
+              { print -n $"(ansi title)(pwd) > (commandline)(ansi st)" }
+              load_direnv
+            ]
+            env_change: {
+              PWD: [{|before, after| load_direnv }]
+            }
           }
         }
         $env.PATH = (
