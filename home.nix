@@ -46,7 +46,7 @@
             }
           }
           hooks: {
-            pre_prompt: [{ print $"(ansi title)(pwd)(ansi st) $" }]
+            pre_prompt: [{ print $"(ansi title)(pwd) $(ansi st)" }]
             pre_execution: [{ print $"(ansi title)(pwd) > (commandline)(ansi st)" }]
           }
         }
