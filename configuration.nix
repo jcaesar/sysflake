@@ -106,6 +106,7 @@
   #  xwayland.enable = true;
   #  enableNvidiaPatches = true;
   #};
+  programs.command-not-found.enable = true;
 
   hardware.nvidia = {
     modesetting.enable = true;

@@ -4,7 +4,6 @@
   home.stateVersion = "23.11";
 
   programs.home-manager.enable = true;
-  programs.command-not-found.enable = true;
 
   # Stolen from https://nixos.wiki/wiki/Nushell
   programs = {
@@ -15,18 +14,22 @@
           carapace $spans.0 nushell $spans | from json
         }
         $env.config = {
-         show_banner: false,
-         completions: {
-         case_sensitive: false # case-sensitive completions
-         quick: true    # set to false to prevent auto-selecting completions
-         partial: true    # set to false to prevent partial filling of the prompt
-         algorithm: "fuzzy"    # prefix or fuzzy
-         external: {
-             enable: true
-             max_results: 100
-             completer: $carapace_completer
-           }
-         }
+          show_banner: false,
+          completions: {
+            case_sensitive: false # case-sensitive completions
+            quick: true    # set to false to prevent auto-selecting completions
+            partial: true    # set to false to prevent partial filling of the prompt
+            algorithm: "fuzzy"    # prefix or fuzzy
+            external: {
+              enable: true
+              max_results: 100
+              completer: $carapace_completer
+            }
+          }
+          hooks: {
+            pre_prompt: [{ print $"(ansi title)(pwd)(ansi st) $" }]
+            pre_execution: [{ print $"(ansi title)(pwd) > (commandline)(ansi st)" }]
+          }
         }
         $env.PATH = (
           $env.PATH |
