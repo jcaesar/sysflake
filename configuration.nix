@@ -170,20 +170,20 @@
   };
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSORS = "1";
-    QT_QPA_PLATFORM = "wayland";
-    CLUTTER_BACKEND = "wayland";
-    SDL_VIDEODRIVER = "wayland";
-    MOZ_ENABLE_WAYLAND = "1";
-    MOZ_WEBRENDER = "1";
-    XDG_SESSION_TYPE = "wayland";
-    XDG_CURRENT_DESKTOP = "sway";
-    QT_QPA_PLATFORMTHEME = "qt5ct";
-    GLFW_IM_MODULE = "fcitx";
-    GTK_IM_MODULE = "fcitx";
-    INPUT_METHOD = "fcitx";
-    XMODIFIERS = "@im=fcitx";
-    IMSETTINGS_MODULE = "fcitx";
-    QT_IM_MODULE = "fcitx";
+    #QT_QPA_PLATFORM = "wayland";
+    #CLUTTER_BACKEND = "wayland";
+    #SDL_VIDEODRIVER = "wayland";
+    #MOZ_ENABLE_WAYLAND = "1";
+    #MOZ_WEBRENDER = "1";
+    #XDG_SESSION_TYPE = "wayland";
+    #XDG_CURRENT_DESKTOP = "sway";
+    #QT_QPA_PLATFORMTHEME = "qt5ct";
+    #GLFW_IM_MODULE = "fcitx";
+    #GTK_IM_MODULE = "fcitx";
+    #INPUT_METHOD = "fcitx";
+    #XMODIFIERS = "@im=fcitx";
+    #IMSETTINGS_MODULE = "fcitx";
+    #QT_IM_MODULE = "fcitx";
   };
   i18n.inputMethod = {
     enabled = "fcitx5";
