@@ -34,13 +34,13 @@
     settings.PermitRootLogin = "prohibit-password";
     settings.ListenAddress = "0.0.0.0:2222";
   };
-  #virtualisation.docker = {
-  #  enable = true;
-  #  rootless = {
-  #    enable = true;
-  #    setSocketVariable = true;
-  #  };
-  #};
+  virtualisation.docker = {
+    enable = true;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
+  };
   services.smartd.enable = true;
   services.smartd.notifications.wall.enable = true;
 
