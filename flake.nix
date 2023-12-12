@@ -7,17 +7,17 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
   in {
-    homeConfigurations.main = home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
-      modules = [
-        ./home.nix
-      ];
-    };
     nixosConfigurations."korsika" = nixpkgs.lib.nixosSystem {
       inherit system;
       modules = [
-        ./configuration.nix
+        (import ./configuration.nix)
         ({...}: {nix.registry.nixpkgs.flake = nixpkgs;})
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.julius = import ./home.nix;
+        }
       ];
     };
 
