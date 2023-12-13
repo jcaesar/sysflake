@@ -40,6 +40,7 @@
       setSocketVariable = true;
     };
   };
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
   services.smartd.enable = true;
   services.smartd.notifications.wall.enable = true;
 
@@ -158,6 +159,10 @@
       activitywatch
       sxiv
       barrier
+      jetbrains.idea-community
+      imagemagick
+      libreoffice
+      xclip
       # Hyprland stuff
       #qt6-wayland
       wofi
@@ -209,6 +214,8 @@
     lls
     htop
     bottom
+    zenith-nvidia
+    iftop
     iotop
     logcheck
     direnv

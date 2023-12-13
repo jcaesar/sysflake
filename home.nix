@@ -1,4 +1,4 @@
-{...}: {
+{pkgs, ...}: rec {
   home.username = "julius";
   home.homeDirectory = "/home/julius";
   home.stateVersion = "23.11";
@@ -22,6 +22,17 @@
         "C-s" = "split_selection_on_newline";
       };
     };
+    extraPackages = with pkgs; [
+      dhall-lsp-server
+      rust-analyzer
+      libclang
+      bear
+      metals
+      gopls
+      gleam
+      zls
+      vhdl-ls
+    ];
   };
 
   # Stolen from https://nixos.wiki/wiki/Nushell
