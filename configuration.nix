@@ -89,16 +89,6 @@
     "${wine}/share/wine/fonts"
   ];
 
-  environment.etc."xsg/user-dirs.defaults".text = ''
-    XDG_DESKTOP_DIR="$HOME/desktop"
-    XDG_DOWNLOAD_DIR="$HOME/downloads"
-    XDG_TEMPLATES_DIR="$HOME/.config/templates"
-    XDG_PUBLICSHARE_DIR="$HOME/public"
-    XDG_DOCUMENTS_DIR="$HOME/docs"
-    XDG_MUSIC_DIR="$HOME/music"
-    XDG_PICTURES_DIR="$HOME/music"
-    XDG_VIDEOS_DIR="$HOME/music"
-  '';
   environment.variables.EDITOR = "hx";
   environment.variables.VISUAL = "hx";
 
@@ -112,7 +102,6 @@
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
-    #powerManagement.finegrained = false; # Too old
     open = false; # I wish
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
@@ -225,6 +214,9 @@
     smartmontools
     alejandra
   ];
+
+  # OOMs :(
+  #services.getty.autoLoginUser = config.virtualisation.vmVariant.system.build.vm ? "root";
 
   #system.copySystemConfiguration = true;
 

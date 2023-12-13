@@ -58,4 +58,24 @@
       };
     };
   };
+
+  xdg.userDirs = {
+    enable = true;
+    createDirectories = false;
+    desktop = "${home.homeDirectory}/.local/xdg/desktop";
+    documents = "${home.homeDirectory}/docs";
+    download = "${home.homeDirectory}/download";
+    music = "${home.homeDirectory}/music";
+    pictures = "${home.homeDirectory}/.local/xdg/pics";
+    publicShare = "${home.homeDirectory}/.local/xdg/share";
+    templates = "${home.homeDirectory}/.local/xdg/templates";
+    videos = "${home.homeDirectory}/music";
+
+    #extraConfig = ''
+    #  {
+    #    XDG_PROJECTS_DIR = "${home.homeDirectory}/code";
+    #    XDG_GAMES_DIR = "${home.homeDirectory}/games";
+    #  }
+    #'';
+  };
 }
