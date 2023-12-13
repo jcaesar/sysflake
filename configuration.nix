@@ -85,9 +85,8 @@
     source-code-pro
     terminus_font
     inconsolata
-    (import ./winefonts.nix pkgs)
+    "${wine}/share/wine/fonts"
   ];
-  # fonts.fontDir.enable = true; TODO: ln -s /run/current-system/sw/share/X11/fonts ~/.local/share/fonts
 
   environment.etc."xsg/user-dirs.defaults".text = ''
     XDG_DESKTOP_DIR="$HOME/desktop"
