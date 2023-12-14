@@ -2,6 +2,8 @@ let load_direnv = {
   if (which direnv | is-empty) { return }
   direnv export json | from json | default {} | load-env
 }
+let user = (whoami)
+let hostname = (hostname)
 $env.config = {
   show_banner: false,
   completions: {
@@ -11,9 +13,9 @@ $env.config = {
     algorithm: "fuzzy"    # prefix or fuzzy
   }
   hooks: {
-    pre_prompt: [{ print -n $"(ansi title)(pwd) $(ansi st)" }]
+    pre_prompt: [{ print -n $"(ansi title)($user)@($hostname):(pwd) $(ansi st)" }]
     pre_execution: [
-      { print -n $"(ansi title)(pwd) > (commandline)(ansi st)" }
+      { print -n $"(ansi title)($user)@($hostname):(pwd) > (commandline)(ansi st)" }
       $load_direnv
     ]
     env_change: {
