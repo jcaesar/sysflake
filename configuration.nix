@@ -71,6 +71,9 @@
     };
   };
   fonts.packages = with pkgs; [
+    ipafont
+    ipaexfont
+    hanazono
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
