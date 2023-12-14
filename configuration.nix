@@ -215,8 +215,12 @@
     alejandra
   ];
 
-  # OOMs :(
-  #services.getty.autoLoginUser = config.virtualisation.vmVariant.system.build.vm ? "root";
+  # nix shell --print-build-logs .#nixosConfigurations.korsika.config.system.build.vm -c run-korsika-vm
+  # Switch to serial0 console from qemu viewer
+  services.getty.autologinUser =
+    if config.virtualisation ? mountHostNixStore
+    then "root"
+    else null;
 
   #system.copySystemConfiguration = true;
 
