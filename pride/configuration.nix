@@ -6,6 +6,7 @@
   ...
 }: {
   imports = [
+    # FS setup according to https://nixos.wiki/wiki/ZFS#Simple_NixOS_ZFS_installation
     "${modulesPath}/installer/scan/not-detected.nix"
   ];
 
