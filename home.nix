@@ -64,7 +64,7 @@
     createDirectories = false;
     desktop = "${home.homeDirectory}/.local/xdg/desktop";
     documents = "${home.homeDirectory}/docs";
-    download = "${home.homeDirectory}/download";
+    download = "${home.homeDirectory}/downloads";
     music = "${home.homeDirectory}/music";
     pictures = "${home.homeDirectory}/.local/xdg/pics";
     publicShare = "${home.homeDirectory}/.local/xdg/share";
