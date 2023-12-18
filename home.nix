@@ -39,7 +39,7 @@
   programs = {
     nushell = {
       enable = true;
-      extraConfig = builtins.readFile ./config.nu;
+      extraConfig = builtins.readFile ./dot/config.nu;
       shellAliases = {
         vi = "hx";
         vim = "hx";
@@ -78,4 +78,11 @@
     #  }
     #'';
   };
+
+  home.file.".config/git/config".source = ./dot/git/config;
+  home.file.".config/i3/config".source = ./dot/i3/config;
+  home.file.".config/hypr/hyprland.conf".source = ./dot/hypr/hyprland.conf;
+  home.file.".config/mpv/mpv.conf".source = ./dot/mpv/mpv.conf;
+  home.file.".config/mpv/input.conf".source = ./dot/mpv/input.conf;
+  home.file.".gdbinit".source = ./dot/gdbinit;
 }
