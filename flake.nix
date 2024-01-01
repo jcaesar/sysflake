@@ -6,24 +6,25 @@
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
-  in {
-    nixosConfigurations."korsika" = nixpkgs.lib.nixosSystem {
+    sys = modules: nixpkgs.lib.nixosSystem {
       inherit system;
-      modules = [
-        (import ./configuration.nix)
-        ({...}: {
-          nix.registry.nixpkgs.flake = nixpkgs;
-          nix.nixPath = ["nixpkgs=${nixpkgs}"];
-        })
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.julius = import ./home.nix;
-        }
-      ];
+      modules = 
+        [ ({...}: {
+         nix.registry.nixpkgs.flake = nixpkgs;
+         nix.nixPath = ["nixpkgs=${nixpkgs}"];
+        }) ] ++ modules;
     };
-
+    hmmods = [
+      home-manager.nixosModules.home-manager
+      {
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+        home-manager.users.julius = import ./home.nix;
+      }
+    ];
+  in {
+    nixosConfigurations."korsika" = sys ([ (import ./korsika/configuration.nix) ] ++ hmmods);
+    nixosConfigurations."mictop" = sys ([ (import ./mictop.nix) ] ++ hmmods);
     formatter.${system} = pkgs.alejandra;
   };
 

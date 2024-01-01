@@ -8,23 +8,11 @@
   ...
 }: {
   imports = [
-    # Include the results of the hardware scan.
+    ../common.nix
     ./hardware-configuration.nix
     ./networking.nix
   ];
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader = {
-    systemd-boot = {
-      enable = true;
-      configurationLimit = 15;
-      editor = false;
-    };
-    efi.canTouchEfiVariables = true;
-  };
-  time.timeZone = "Asia/Tokyo";
-  i18n.defaultLocale = "en_US.UTF-8";
-  nix.settings.experimental-features = ["nix-command" "flakes"];
   #security.sudo.wheelNeedsPassword = false;
   services.openssh = {
     enable = true;
@@ -41,8 +29,6 @@
     };
   };
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
-  services.smartd.enable = true;
-  services.smartd.notifications.wall.enable = true;
 
   networking.hostName = "korsika";
 
@@ -70,36 +56,7 @@
       ];
     };
   };
-  fonts.packages = with pkgs; [
-    ipafont
-    ipaexfont
-    hanazono
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    liberation_ttf
-    fira-code
-    fira-code-symbols
-    mplus-outline-fonts.githubRelease
-    dina-font
-    proggyfonts
-    (nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "Terminus"];})
-    iosevka
-    sarasa-gothic
-    source-code-pro
-    terminus_font
-    inconsolata
-    "${wine}/share/wine/fonts"
-  ];
 
-  environment.variables.EDITOR = "hx";
-  environment.variables.VISUAL = "hx";
-
-  #programs.hyprland = {
-  #  enable = true;
-  #  xwayland.enable = true;
-  #  enableNvidiaPatches = true;
-  #};
   programs.command-not-found.enable = true;
 
   hardware.nvidia = {
@@ -113,58 +70,8 @@
     startsWith = pfx: str: lib.removePrefix pfx str != str;
   in
     pkg: startsWith "nvidia-" (lib.getName pkg);
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
   services.xserver.videoDrivers = ["nvidia"];
 
-  sound.enable = true;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    #jack.enable = true;
-    wireplumber.enable = true;
-  };
-
-  users.users.julius = {
-    isNormalUser = true;
-    extraGroups = ["wheel"];
-    #openssh.authorizedKeys.keys = common.sshKeys.client;
-    packages = with pkgs; [
-      fish
-      nushell
-      helix
-      git
-      gh
-      firefox
-      mpv
-      helvum
-      pulseaudio
-      pavucontrol
-      dunst
-      gomuks
-      activitywatch
-      sxiv
-      barrier
-      jetbrains.idea-community
-      imagemagick
-      libreoffice
-      xclip
-      # Hyprland stuff
-      #qt6-wayland
-      wofi
-      swww
-      hyprpaper
-      polkit-kde-agent
-    ];
-    shell = pkgs.nushell;
-    password = "";
-  };
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSORS = "1";
     #QT_QPA_PLATFORM = "wayland";
