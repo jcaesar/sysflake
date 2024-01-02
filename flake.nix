@@ -12,6 +12,7 @@
         [ ({...}: {
          nix.registry.nixpkgs.flake = nixpkgs;
          nix.nixPath = ["nixpkgs=${nixpkgs}"];
+         system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
         }) ] ++ modules;
     };
     hmmods = [
