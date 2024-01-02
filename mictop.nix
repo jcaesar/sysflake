@@ -77,17 +77,9 @@
     settings.PermitRootLogin = "prohibit-password";
     settings.ListenAddress = "0.0.0.0:2222";
   };
-  virtualisation.docker = {
-    enable = true;
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
-  };
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
   services.smartd.enable = true;
   services.smartd.notifications.wall.enable = true;
-
 
   services.xserver = {
     enable = true;
