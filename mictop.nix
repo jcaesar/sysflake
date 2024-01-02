@@ -38,6 +38,22 @@
   networking.useDHCP = lib.mkDefault true;
   networking.wireless.enable = true;
   networking.wireless.userControlled.enable = true;
+  networking.wireguard.interfaces = {
+    wg0 = {
+      ips = [ "10.13.38.2/24" "fc00:1337:dead:beef:caff::2/96" ];
+      listenPort = 51820;
+      privateKeyFile = "/mnt/oldroot/etc/wireguard/wg-private.key";
+      peers = [
+        {
+          publicKey = "3dY3B1IlbCuBb8FrZ472u+cGXihRGE6+qmo5RZlHdFg=";
+          allowedIPs = [ "10.13.38.0/24" "10.13.44.0/24" "fc00:1337:dead:beef:caff::/96" ];
+          endpoint = "128.199.185.74:13518";
+          persistentKeepalive = 29;
+        }
+      ];
+    };
+  };
+
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
