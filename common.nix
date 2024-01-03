@@ -61,6 +61,33 @@
     #jack.enable = true;
     wireplumber.enable = true;
   };
+  
+  environment.systemPackages = with pkgs; [
+    vim
+    helix
+    nil
+    pv
+    jq
+    rq
+    wget
+    httpie
+    git
+    screen
+    tmux
+    lls
+    htop
+    bottom
+    zenith-nvidia
+    iftop
+    iotop
+    logcheck
+    direnv
+    nload
+    ripgrep
+    fd
+    smartmontools
+    alejandra
+  ];
 
   users.users.julius = {
     isNormalUser = true;
