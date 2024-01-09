@@ -7,8 +7,9 @@ let hostname = (hostname)
 $env.config = {
   show_banner: false,
   history: {
-    # I want history isolation, but that's only available with sqlite. There, it's default.
+    # I want history isolation, but that's only available with sqlite.
     file_format: "sqlite"
+    history_isolation: true # default?
   }
   completions: {
     case_sensitive: false # case-sensitive completions
