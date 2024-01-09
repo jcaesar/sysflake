@@ -11,42 +11,42 @@
   ];
   networking.hostName = "mictop";
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.initrd.availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
+  boot.initrd.kernelModules = [];
+  boot.kernelModules = ["kvm-intel"];
 
   boot.initrd.luks.devices."nixcrypt".device = "/dev/disk/by-uuid/09e5a891-b57f-4068-9332-5ce8c4dad926";
   boot.initrd.luks.devices."oldroot".device = "/dev/disk/by-uuid/11854422-4b07-4081-a5cf-393f4060b933";
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/74aa08e1-6c0a-42aa-8fb2-78826dc4f1e9";
-      fsType = "f2fs";
-    };
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/C7DE-A7CE";
-      fsType = "vfat";
-    };
-  fileSystems."/mnt/oldroot" =
-    { device = "/dev/disk/by-uuid/e11c57ad-ed99-45b9-82cf-b7addcf00304";
-      fsType = "ext4";
-    };
-  fileSystems."/home/julius" =
-    { device = "/mnt/oldroot/home/julius";
-      fsType = "none";
-      options = [ "bind" ];
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/74aa08e1-6c0a-42aa-8fb2-78826dc4f1e9";
+    fsType = "f2fs";
+  };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/C7DE-A7CE";
+    fsType = "vfat";
+  };
+  fileSystems."/mnt/oldroot" = {
+    device = "/dev/disk/by-uuid/e11c57ad-ed99-45b9-82cf-b7addcf00304";
+    fsType = "ext4";
+  };
+  fileSystems."/home/julius" = {
+    device = "/mnt/oldroot/home/julius";
+    fsType = "none";
+    options = ["bind"];
+  };
 
   networking.useDHCP = lib.mkDefault true;
   networking.wireless.enable = true;
   networking.wireless.userControlled.enable = true;
   networking.wireguard.interfaces = {
     wg0 = {
-      ips = [ "10.13.38.2/24" "fc00:1337:dead:beef:caff::2/96" ];
+      ips = ["10.13.38.2/24" "fc00:1337:dead:beef:caff::2/96"];
       listenPort = 51820;
       privateKeyFile = "/mnt/oldroot/etc/wireguard/wg-private.key";
       peers = [
         {
           publicKey = "3dY3B1IlbCuBb8FrZ472u+cGXihRGE6+qmo5RZlHdFg=";
-          allowedIPs = [ "10.13.38.0/24" "10.13.44.0/24" "fc00:1337:dead:beef:caff::/96" ];
+          allowedIPs = ["10.13.38.0/24" "10.13.44.0/24" "fc00:1337:dead:beef:caff::/96"];
           endpoint = "128.199.185.74:13518";
           persistentKeepalive = 29;
         }

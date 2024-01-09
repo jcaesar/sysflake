@@ -1,8 +1,6 @@
-{ pkgs, ... }:
-let
+{pkgs, ...}: let
   common = import ../common.nix;
-in
-{
+in {
   imports = [
     ./hardware-configuration.nix
     common.config
@@ -22,7 +20,7 @@ in
   #  - It does not automatically pick up on the network configuration
   #  - Need to specify the driver manually
   #  - The password is entered with "echo pw >/crypt-ramfs/passphrase" (that's not a pipe, its a file that's checked once per second)
-  boot.initrd.kernelModules = [ "e1000" ];
+  boot.initrd.kernelModules = ["e1000"];
   boot.initrd.network.enable = true;
   boot.initrd.network.ssh = {
     enable = true;
@@ -39,10 +37,12 @@ in
   ];
 
   networking.proxy.default = common.proxy "julius9dev9gemini1" "7049740682";
-  networking.interfaces.eth0.ipv4.addresses = [{
-    address = "10.38.90.22";
-    prefixLength = 24;
-  }];
+  networking.interfaces.eth0.ipv4.addresses = [
+    {
+      address = "10.38.90.22";
+      prefixLength = 24;
+    }
+  ];
   networking.defaultGateway = {
     address = "10.38.90.1";
     interface = "eth0";
@@ -51,7 +51,7 @@ in
 
   users.users.julius = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ];
+    extraGroups = ["wheel" "docker"];
     openssh.authorizedKeys.keys = common.sshKeys.client;
     packages = with pkgs; [
       fish
@@ -70,8 +70,8 @@ in
   services.acpid.enable = true; # Was supposed to prevent shutdown hang, doesn't
   virtualisation.vmware.guest.enable = true;
 
-  networking.firewall.allowedTCPPorts = [ 2222 2223 1337 ];
-  networking.firewall.allowedUDPPorts = [ ];
+  networking.firewall.allowedTCPPorts = [2222 2223 1337];
+  networking.firewall.allowedUDPPorts = [];
   networking.firewall.enable = true;
 
   #system.copySystemConfiguration = true;
@@ -89,4 +89,3 @@ in
   #    fsType = "vfat";
   #  };
 }
-

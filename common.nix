@@ -4,7 +4,6 @@
   pkgs,
   ...
 }: {
-
   # Use the systemd-boot EFI boot loader.
   boot.loader = {
     systemd-boot = {
@@ -19,7 +18,7 @@
   nix.settings.experimental-features = ["nix-command" "flakes"];
   services.smartd.enable = true;
   services.smartd.notifications.wall.enable = true;
-  
+
   fonts.packages = with pkgs; [
     ipafont
     ipaexfont
@@ -44,7 +43,7 @@
 
   environment.variables.EDITOR = "hx";
   environment.variables.VISUAL = "hx";
-  
+
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -61,7 +60,7 @@
     #jack.enable = true;
     wireplumber.enable = true;
   };
-  
+
   environment.systemPackages = with pkgs; [
     vim
     helix
@@ -130,5 +129,4 @@
     if config.virtualisation ? mountHostNixStore
     then "root"
     else null;
-
 }
