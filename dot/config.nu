@@ -9,7 +9,7 @@ $env.config = {
   history: {
     # I want history isolation, but that's only available with sqlite.
     file_format: "sqlite"
-    history_isolation: true # default?
+    isolation: true # default?
   }
   completions: {
     case_sensitive: false # case-sensitive completions
