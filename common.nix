@@ -86,6 +86,7 @@
     fd
     smartmontools
     alejandra
+    efibootmgr
   ];
 
   users.users.julius = {
