@@ -37,7 +37,7 @@ in {
   ];
 
   networking.proxy.default = common.proxy "julius9dev9gemini1" "7049740682";
-  networking.interfaces.eth0.ipv4.addresses = [
+  networking.interfaces.enp2s0.ipv4.addresses = [
     {
       address = "10.38.90.22";
       prefixLength = 24;
