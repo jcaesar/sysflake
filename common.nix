@@ -119,6 +119,9 @@
       swww
       hyprpaper
       polkit-kde-agent
+      delta
+      difftastic
+      sshfs
     ];
     shell = pkgs.nushell;
     password = "";
