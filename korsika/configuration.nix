@@ -104,8 +104,11 @@
     if config.virtualisation ? mountHostNixStore
     then "root"
     else null;
-
   #system.copySystemConfiguration = true;
+
+  environment.systemPackages = with pkgs; [
+    ipmitool
+  ];
 
   system.stateVersion = "24.05";
 }
