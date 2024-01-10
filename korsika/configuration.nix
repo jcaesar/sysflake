@@ -108,6 +108,7 @@
 
   environment.systemPackages = with pkgs; [
     ipmitool
+    awscli
   ];
 
   system.stateVersion = "24.05";

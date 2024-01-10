@@ -32,12 +32,12 @@ in {
     authorizedKeys = common.sshKeys.strong;
   };
   boot.kernelParams = [
-    "ip=10.38.90.22::10.38.90.1:255.255.255.0:capri:eth0:off" # Bit stupid that this isn't taken from networking.interfaces.…
+    "ip=10.38.90.22::10.38.90.1:255.255.255.0:capri:enp2s0:off" # Bit stupid that this isn't taken from networking.interfaces.…
     # Debugging init: "boot.trace" "boot.debugtrace" "debug1"
   ];
 
   networking.proxy.default = common.proxy "julius9dev9gemini1" "7049740682";
-  networking.interfaces.eth0.ipv4.addresses = [
+  networking.interfaces.enp2s0.ipv4.addresses = [
     {
       address = "10.38.90.22";
       prefixLength = 24;
