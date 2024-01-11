@@ -37,6 +37,8 @@
 
   networking.useDHCP = lib.mkDefault true;
   networking.wireless.enable = true;
+  networking.supplicant.wlp3s0.configFile.writable = true;
+  networking.supplicant.wlp3s0.configFile.path = "/etc/wpa_supplicant.conf";
   networking.wireless.userControlled.enable = true;
   networking.wireguard.interfaces = {
     wg0 = {
