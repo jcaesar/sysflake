@@ -123,6 +123,9 @@
       polkit-kde-agent
       file
       unar
+      delta
+      difftastic
+      sshfs
     ];
     shell = pkgs.nushell;
     password = "";
