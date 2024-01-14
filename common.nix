@@ -89,6 +89,7 @@
     efibootmgr
     openssl
     pwgen
+    nvd
   ];
 
   users.users.julius = {
