@@ -87,6 +87,8 @@
     smartmontools
     alejandra
     efibootmgr
+    openssl
+    pwgen
   ];
 
   users.users.julius = {
@@ -119,6 +121,8 @@
       swww
       hyprpaper
       polkit-kde-agent
+      file
+      unar
     ];
     shell = pkgs.nushell;
     password = "";

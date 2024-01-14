@@ -53,6 +53,7 @@
         rxvt-unicode
         i3status
         i3lock
+        x11vnc
       ];
     };
   };
@@ -109,6 +110,10 @@
   environment.systemPackages = with pkgs; [
     ipmitool
     awscli
+  ];
+  users.users.julius.packages = with pkgs; [
+    k9s
+    kubectl
   ];
 
   system.stateVersion = "24.05";
