@@ -31,6 +31,7 @@
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   networking.hostName = "korsika";
+  networking.extraHosts = ((import ../work/common.nix).config {inherit lib;}).networking.extraHosts;
 
   services.xserver = {
     enable = true;
@@ -53,6 +54,7 @@
         rxvt-unicode
         i3status
         i3lock
+        x11vnc
       ];
     };
   };
@@ -108,6 +110,11 @@
 
   environment.systemPackages = with pkgs; [
     ipmitool
+    awscli
+  ];
+  users.users.julius.packages = with pkgs; [
+    k9s
+    kubectl
   ];
 
   system.stateVersion = "24.05";

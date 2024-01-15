@@ -87,6 +87,9 @@
     smartmontools
     alejandra
     efibootmgr
+    openssl
+    pwgen
+    nvd
   ];
 
   users.users.julius = {
@@ -119,6 +122,8 @@
       swww
       hyprpaper
       polkit-kde-agent
+      file
+      unar
       delta
       difftastic
       sshfs
