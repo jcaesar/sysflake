@@ -88,7 +88,6 @@
     alejandra
     efibootmgr
     openssl
-    pwgen
     nvd
   ];
 
@@ -127,6 +126,8 @@
       delta
       difftastic
       sshfs
+      wol
+      pwgen
     ];
     shell = pkgs.nushell;
     password = "";
