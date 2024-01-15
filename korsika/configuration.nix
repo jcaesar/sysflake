@@ -31,6 +31,7 @@
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   networking.hostName = "korsika";
+  networking.extraHosts = ((import ../work/common.nix).config {inherit lib;}).networking.extraHosts;
 
   services.xserver = {
     enable = true;
