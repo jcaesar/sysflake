@@ -61,6 +61,8 @@
     wireplumber.enable = true;
   };
 
+  services.davfs2.enable = true; # TODO: split this file into desktop and server commons
+
   environment.systemPackages = with pkgs; [
     vim
     helix
