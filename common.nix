@@ -92,6 +92,7 @@
     openssl
     pwgen
     nvd
+    nix-diff
   ];
 
   users.users.julius = {
