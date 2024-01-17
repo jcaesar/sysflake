@@ -69,6 +69,7 @@ in
 
     networking.firewall = {
       enable = true;
-      interfaces.${palmarolaPort}.allowedTCPPorts = [24800]; # barrier server
+      allowedUDPPorts = [1900 5351 5353];
+      allowedTCPPorts = [49152];
     };
   }
