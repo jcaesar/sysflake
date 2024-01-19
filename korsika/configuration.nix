@@ -115,6 +115,7 @@
   users.users.julius.packages = with pkgs; [
     k9s
     kubectl
+    jetbrains.idea-community
   ];
 
   system.stateVersion = "24.05";

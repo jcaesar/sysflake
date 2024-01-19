@@ -132,10 +132,9 @@
     #QT_IM_MODULE = "fcitx";
   };
 
-  environment.systemPackages = with pkgs; [
+  users.users.julius.packages = with pkgs; [
     element-desktop-wayland
   ];
-
 
   system.stateVersion = "24.05";
 }

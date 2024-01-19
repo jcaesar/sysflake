@@ -114,7 +114,6 @@
       activitywatch
       sxiv
       barrier
-      jetbrains.idea-community
       imagemagick
       libreoffice
       xclip
