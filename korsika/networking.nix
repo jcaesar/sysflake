@@ -67,8 +67,15 @@ in
 
     environment.systemPackages = [pkgs.wireguard-tools];
 
-    networking.firewall = {
+    networking.firewall = let
+      extraRules = sign: "
+        iptables -${sign} nixos-fw -p udp -m udp --sport 1900 -j nixos-fw-accept
+      ";
+    in {
       enable = true;
-      interfaces.${palmarolaPort}.allowedTCPPorts = [24800]; # barrier server
+      allowedUDPPorts = [1900 5351 5353];
+      allowedTCPPorts = [49152];
+      extraCommands = extraRules "A";
+      extraStopCommands = extraRules "D";
     };
   }
