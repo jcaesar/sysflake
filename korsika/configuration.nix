@@ -26,6 +26,9 @@
     rootless = {
       enable = true;
       setSocketVariable = true;
+      daemon.settings = {
+        dns = (import ../defs.nix).workdns;
+      };
     };
   };
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
