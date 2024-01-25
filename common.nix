@@ -106,6 +106,7 @@
       gh
       firefox
       mpv
+      vlc
       helvum
       pulseaudio
       pavucontrol
@@ -130,6 +131,16 @@
       sshfs
       wol
       pwgen
+      (python3.withPackages (ps:
+        with ps; [
+          netaddr
+          requests
+          aiohttp
+          tqdm
+          matplotlib
+          pandas
+          numpy
+        ]))
     ];
     shell = pkgs.nushell;
     password = "";

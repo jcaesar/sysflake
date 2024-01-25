@@ -119,6 +119,8 @@
     k9s
     kubectl
     jetbrains.idea-community
+    openjdk11
+    kcat
   ];
 
   system.stateVersion = "24.05";
