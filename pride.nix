@@ -33,7 +33,7 @@
   # bcachefs unlock /dev/nvme1n1p2
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-label/nixroot";
+      device = "/dev/nvme1n1p2";
       fsType = "bcachefs";
       options = ["compression=zstd"];
     };
