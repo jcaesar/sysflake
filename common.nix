@@ -91,6 +91,7 @@
     openssl
     nvd
     nix-diff
+    miniserve
   ];
 
   users.users.julius = {

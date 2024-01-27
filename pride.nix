@@ -6,41 +6,37 @@
   ...
 }: {
   imports = [
-    # FS setup according to https://nixos.wiki/wiki/ZFS#Simple_NixOS_ZFS_installation
     "${modulesPath}/installer/scan/not-detected.nix"
+    ./common.nix
   ];
 
-  #boot.loader.systemd-boot.enable = true;
-  #boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.loader.grub = {
-    enable = true;
-    zfsSupport = true;
-    efiSupport = true;
-    efiInstallAsRemovable = true;
-    mirroredBoots = [
-      {
-        devices = ["nodev"];
-        path = "/boot";
-      }
-    ];
+  boot.loader = {
+    systemd-boot = {
+      enable = true;
+      configurationLimit = 15;
+      editor = false;
+    };
+    efi.canTouchEfiVariables = true;
   };
-
+  boot.supportedFilesystems = ["bcachefs"];
   boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "usbhid" "sd_mod"];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-amd"];
   boot.extraModulePackages = [];
 
-  fileSystems = let
-    zfs = sub: {
-      device = "nixpool/${sub}";
-      fsType = "zfs";
+  # parted /dev/nvme1n1 -- mklabel gpt
+  # parted /dev/nvme1n1 -- mkpart ESP fat32 1MB 512MB
+  # parted /dev/nvme1n1 -- set 1 esp on
+  # parted /dev/nvme1n1 -- mkpart primary 512MB 100%
+  # mkfs.fat -F 32 -n nixboot /dev/nvme1n1p1
+  # bcachefs format --encrypted --label nixroot /dev/nvme1n1p2
+  # bcachefs unlock /dev/nvme1n1p2
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-label/nixroot";
+      fsType = "bcachefs";
+      options = ["compression=zstd"];
     };
-  in {
-    "/" = zfs "root";
-    "/nix" = zfs "nix";
-    "/var" = zfs "var";
-    "/home" = zfs "home";
     "/boot" = {
       device = "/dev/disk/by-label/nixboot";
       fsType = "vfat";
@@ -71,20 +67,11 @@
 
   time.timeZone = "Asia/Tokyo";
 
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
-
   services.xserver.enable = true;
   services.xserver.videoDrivers = ["nvidia"];
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
-    enableNvidiaPatches = true;
   };
   nixpkgs.config.allowUnfreePredicate = let
     hasPrefix = pfx: str: lib.strings.removePrefix pfx str != pfx;
