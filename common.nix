@@ -112,7 +112,7 @@
       pavucontrol
       dunst
       gomuks
-      activitywatch
+      #activitywatch
       sxiv
       barrier
       imagemagick
