@@ -15,7 +15,6 @@
   };
   time.timeZone = "Asia/Tokyo";
   i18n.defaultLocale = "en_US.UTF-8";
-  nix.settings.experimental-features = ["nix-command" "flakes"];
   services.smartd.enable = true;
   services.smartd.notifications.wall.enable = true;
 

@@ -3,12 +3,16 @@
   lib,
   pkgs,
   modulesPath,
+  enableHM,
   ...
 }: {
   imports = [
+    enableHM
     ./common.nix
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
+  home-manager.users.julius = import ./home.nix;
+  
   networking.hostName = "mictop";
 
   boot.initrd.availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
@@ -68,9 +72,6 @@
     };
     efi.canTouchEfiVariables = true;
   };
-  time.timeZone = "Asia/Tokyo";
-  i18n.defaultLocale = "en_US.UTF-8";
-  nix.settings.experimental-features = ["nix-command" "flakes"];
   #security.sudo.wheelNeedsPassword = false;
   services.openssh = {
     enable = true;

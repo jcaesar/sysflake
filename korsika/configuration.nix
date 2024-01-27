@@ -5,13 +5,16 @@
   config,
   lib,
   pkgs,
+  enableHM,
   ...
 }: {
   imports = [
+    enableHM
     ../common.nix
     ./hardware-configuration.nix
     ./networking.nix
   ];
+  home-manager.users.julius = import ./home.nix;
 
   #security.sudo.wheelNeedsPassword = false;
   services.openssh = {
