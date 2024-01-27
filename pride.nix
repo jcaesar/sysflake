@@ -29,8 +29,13 @@
   # parted /dev/nvme1n1 -- set 1 esp on
   # parted /dev/nvme1n1 -- mkpart primary 512MB 100%
   # mkfs.fat -F 32 -n nixboot /dev/nvme1n1p1
-  # bcachefs format --encrypted --label nixroot /dev/nvme1n1p2
+  # nix-env -iA nixos.keyutils
+  # keyctl link @u @s # bug
+  # bcachefs format --encrypted --label nixroot /dev/nvme1n1p2 # Labels don't work. :(
   # bcachefs unlock /dev/nvme1n1p2
+  # mount /dev/nvme1n1p2 /mnt
+  # mkdir /mnt/boot
+  # mount /dev/nvme1n1p1 /mnt/boot
   fileSystems = {
     "/" = {
       device = "/dev/nvme1n1p2";

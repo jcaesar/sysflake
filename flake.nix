@@ -32,9 +32,22 @@
           ];
       };
   in {
-    nixosConfigurations."korsika" = sys ./korsika/configuration.nix;
-    nixosConfigurations."mictop" = sys ./mictop.nix;
-    nixosConfigurations."pride" = sys ./pride.nix;
+    nixosConfigurations = {
+      korsika = sys ./korsika/configuration.nix;
+      mictop = sys ./mictop.nix;
+      pride = sys ./pride.nix;
+      installerBCacheFS = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
+          ({ lib, pkgs, ... }: {
+            boot.supportedFilesystems = [ "bcachefs" ];
+            boot.kernelPackages = lib.mkOverride 0 pkgs.linuxPackages_latest;
+          })
+        ];
+      }; 
+    };
+
     formatter.${system} = pkgs.alejandra;
   };
 
