@@ -13,23 +13,22 @@
           enableHM = {
             imports = [
               home-manager.nixosModules.home-manager
-              ({ ... }: {
+              ({...}: {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
               })
             ];
           };
         };
-        modules =
-          [
-            ({...}: {
-              nix.settings.experimental-features = ["nix-command" "flakes"];
-              nix.registry.nixpkgs.flake = nixpkgs;
-              nix.nixPath = ["nixpkgs=${nixpkgs}"];
-              system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
-            })
-            main
-          ];
+        modules = [
+          ({...}: {
+            nix.settings.experimental-features = ["nix-command" "flakes"];
+            nix.registry.nixpkgs.flake = nixpkgs;
+            nix.nixPath = ["nixpkgs=${nixpkgs}"];
+            system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
+          })
+          main
+        ];
       };
   in {
     nixosConfigurations = {
@@ -40,12 +39,16 @@
         system = "x86_64-linux";
         modules = [
           "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
-          ({ lib, pkgs, ... }: {
-            boot.supportedFilesystems = [ "bcachefs" ];
+          ({
+            lib,
+            pkgs,
+            ...
+          }: {
+            boot.supportedFilesystems = ["bcachefs"];
             boot.kernelPackages = lib.mkOverride 0 pkgs.linuxPackages_latest;
           })
         ];
-      }; 
+      };
     };
 
     formatter.${system} = pkgs.alejandra;

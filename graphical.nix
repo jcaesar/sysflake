@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   services.xserver.xkb = {
     layout = "us";
     options = "compose:caps";

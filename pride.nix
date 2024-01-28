@@ -91,16 +91,19 @@
     };
     desktopManager.gnome = {
       enable = true;
-      extraPackages = with pkgs; with gnomeExtensions; [
+      extraPackages = with pkgs;
+      with gnomeExtensions; [
         desktop-cube
         burn-my-windows
       ];
     };
   };
 
-  users = let keys = [
-    "ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAAqmN0bQWftRFvSCFRmIct6nvwoosuX3hqfp+4uKhUdDxDOThqqqturJUEpovz6Jb/p9nQPee+hMkCMDmpNIEPTKgDaD+MY58tX3bcayHBAoGPyY+RMOaEvHQ+AWjicVqE7Yo9E27sbELIbp0p9QSGDYTaN690ap7KjpoyhlpAvOkV++Q== julius"
-  ]; in {
+  users = let
+    keys = [
+      "ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAAqmN0bQWftRFvSCFRmIct6nvwoosuX3hqfp+4uKhUdDxDOThqqqturJUEpovz6Jb/p9nQPee+hMkCMDmpNIEPTKgDaD+MY58tX3bcayHBAoGPyY+RMOaEvHQ+AWjicVqE7Yo9E27sbELIbp0p9QSGDYTaN690ap7KjpoyhlpAvOkV++Q== julius"
+    ];
+  in {
     users.root.openssh.authorizedKeys.keys = keys;
     users.julius.openssh.authorizedKeys.keys = keys;
   };
