@@ -8,6 +8,7 @@
   imports = [
     "${modulesPath}/installer/scan/not-detected.nix"
     ./common.nix
+    ./graphical.nix
   ];
 
   boot.loader = {
@@ -83,28 +84,26 @@
   in
     pkg: hasPrefix "nvidia-" (lib.getName pkg);
 
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  services.xserver.xkb = {
-    layout = "us";
-    options = "compose:caps";
-    variant = "altgr-intl";
+  services.xserver = {
+    displayManager.gdm = {
+      enable = true;
+      autoSuspend = false;
+    };
+    desktopManager.gnome = {
+      enable = true;
+      extraPackages = with pkgs; with gnomeExtensions; [
+        desktop-cube
+        burn-my-windows
+      ];
+    };
   };
 
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    #jack.enable = true;
-  };
-
-  users.users.root.openssh.authorizedKeys.keys = [
+  users = let keys = [
     "ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAAqmN0bQWftRFvSCFRmIct6nvwoosuX3hqfp+4uKhUdDxDOThqqqturJUEpovz6Jb/p9nQPee+hMkCMDmpNIEPTKgDaD+MY58tX3bcayHBAoGPyY+RMOaEvHQ+AWjicVqE7Yo9E27sbELIbp0p9QSGDYTaN690ap7KjpoyhlpAvOkV++Q== julius"
-  ];
+  ]; in {
+    users.root.openssh.authorizedKeys.keys = keys;
+    users.julius.openssh.authorizedKeys.keys = keys;
+  };
   services.openssh.enable = true;
 
   system.stateVersion = "23.11";

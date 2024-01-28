@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }: {
@@ -49,19 +48,6 @@
     driSupport32Bit = true;
   };
 
-  sound.enable = true;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    #jack.enable = true;
-    wireplumber.enable = true;
-  };
-
-  services.davfs2.enable = true; # TODO: split this file into desktop and server commons
-
   environment.systemPackages = with pkgs; [
     vim
     helix
@@ -104,26 +90,6 @@
       helix
       git
       gh
-      firefox
-      mpv
-      vlc
-      helvum
-      pulseaudio
-      pavucontrol
-      dunst
-      gomuks
-      #activitywatch
-      sxiv
-      barrier
-      imagemagick
-      libreoffice
-      xclip
-      # Hyprland stuff
-      #qt6-wayland
-      wofi
-      swww
-      hyprpaper
-      polkit-kde-agent
       file
       unar
       delta

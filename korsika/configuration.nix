@@ -11,6 +11,7 @@
   imports = [
     enableHM
     ../common.nix
+    ../graphical.nix
     ./hardware-configuration.nix
     ./networking.nix
   ];

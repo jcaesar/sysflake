@@ -9,6 +9,7 @@
   imports = [
     enableHM
     ./common.nix
+    ./graphical.nix
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
   home-manager.users.julius = import ./home.nix;
@@ -86,11 +87,6 @@
 
   services.xserver = {
     enable = true;
-    xkb = {
-      layout = "us";
-      options = "compose:caps";
-      variant = "altgr-intl";
-    };
     desktopManager = {
       xterm.enable = false;
     };
