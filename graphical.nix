@@ -15,6 +15,7 @@
     #jack.enable = true;
     wireplumber.enable = true;
   };
+  hardware.pulseaudio.enable = false;
 
   users.users.julius.packages = with pkgs; [
     xpra
