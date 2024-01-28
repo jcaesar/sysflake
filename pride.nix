@@ -79,10 +79,7 @@
     enable = true;
     xwayland.enable = true;
   };
-  nixpkgs.config.allowUnfreePredicate = let
-    hasPrefix = pfx: str: lib.strings.removePrefix pfx str != pfx;
-  in
-    pkg: hasPrefix "nvidia-" (lib.getName pkg);
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.match "^(nvidia-|cuda_).*" (lib.getName pkg) != null;
 
   services.xserver = {
     displayManager.gdm = {
