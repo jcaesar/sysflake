@@ -91,11 +91,11 @@
     };
     desktopManager.gnome = {
       enable = true;
-      extraPackages = with pkgs;
-      with gnomeExtensions; [
-        desktop-cube
-        burn-my-windows
-      ];
+      #extraPackages = with pkgs;
+      #with gnomeExtensions; [
+      #  desktop-cube
+      #  burn-my-windows
+      #];
     };
   };
 
