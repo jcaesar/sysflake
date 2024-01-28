@@ -3,16 +3,13 @@
   lib,
   pkgs,
   modulesPath,
-  enableHM,
   ...
 }: {
   imports = [
-    enableHM
     ./common.nix
     ./graphical.nix
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
-  home-manager.users.julius = import ./home.nix;
 
   networking.hostName = "mictop";
 
