@@ -52,7 +52,7 @@
 
   networking.useDHCP = false;
   networking.useNetworkd = true; # TODO translate
-  networking.interfaces.eth0.ipv4.addresses = [
+  networking.interfaces.enp5s0.ipv4.addresses = [
     {
       address = "10.13.52.20";
       prefixLength = 24;
@@ -102,35 +102,10 @@
     #jack.enable = true;
   };
 
-  users.users.julius = {
-    isNormalUser = true;
-    extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-      firefox
-      tree
-    ];
-  };
   users.users.root.openssh.authorizedKeys.keys = [
     "ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAAqmN0bQWftRFvSCFRmIct6nvwoosuX3hqfp+4uKhUdDxDOThqqqturJUEpovz6Jb/p9nQPee+hMkCMDmpNIEPTKgDaD+MY58tX3bcayHBAoGPyY+RMOaEvHQ+AWjicVqE7Yo9E27sbELIbp0p9QSGDYTaN690ap7KjpoyhlpAvOkV++Q== julius"
   ];
-
-  environment.systemPackages = with pkgs; [
-    vim
-    wget
-    helix
-    git
-    efibootmgr
-  ];
-
   services.openssh.enable = true;
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # system.copySystemConfiguration = true;
-
-  system.stateVersion = "23.11"; # Do not change https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion
+  system.stateVersion = "23.11";
 }
