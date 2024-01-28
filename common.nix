@@ -4,7 +4,7 @@
   enableHM,
   ...
 }: {
-  imports = [ enableHM ];
+  imports = [enableHM];
   home-manager.users.julius = import ./home.nix;
 
   # Use the systemd-boot EFI boot loader.
