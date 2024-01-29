@@ -28,7 +28,7 @@
       enable = true;
       setSocketVariable = true;
       daemon.settings = {
-        dns = (import ./defs.nix).workdns;
+        dns = ["9.9.9.9" "1.1.1.1"];
       };
     };
   };
