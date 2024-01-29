@@ -1,8 +1,15 @@
 {pkgs, ...}: {
-  services.xserver.xkb = {
-    layout = "us";
-    options = "compose:caps";
-    variant = "altgr-intl";
+  services.xserver = {
+    xkb = {
+      layout = "us";
+      options = "compose:caps";
+      variant = "altgr-intl";
+    };
+    extraConfig = ''
+      Section "ServerFlags"
+        Option "MaxClients" "2048"
+      EndSection
+    '';
   };
 
   sound.enable = true;
