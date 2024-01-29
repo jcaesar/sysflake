@@ -41,7 +41,7 @@ in
         matchConfig.Name = "gozo";
         address = ["10.13.26.2/24"];
         DHCP = "no";
-        dns = (import ../defs.nix).workdns;
+        dns = (import ./defs.nix).workdns;
         ntp = [];
         gateway = [
           "10.13.26.1"
