@@ -75,6 +75,7 @@
     nload
     ripgrep
     fd
+    du-dust
     smartmontools
     alejandra
     efibootmgr
