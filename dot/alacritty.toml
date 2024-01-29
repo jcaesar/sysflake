@@ -1,0 +1,4 @@
+#dynamic_title = true # Not required anymore, it seems
+
+[window]
+opacity = 0.8
