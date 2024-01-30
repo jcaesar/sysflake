@@ -34,3 +34,6 @@ $env.PATH = (
   prepend /home/myuser/.apps |
   append /usr/bin/env
 )
+# aliases
+def lsm [] { ls | sort-by modified }
+def psf [name] { ps | where name =~ $name }
