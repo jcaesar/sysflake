@@ -91,7 +91,6 @@
     #openssh.authorizedKeys.keys = common.sshKeys.client;
     packages = with pkgs; [
       fish
-      nushell
       helix
       git
       gh
@@ -113,7 +112,7 @@
           numpy
         ]))
     ];
-    shell = pkgs.nushell;
+    shell = pkgs.nushellFull;
     password = "";
   };
 

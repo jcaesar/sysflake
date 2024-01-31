@@ -39,6 +39,7 @@
   programs = {
     nushell = {
       enable = true;
+      package = pkgs.nushellFull;
       extraConfig = builtins.readFile ./dot/config.nu;
       shellAliases = {
         vi = "hx";
