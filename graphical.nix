@@ -50,5 +50,6 @@
     swww
     hyprpaper
     polkit-kde-agent
+    ((import ./pkgs/polaris-fuse.nix) pkgs)
   ];
 }

@@ -128,6 +128,7 @@
 
   users.users.julius.packages = with pkgs; [
     element-desktop-wayland
+    himalaya
   ];
 
   system.stateVersion = "24.05";
