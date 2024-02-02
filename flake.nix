@@ -30,9 +30,11 @@
           main
         ];
       };
+    work = import ./work.nix;
   in {
     nixosConfigurations = {
       korsika = sys ./korsika/configuration.nix;
+      capri = sys ./capri/configuration.nix;
       mictop = sys ./mictop.nix;
       pride = sys ./pride.nix;
       installerBCacheFS = nixpkgs.lib.nixosSystem {
@@ -49,7 +51,10 @@
           })
         ];
       };
-    };
+    } // work.shamo.eachNixed (index: {
+      name = "shamo${toString index}";
+      value = sys ((import ./shamo/configuration.nix) index);
+    });
 
     formatter.${system} = pkgs.alejandra;
   };

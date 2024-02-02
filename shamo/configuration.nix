@@ -3,7 +3,7 @@ shamoIndex: {
   lib,
   ...
 }: let
-  common = import ../common.nix;
+  common = import ../work.nix;
   shamo = common.shamo;
   kubeMasterIP = shamo.ip 2;
   kubeMasterHostname = shamo.name 2;

@@ -3,6 +3,7 @@ rec {
     all = builtins.genList (x: x) 8;
     each = f: map f all;
     nixed = [2 6 7];
+    eachNixed = f: builtins.listToAttrs (map f nixed);
     ip = x: "10.25.211." + toString (84 - x);
     internalIp = x: "192.168.100.${toString (x + 2)}";
     name = x: "shamo" + toString x;

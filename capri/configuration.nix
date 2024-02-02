@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  common = import ../common.nix;
+  common = import ../work.nix;
   eth = "ens32";
 in {
   imports = [
