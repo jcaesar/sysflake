@@ -52,11 +52,21 @@
       enableNushellIntegration = true;
       settings = {
         add_newline = true;
+        scan_timeout = 5;
         character = {
           success_symbol = "[➜](bold green)";
           error_symbol = "[➜](bold red)";
         };
+        aws.disabled = true;
+        directory.truncate_to_repo = false;
+        nix_shell.heuristic = true;
+        hostname.ssh_only = false;
       };
+    };
+    zoxide = programs.carapace;
+    carapace = {
+      enable = true;
+      enableNushellIntegration = true;
     };
   };
 
