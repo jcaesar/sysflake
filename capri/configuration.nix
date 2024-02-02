@@ -3,8 +3,9 @@
   eth = "ens32";
 in {
   imports = [
+    ../common.nix
+    common.fnet
     ./hardware-configuration.nix
-    common.config
   ];
 
   boot.initrd.luks.devices = {
@@ -51,19 +52,10 @@ in {
   networking.hostName = "capri";
 
   users.users.julius = {
-    isNormalUser = true;
     extraGroups = ["wheel" "docker"];
     openssh.authorizedKeys.keys = common.sshKeys.client;
-    packages = with pkgs; [
-      fish
-      nushell
-      helix
-      git
-      gh
-    ];
-    shell = pkgs.nushell;
-    password = "";
   };
+  security.sudo.wheelNeedsPassword = false;
 
   environment.systemPackages = common.packages pkgs;
   #programs.direnv.nix-direnv.enable = true; TODO: IDGI

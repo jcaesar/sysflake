@@ -11,8 +11,9 @@ shamoIndex: {
   proxy = common.proxy "shamo09stratus9flab" "9491387463";
 in {
   imports = [
+    ../base.nix
     ./hardware-shamo${toString shamoIndex}.nix
-    common.config
+    common.fnet
   ];
 
   boot.loader.efi.efiSysMountPoint = "/boot/efi";

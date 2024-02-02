@@ -10,32 +10,13 @@
   imports = [
     ../common.nix
     ../graphical.nix
+    (import ../work.nix).config
     ./hardware-configuration.nix
     ./networking.nix
   ];
 
-  #security.sudo.wheelNeedsPassword = false;
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-    settings.PermitRootLogin = "prohibit-password";
-    settings.ListenAddress = "0.0.0.0:2222";
-  };
-  virtualisation.docker = {
-    enable = true;
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-      daemon.settings = {
-        dns = ["9.9.9.9" "1.1.1.1"];
-      };
-    };
-  };
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
-
   networking.hostName = "korsika";
-  networking.extraHosts = ((import ../work.nix).config {inherit lib;}).networking.extraHosts;
+  virtualisation.docker.rootless.daemon.settings.dns = ["9.9.9.9" "1.1.1.1"];
 
   services.xserver = {
     enable = true;

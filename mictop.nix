@@ -70,7 +70,6 @@
     };
     efi.canTouchEfiVariables = true;
   };
-  #security.sudo.wheelNeedsPassword = false;
   services.openssh = {
     enable = true;
     settings.PasswordAuthentication = false;

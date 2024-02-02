@@ -50,26 +50,11 @@ rec {
   #  in lib.mkForce { http_proxy = p; https_proxy = p; all_proxy = p; ftp_proxy = p; };
   proxy = user: pw: "http://${user}:${pw}@10.128.145.88:8080/";
   config = {lib, ...}: {
-    boot.loader = {
-      systemd-boot = {
-        enable = true;
-        configurationLimit = 15;
-        #editor = false;
-      };
-      efi.canTouchEfiVariables = false;
-    };
     networking.proxy.noProxy = noProxy;
     networking.extraHosts = ''
       10.38.90.22 capri
       ${lib.concatStringsSep "\n" (shamo.each (x: "${shamo.ip x} ${shamo.name x}"))}
     '';
-    time.timeZone = "Asia/Tokyo";
-    i18n.defaultLocale = "en_US.UTF-8";
-    nix.settings.experimental-features = ["nix-command" "flakes"];
-    networking.firewall.enable = true;
-    security.sudo.wheelNeedsPassword = false;
-    networking.nameservers = ["10.0.238.1" "10.0.238.70"];
-    networking.useNetworkd = true;
     boot.initrd.systemd.network.enable = true; # Not sure if necessary or effectful
     services.openssh = {
       enable = true;
@@ -85,5 +70,12 @@ rec {
         setSocketVariable = true;
       };
     };
+    boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  };
+  fnet = { ... }: {
+    imports = [config];
+    networking.firewall.enable = true;
+    networking.nameservers = ["10.0.238.1" "10.0.238.70"];
+    networking.useNetworkd = true; # TODO: translate
   };
 }
