@@ -9,6 +9,7 @@
     "${modulesPath}/installer/scan/not-detected.nix"
     ./common.nix
     ./graphical.nix
+    ./nvml-prometheus-exporter.nix
   ];
 
   boot.loader = {
@@ -95,7 +96,6 @@
     desktop-cube
     burn-my-windows
     ollama
-    ((import ./pkgs/nvml-prometheus-exporter.nix) pkgs)
   ];
   users.users.julius.packages = with pkgs; [
     browsh
