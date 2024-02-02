@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  lib,
+  ...
+}: let
   common = import ../work.nix;
   eth = "ens32";
 in {
@@ -16,6 +20,7 @@ in {
       allowDiscards = false;
     };
   };
+  services.smartd.enable = lib.mkForce false;
 
   # Stage 1 ssh decrypt. Several things about this are dumb
   #  - Somehow, it includes the /etc/ssh/boot in the initrd, but I have no idea how

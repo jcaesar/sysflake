@@ -78,8 +78,6 @@
     settings.ListenAddress = "0.0.0.0:2222";
   };
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
-  services.smartd.enable = true;
-  services.smartd.notifications.wall.enable = true;
 
   services.xserver = {
     enable = true;

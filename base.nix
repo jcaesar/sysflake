@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: {
   boot.loader = {
@@ -13,7 +14,7 @@
   };
   time.timeZone = "Asia/Tokyo";
   i18n.defaultLocale = "en_US.UTF-8";
-  services.smartd.enable = true;
+  services.smartd.enable = lib.mkDefault true;
   services.smartd.notifications.wall.enable = true;
 
   environment.systemPackages = with pkgs; [
