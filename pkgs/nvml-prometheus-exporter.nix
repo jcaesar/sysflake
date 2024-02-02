@@ -25,4 +25,3 @@ rustPlatform.buildRustPackage rec {
     mainProgram = "${pname}";
   };
 }
-

@@ -90,7 +90,8 @@
       enable = true;
     };
   };
-  environment.systemPackages = with pkgs; with gnomeExtensions; [
+  environment.systemPackages = with pkgs;
+  with gnomeExtensions; [
     desktop-cube
     burn-my-windows
     ollama

@@ -23,7 +23,7 @@
     wireplumber.enable = true;
   };
   hardware.pulseaudio.enable = false;
-  
+
   environment.systemPackages = with pkgs; [
     glxinfo
   ];

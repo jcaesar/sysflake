@@ -32,29 +32,31 @@
       };
     work = import ./work.nix;
   in {
-    nixosConfigurations = {
-      korsika = sys ./korsika/configuration.nix;
-      capri = sys ./capri/configuration.nix;
-      mictop = sys ./mictop.nix;
-      pride = sys ./pride.nix;
-      installerBCacheFS = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
-          ({
-            lib,
-            pkgs,
-            ...
-          }: {
-            boot.supportedFilesystems = ["bcachefs"];
-            boot.kernelPackages = lib.mkOverride 0 pkgs.linuxPackages_latest;
-          })
-        ];
-      };
-    } // work.shamo.eachNixed (index: {
-      name = "shamo${toString index}";
-      value = sys ((import ./shamo/configuration.nix) index);
-    });
+    nixosConfigurations =
+      {
+        korsika = sys ./korsika/configuration.nix;
+        capri = sys ./capri/configuration.nix;
+        mictop = sys ./mictop.nix;
+        pride = sys ./pride.nix;
+        installerBCacheFS = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
+            ({
+              lib,
+              pkgs,
+              ...
+            }: {
+              boot.supportedFilesystems = ["bcachefs"];
+              boot.kernelPackages = lib.mkOverride 0 pkgs.linuxPackages_latest;
+            })
+          ];
+        };
+      }
+      // work.shamo.eachNixed (index: {
+        name = "shamo${toString index}";
+        value = sys ((import ./shamo/configuration.nix) index);
+      });
 
     formatter.${system} = pkgs.alejandra;
   };

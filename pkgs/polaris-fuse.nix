@@ -29,4 +29,3 @@ rustPlatform.buildRustPackage rec {
     mainProgram = "mount-polaris";
   };
 }
-

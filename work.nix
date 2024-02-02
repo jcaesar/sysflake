@@ -72,7 +72,7 @@ rec {
     };
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
   };
-  fnet = { ... }: {
+  fnet = {...}: {
     imports = [config];
     networking.firewall.enable = true;
     networking.nameservers = ["10.0.238.1" "10.0.238.70"];
