@@ -53,7 +53,6 @@
   swapDevices = [];
 
   networking.useDHCP = false;
-  networking.useNetworkd = true; # TODO translate
   networking.interfaces.enp5s0.ipv4.addresses = [
     {
       address = "10.13.52.20";
@@ -64,6 +63,47 @@
   networking.defaultGateway = {
     address = "10.13.52.1";
     interface = "eth0";
+  };
+  systemd.network = {
+    enable = true;
+    networks."10-cameo-net" = {
+      matchConfig.Name = "eth0";
+      DHCP = "no";
+      address = ["10.13.52.20/25"];
+      dns = ["10.13.52.1" "9.9.9.9"];
+      gateway = [
+        "10.13.52.1"
+      ];
+    };
+    netdevs."11-wg-dev" = {
+      netdevConfig = {
+        Kind = "wireguard";
+        Name = "wg0";
+        #MTUBytes = "1350";
+      };
+      wireguardConfig = {
+        PrivateKeyFile = "/etc/secrets/wg.pk";
+        ListenPort = 16816;
+      };
+      wireguardPeers = [
+        {
+          wireguardPeerConfig = {
+            PublicKey = "3dY3B1IlbCuBb8FrZ472u+cGXihRGE6+qmo5RZlHdFg=";
+            Endpoint = "128.199.185.74:13518";
+            AllowedIPs = ["10.13.38.0/24" "fc00:1337:dead:beef:caff::0/96"];
+            PersistentKeepalive = 29;
+          };
+        }
+      ];
+    };
+    networks."11-wg-net" = {
+      matchConfig.Name = "wg0";
+      address = ["10.13.38.8/24" "fc00:1337:dead:beef:caff::8/96"];
+      DHCP = "no";
+      networkConfig = {
+        IPv6AcceptRA = false;
+      };
+    };
   };
 
   nixpkgs.hostPlatform = "x86_64-linux";
@@ -122,6 +162,7 @@
   ];
   users.users.julius.openssh.authorizedKeys.keys = users.users.root.openssh.authorizedKeys.keys;
   services.openssh.enable = true;
+  services.prometheus.exporters.node.enable = true;
 
   system.stateVersion = "23.11";
 }

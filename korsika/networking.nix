@@ -16,7 +16,7 @@ in
         DHCP = "no";
         address = ["10.13.25.2/24"];
       };
-      netdevs.      "11-palmarola-wg-dev" = {
+      netdevs."11-palmarola-wg-dev" = {
         netdevConfig = {
           Kind = "wireguard";
           Name = "gozo";
