@@ -151,7 +151,10 @@
   ];
   users.users.julius.openssh.authorizedKeys.keys = users.users.root.openssh.authorizedKeys.keys;
   services.openssh.enable = true;
-  services.prometheus.exporters.node.enable = true;
+  services.prometheus.exporters.node = {
+    enable = true;
+    openFirewall = true;
+  };
 
   system.stateVersion = "23.11";
 }

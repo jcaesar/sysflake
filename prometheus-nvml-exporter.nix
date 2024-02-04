@@ -31,4 +31,5 @@
       UMask = "0077";
     };
   };
+  networking.firewall.allowedTCPPorts = [9144];
 }
