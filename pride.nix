@@ -162,6 +162,7 @@
     burn-my-windows
     ollama
   ];
+  users.users.julius.extraGroups = ["nzbget"];
   users.users.julius.packages = with pkgs; [
     browsh
   ];
@@ -181,6 +182,7 @@
     enable = true;
     settings.MainDir = "/mnt/file/nzbget";
   };
+  networking.firewall.allowedTCPPorts = [6789];
 
   system.stateVersion = "23.11";
 }
