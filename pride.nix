@@ -48,6 +48,26 @@
       device = "/dev/disk/by-label/nixboot";
       fsType = "vfat";
     };
+    "/mnt/file" = {
+      device = "/dev/disk/by-uuid/1521d981-c56e-4c80-af64-ac1ad11ef80b";
+      fsType = "btrfs";
+    };
+    "/mnt/cameo" = {
+      device = "/dev/disk/by-uuid/e890f00d-912d-414f-ac26-918a2bc840d1";
+      fsType = "btrfs";
+    };
+  };
+
+  boot.initrd.luks.devices = let
+    dev = uuid: {
+      device = "/dev/disk/by-uuid/${uuid}";
+      keyFile = "/etc/secrets/filkey";
+    };
+  in {
+    "file1" = dev "c2b6f644-c505-4d8e-be79-db0d80dd149d";
+    "file2" = dev "ba5c6f26-ebfc-475b-9801-713b66ed55fb";
+    "cameo1" = dev "4d8fe471-1685-4540-844c-d76000911869";
+    "cameo2" = dev "54b76e1d-ce44-4dad-93c4-a8f3030da827";
   };
 
   swapDevices = [];
@@ -123,6 +143,7 @@
           "libcusparse"
           "libnvjitlink"
           "libnpp"
+          "unrar"
         ])
     ) (lib.getName pkg);
 
@@ -150,10 +171,15 @@
     "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEl5k7aYexi95LNugqwBZQAk/qmA3bruEYqQqFgSpnXSLDeNX0ZZNa8NekuN+Cf7qm9ZJsWZpKzEOi7C//hZa2E= julius@korsika"
   ];
   users.users.julius.openssh.authorizedKeys.keys = users.users.root.openssh.authorizedKeys.keys;
+
   services.openssh.enable = true;
   services.prometheus.exporters.node = {
     enable = true;
     openFirewall = true;
+  };
+  services.nzbget = {
+    enable = true;
+    settings.MainDir = "/mnt/file/nzbget";
   };
 
   system.stateVersion = "23.11";
