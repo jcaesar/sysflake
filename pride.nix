@@ -53,17 +53,6 @@
   swapDevices = [];
 
   networking.useDHCP = false;
-  networking.interfaces.enp5s0.ipv4.addresses = [
-    {
-      address = "10.13.52.20";
-      prefixLength = 24;
-    }
-  ];
-
-  networking.defaultGateway = {
-    address = "10.13.52.1";
-    interface = "eth0";
-  };
   systemd.network = {
     enable = true;
     networks."10-cameo-net" = {
