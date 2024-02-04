@@ -1,13 +1,13 @@
 {pkgs, ...}: {
-  systemd.services."nvml-prometheus-exporter" = {
+  systemd.services."prometheus-nvml-exporter" = {
     wantedBy = ["multi-user.target"];
     after = ["network.target"];
     serviceConfig = {
-      ExecStart = "${((import ./pkgs/nvml-prometheus-exporter.nix) pkgs)}/bin/nvml-prometheus-exporter";
+      ExecStart = "${((import ./pkgs/prometheus-nvml-exporter.nix) pkgs)}/bin/prometheus-nvml-exporter";
       PrivateTmp = true;
       WorkingDirectory = /tmp;
       DynamicUser = true;
-      User = "nvml-prometheus-exporter";
+      User = "prometheus-nvml-exporter";
       CapabilityBoundingSet = [""];
       #DeviceAllow = ["char-nvidia* r"];
       LockPersonality = true;

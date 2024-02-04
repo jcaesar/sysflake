@@ -9,7 +9,7 @@
     "${modulesPath}/installer/scan/not-detected.nix"
     ./common.nix
     ./graphical.nix
-    ./nvml-prometheus-exporter.nix
+    ./prometheus-nvml-exporter.nix
   ];
 
   boot.loader = {
@@ -76,6 +76,7 @@
 
   services.xserver.enable = true;
   services.xserver.videoDrivers = ["nvidia"];
+  cudaSupport = true;
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;

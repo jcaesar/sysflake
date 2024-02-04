@@ -2,22 +2,19 @@
   rustPlatform,
   fetchFromGitHub,
   lib,
-  nvidia-x11,
   ...
 }:
 rustPlatform.buildRustPackage rec {
-  pname = "nvml-prometheus-exporter";
+  pname = "prometheus-nvml-exporter";
   version = "0.1.0";
 
   src = fetchFromGitHub {
     owner = "jcaesar";
-    repo = "nvml-prometheus-exporter";
-    rev = "a1d458397872303e956702ebc4b10475c590201e";
-    hash = "sha256-kPe2Owr5exktdfkk9GYL5qLjLWK5ubwPQ0XeKjEU40U=";
+    repo = "prometheus-nvml-exporter";
+    rev = "1f3be5d394d83631228ee5ae15117f5667c7718d";
+    hash = "sha256-HOIbxQqKAI+yVHQ8RVEUr9Yj8mi7AzgKArhSbJDtLMI=";
   };
-  cargoSha256 = "sha256-lWe18iDoeTv3C98reHohUbomOTPFQlp0K9VakT6lY18=";
-
-  buildInputs = [nvidia-x11];
+  cargoSha256 = "sha256-Yej4hgG6huZvwl6ZWbLIhCxfmKUe4NUnxRh63Giteb8=";
 
   meta = with lib; {
     description = "nvml / nvidia graphics card prometheus metrics exporter";
