@@ -76,12 +76,26 @@
 
   services.xserver.enable = true;
   services.xserver.videoDrivers = ["nvidia"];
-  cudaSupport = true;
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
   };
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.match "^(nvidia-|cuda_).*" (lib.getName pkg) != null;
+  nixpkgs.config.cudaSupport = true;
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    (
+      name:
+        (builtins.match "^(nvidia-|cuda_).*" name != null)
+        || (builtins.elem name [
+          "cudnn"
+          "libcublas"
+          "libcufft"
+          "libcurand"
+          "libcusolver"
+          "libcusparse"
+          "libnvjitlink"
+          "libnpp"
+        ])
+    ) (lib.getName pkg);
 
   services.xserver = {
     displayManager.gdm = {
