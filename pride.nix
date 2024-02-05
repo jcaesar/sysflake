@@ -26,6 +26,14 @@
   boot.kernelModules = ["kvm-amd"];
   boot.extraModulePackages = [];
 
+  boot.initrd.systemd = {
+    enable = true;
+    network = {
+      enable = true;
+      networks."10-cameo-net" = systemd.network.networks."10-cameo-net";
+    };
+  };
+
   # parted /dev/nvme1n1 -- mklabel gpt
   # parted /dev/nvme1n1 -- mkpart ESP fat32 1MB 512MB
   # parted /dev/nvme1n1 -- set 1 esp on
