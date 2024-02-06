@@ -40,7 +40,7 @@
     nushell = {
       enable = true;
       package = pkgs.nushellFull;
-      extraConfig = builtins.readFile ./dot/config.nu;
+      configFile.source = ./dot/config.nu;
       shellAliases = {
         vi = "hx";
         vim = "hx";
@@ -64,7 +64,7 @@
       };
     };
     zoxide = programs.carapace;
-    carapace = {
+    carapace ={
       enable = true;
       enableNushellIntegration = true;
     };

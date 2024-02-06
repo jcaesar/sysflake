@@ -64,10 +64,9 @@ $env.config = {
 $env.PATH = (
   $env.PATH |
   split row (char esep) |
-  prepend /home/myuser/.apps |
   append /usr/bin/env
 )
 
 # aliases
-def lsm [] { ls | sort-by modified }
-def psf [name] { ps | where name =~ $name }
+export def lsm [] { ls | sort-by modified }
+export def psf [name] { ps | where name =~ $name }
