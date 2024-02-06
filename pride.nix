@@ -84,7 +84,7 @@
   systemd.network = {
     enable = true;
     networks."10-cameo-net" = {
-      matchConfig.Name = "eth0";
+      matchConfig.Name = "enp5s0";
       DHCP = "no";
       address = ["10.13.52.20/25"];
       dns = ["10.13.52.1" "9.9.9.9"];
