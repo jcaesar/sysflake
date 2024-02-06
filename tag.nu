@@ -17,8 +17,8 @@ def tag [hostname: string] {
 
 def main [host?: string] {
   if ($host == null) {
-    nixos-rebuild list-generations --json | tag (hostname)
+    nixos-rebuild --no-build-nix list-generations --json | tag (hostname)
   } else {
-    ssh $host nixos-rebuild list-generations --json | tag (ssh $host hostname)
+    ssh $host nixos-rebuild --no-build-nix list-generations --json | tag (ssh $host hostname)
   }
 }
