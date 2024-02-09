@@ -2,7 +2,6 @@
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-certmgrfix,
     home-manager,
   }: let
     system = "x86_64-linux";
@@ -27,11 +26,6 @@
             nix.registry.nixpkgs.flake = nixpkgs;
             nix.nixPath = ["nixpkgs=${nixpkgs}"];
             system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
-          })
-          ({...}: {
-            nixpkgs.overlays = [
-              (final: prev: {certmgr-selfsigned = (import nixpkgs-certmgrfix {inherit system;}).certmgr-selfsigned;})
-            ];
           })
           main
         ];
@@ -69,7 +63,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-certmgrfix.url = "github:nixos/nixpkgs/9c870ac78f6157260ba1f96f9ce077ce84478532";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
