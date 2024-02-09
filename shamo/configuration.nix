@@ -90,8 +90,13 @@ in {
   # Fix for https://github.com/NixOS/nixpkgs/pull/272450 which should already be fixed
   services.certmgr.specs = builtins.listToAttrs (map (name: {
       inherit name;
-      value = {authority.file = {};};
-    }) [
+      value = {authority.file = null;};
+    }) ([
+      "kubeProxyClient"
+      "kubelet"
+      "kubeletClient"
+      "flannelClient"
+    ] ++ (if shamoIndex == 2 then [
       "addonManager"
       "apiserverEtcdClient"
       "apiServer"
@@ -101,13 +106,10 @@ in {
       "controllerManagerClient"
       "controllerManager"
       "etcd"
-      "flannelClient"
-      "kubeletClient"
-      "kubelet"
-      "kubeProxyClient"
       "schedulerClient"
       "serviceAccount"
-    ]);
+      
+    ] else [])));
 
   networking.firewall = let
     inherit (lib.strings) concatStringsSep;

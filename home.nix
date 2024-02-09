@@ -64,7 +64,7 @@
       };
     };
     zoxide = programs.carapace;
-    carapace ={
+    carapace = {
       enable = true;
       enableNushellIntegration = true;
     };
