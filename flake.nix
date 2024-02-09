@@ -30,7 +30,7 @@
           })
           ({...}: {
             nixpkgs.overlays = [
-              (final: prev: {certmgr-selfsigned = (import nixpkgs-certmgrfix {inherit system;}).certmgr-selfsigned;})
+              (final: prev: {certmgr = (import nixpkgs-certmgrfix {inherit system;}).certmgr;})
             ];
           })
           main
