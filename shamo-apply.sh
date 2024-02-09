@@ -10,10 +10,7 @@ fi
 
 cd "$(dirname "$0")"
 
-export NIX_SSHOPTS=-q
-
-echo -en "\ncapri\n=====\n"
-nixos-rebuild switch --target-host capri --build-host capri --use-remote-sudo --flake .\#capri || echo 1>&2 "Capri failed"
+export NIX_SSHOPTS="-q -oCompression=yes"
 
 for h in {2,6,7}; do
 	echo -en "\nshamo$h\n======\n"
