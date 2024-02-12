@@ -32,6 +32,7 @@
     xpra
     firefox
     mpv
+    yt-dlp
     vlc
     helvum
     pulseaudio
