@@ -13,12 +13,6 @@ let external_completer = {|spans|
     | from tsv --flexible --no-infer
   }
 
-  let carapace_completer = {|spans: list<string>|
-    carapace $spans.0 nushell ...$spans
-    | from json
-    | if ($in | default [] | where value =~ '^-.*ERR$' | is-empty) { $in } else { null }
-  }
-
   let expanded_alias = scope aliases
   | where name == $spans.0
   | get -i 0.expansion
@@ -31,11 +25,7 @@ let external_completer = {|spans|
     $spans
   }
 
-  match $spans.0 {
-    nu => $fish_completer
-    git => $fish_completer
-    _ => $carapace_completer
-  } | do $in $spans
+  do $fish_completer $spans
 }
 
 $env.config = {

@@ -63,8 +63,7 @@
         hostname.ssh_only = false;
       };
     };
-    zoxide = programs.carapace;
-    carapace = {
+    zoxide = {
       enable = true;
       enableNushellIntegration = true;
     };
