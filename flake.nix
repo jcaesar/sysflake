@@ -25,7 +25,8 @@
             nix.settings.experimental-features = ["nix-command" "flakes"];
             nix.registry.nixpkgs.flake = nixpkgs;
             nix.nixPath = ["nixpkgs=${nixpkgs}"];
-            system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
+            system.configurationRevision = if self ? rev then self.rev else self.dirtyRev;
+            system.nixos.version = "j_${if self ? shortRev then self.shortRev else self.dirtyShortRev}_${self.lastModifiedDate}";
           })
           main
         ];

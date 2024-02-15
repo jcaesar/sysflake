@@ -2,7 +2,7 @@
 
 def tag [hostname: string] {
   from json | each {|l|
-    if $l.configurationRevision != "" {
+    if $l.configurationRevision != "" and $l.configurationRevision !~ "-dirty" {
       let tag = $"($hostname)-($l.generation)"
       let rev = (do { git rev-parse $"refs/tags/($tag)" } | complete | get exit_code)
       if $rev == 128 {
