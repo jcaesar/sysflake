@@ -92,24 +92,28 @@ in {
       inherit name;
       value = {authority.file = null;};
     }) ([
-      "kubeProxyClient"
-      "kubelet"
-      "kubeletClient"
-      "flannelClient"
-    ] ++ (if shamoIndex == 2 then [
-      "addonManager"
-      "apiserverEtcdClient"
-      "apiServer"
-      "apiserverKubeletClient"
-      "apiserverProxyClient"
-      "clusterAdmin"
-      "controllerManagerClient"
-      "controllerManager"
-      "etcd"
-      "schedulerClient"
-      "serviceAccount"
-      
-    ] else [])));
+        "kubeProxyClient"
+        "kubelet"
+        "kubeletClient"
+        "flannelClient"
+      ]
+      ++ (
+        if shamoIndex == 2
+        then [
+          "addonManager"
+          "apiserverEtcdClient"
+          "apiServer"
+          "apiserverKubeletClient"
+          "apiserverProxyClient"
+          "clusterAdmin"
+          "controllerManagerClient"
+          "controllerManager"
+          "etcd"
+          "schedulerClient"
+          "serviceAccount"
+        ]
+        else []
+      )));
 
   networking.firewall = let
     inherit (lib.strings) concatStringsSep;

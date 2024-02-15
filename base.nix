@@ -52,8 +52,5 @@
 
   # nix shell --print-build-logs .#nixosConfigurations.$host.config.system.build.vm -c run-korsika-vm
   # Switch to serial0 console from qemu viewer
-  services.getty.autologinUser =
-    if config.virtualisation ? mountHostNixStore
-    then "root"
-    else null;
+  services.getty.autologinUser = lib.mkIf (config.virtualisation ? mountHostNixStore) "root";
 }

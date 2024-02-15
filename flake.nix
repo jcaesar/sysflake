@@ -25,8 +25,15 @@
             nix.settings.experimental-features = ["nix-command" "flakes"];
             nix.registry.nixpkgs.flake = nixpkgs;
             nix.nixPath = ["nixpkgs=${nixpkgs}"];
-            system.configurationRevision = if self ? rev then self.rev else self.dirtyRev;
-            system.nixos.version = "j_${if self ? shortRev then self.shortRev else self.dirtyShortRev}_${self.lastModifiedDate}";
+            system.configurationRevision =
+              if self ? rev
+              then self.rev
+              else self.dirtyRev;
+            system.nixos.version = "j_${
+              if self ? shortRev
+              then self.shortRev
+              else self.dirtyShortRev
+            }_${self.lastModifiedDate}";
           })
           main
         ];
@@ -39,20 +46,7 @@
         capri = sys ./capri/configuration.nix;
         mictop = sys ./mictop.nix;
         pride = sys ./pride.nix;
-        installerBCacheFS = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
-            ({
-              lib,
-              pkgs,
-              ...
-            }: {
-              boot.supportedFilesystems = ["bcachefs"];
-              boot.kernelPackages = lib.mkOverride 0 pkgs.linuxPackages_latest;
-            })
-          ];
-        };
+        installerBCacheFS = sys ./installer.nix;
       }
       // work.shamo.eachNixed (index: {
         name = "shamo${toString index}";
