@@ -12,11 +12,11 @@ rustPlatform.buildRustPackage rec {
 
   src = fetchFromGitHub {
     owner = "jcaesar";
-    repo = "${pname}";
-    rev = "f0d42d22f0bb2491174fc0775393a9e2c0b58a6a";
-    hash = "sha256-SNa+/24jrZ2e1njg+BPR3kPtIQKMR7ll+UAjvY+qEk8=";
+    repo = pname;
+    rev = "e4342f982b99e019269b25874d078e0643b4438d";
+    hash = "sha256-VJ3H1MxvNv9wG/p7W51QtnMqJYhooyH1FlIw8f9tSW0=";
   };
-  cargoSha256 = "sha256-s6kUMxXmhAtf88olllNWjgL0+kEnvtbVry+C60T+0Bk=";
+  cargoSha256 = "sha256-9jYltiEiJgc9VsZtpTS7/t/3lUswbARfP7O9avJDf9o=";
 
   nativeBuildInputs = [pkg-config];
   PKG_CONFIG_PATH = "${fuse3}/lib/pkgconfig";

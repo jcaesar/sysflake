@@ -15,6 +15,14 @@
     ./networking.nix
   ];
 
+  boot.kernelModules = [
+    "akvcam"
+    "v4l2loopback"
+  ];
+  boot.extraModprobeConfig = ''
+    options v4l2loopback exclusive_caps=1 card_label="Software"
+  '';
+
   networking.hostName = "korsika";
   virtualisation.docker.rootless.daemon.settings.dns = ["9.9.9.9" "1.1.1.1"];
 
@@ -58,6 +66,8 @@
   in
     pkg: startsWith "nvidia-" (lib.getName pkg);
   services.xserver.videoDrivers = ["nvidia"];
+
+  services.ddccontrol.enable = true;
 
   # nix shell --print-build-logs .#nixosConfigurations.korsika.config.system.build.vm -c run-korsika-vm
   # Switch to serial0 console from qemu viewer

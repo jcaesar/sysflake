@@ -126,6 +126,7 @@
   users.users.julius.packages = with pkgs; [
     element-desktop-wayland
     (himalaya.override {buildFeatures = ["notmuch"];})
+    notmuch
   ];
 
   system.stateVersion = "24.05";
