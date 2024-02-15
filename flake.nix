@@ -24,6 +24,7 @@
           ({...}: {
             nix.settings.experimental-features = ["nix-command" "flakes"];
             nix.registry.nixpkgs.flake = nixpkgs;
+            nix.registry.n.flake = nixpkgs;
             nix.nixPath = ["nixpkgs=${nixpkgs}"];
             system.configurationRevision =
               if self ? rev
@@ -34,6 +35,7 @@
               then self.shortRev
               else self.dirtyShortRev
             }_${self.lastModifiedDate}";
+            system.systemBuilderCommands = "ln -s ${self} $out/sysflake";
           })
           main
         ];
