@@ -16,7 +16,6 @@ in {
     common.fnet
   ];
 
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.initrd.luks.devices."crypt".preLVM = false;
   users.users.root.openssh.authorizedKeys.keys =
     common.sshKeys.strong
