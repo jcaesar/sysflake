@@ -191,6 +191,17 @@
     settings.MainDir = "/mnt/file/nzbget";
   };
   networking.firewall.allowedTCPPorts = [6789];
+  services.minidlna = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      inotify = "yes";
+      media_dir = [
+        "V,/mnt/file/nzbget/dst/"
+        "V,/mnt/cameo/@/home/julius/media/"
+      ];
+    };
+  };
 
   system.stateVersion = "23.11";
 }
