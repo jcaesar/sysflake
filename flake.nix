@@ -27,13 +27,11 @@
             nix.registry.n.flake = nixpkgs;
             nix.nixPath = ["nixpkgs=${nixpkgs}"];
             system.configurationRevision =
-              if self ? rev
-              then self.rev
-              else self.dirtyRev;
+              self.rev
+              or self.dirtyRev or "nogit";
             system.nixos.version = "j_${
-              if self ? shortRev
-              then self.shortRev
-              else self.dirtyShortRev
+              self.shortRev
+              or self.dirtyShortRev or "nogit"
             }_${self.lastModifiedDate}";
             system.systemBuilderCommands = "ln -s ${self} $out/sysflake";
           })
@@ -47,6 +45,7 @@
         korsika = sys ./korsika/configuration.nix;
         capri = sys ./capri/configuration.nix;
         mictop = sys ./mictop.nix;
+        lasta = sys ./lasta.nix;
         pride = sys ./pride.nix;
         installerBCacheFS = sys ./installer.nix;
       }
