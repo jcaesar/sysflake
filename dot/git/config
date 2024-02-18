@@ -1,0 +1,64 @@
+[user]
+	email = michaelis@jp.fujitsu.com
+	name = Julius Michaelis
+#[push]
+#	default = upstream
+[alias]
+	l = log --oneline --decorate --all --graph
+	lg = log --graph --abbrev-commit --decorate --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+	quickserve = daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths .git/
+    #serve = "!f(){ printf \"Starting git-daemon for $(pwd) @ 'git://$(hostname)/$(basename $(pwd))'.\nExample: git clone git://$(hostname)/$(basename $(pwd)) [<directory>]\n\"; git daemon --base-path=.. --reuseaddr --informative-errors --verbose --export-all ../$(basename $(pwd)) ; }; f"
+[core]
+	#gitproxy = git-proxy
+	#attributesfile = /home/julius/.gitattributes
+    pager = delta
+[url "git@github.com:fltech-dev/"]
+	insteadOf = https://github.com/flltech/
+[url "git@github.com:fltech-dev/"]
+	insteadOf = https://github.com/fltech/
+[url "github.com:fltech-dev/"]
+	insteadOf = https://github.com/fltech-dev/
+[url "github.com:"]
+	insteadOf = https://github.com/
+# [merge]
+#     tool = meld
+# [mergetool "meld"]
+#     cmd = meld --auto-merge \"$LOCAL\" \"$BASE\" \"$REMOTE\" --output \"$MERGED\" --label \"MERGE (REMOTE BASE MY)\"
+#     trustExitCode = false
+# [mergetool]
+#     prompt = false
+#     keepBackup = false
+[merge]
+	tool = kdiff3
+[mergetool]
+	prompt = false
+	keepBackup = false
+	keepTemporaries = false
+[mergetool "kdiff3"]
+	path = kdiff3
+
+[diff]
+    guitool = meld
+    colorMoved = default
+[difftool "meld"]
+    cmd = meld \"$LOCAL\" \"$REMOTE\" --label \"DIFF (ORIGINAL MY)\"
+[pull]
+	ff = only
+[rerere]
+	enabled = true
+[diff "wasm"]
+	textconv = show-wasm
+
+
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true  # use n and N to move between diff sections
+[merge]
+    conflictstyle = diff3
+[credential "https://github.com"]
+	helper =
+	helper = !/usr/bin/env gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/usr/bin/env gh auth git-credential
