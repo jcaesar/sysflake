@@ -12,4 +12,8 @@
   ];
   boot.supportedFilesystems = ["bcachefs"];
   boot.kernelPackages = lib.mkOverride 0 pkgs.linuxPackages_latest;
+
+  environment.systemPackages = with pkgs; [
+    keyutils
+  ];
 }
