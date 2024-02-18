@@ -17,16 +17,16 @@
   boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usb_storage" "sd_mod" "sdhci_pci"];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-intel"];
-  boot.initrd.systemd = {
-    enable = true;
-  };
+  boot.plymouth.enable = true;
+  boot.initrd.systemd.enable = true;
   fileSystems."/" = {
-    device = "UUID=9972f2d9-9d2a-48e1-b29e-097ac1e73557";
+    device = "/dev/disk/by-partlabel/primary";
     fsType = "bcachefs";
+    options = ["compression=zstd"];
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/FFCF-1070";
+    device = "/dev/disk/by-partlabel/ESP";
     fsType = "vfat";
   };
 
