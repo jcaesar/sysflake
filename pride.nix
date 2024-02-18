@@ -186,6 +186,7 @@
     enable = true;
     openFirewall = true;
   };
+
   services.nzbget = {
     enable = true;
     settings.MainDir = "/mnt/file/nzbget";
@@ -202,6 +203,7 @@
       ];
     };
   };
+  systemd.services.minidlna.serviceConfig.SupplementaryGroups = "nzbget";
 
   system.stateVersion = "23.11";
 }
