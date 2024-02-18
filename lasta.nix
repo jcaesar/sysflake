@@ -13,9 +13,13 @@
 
   networking.hostName = "mictop";
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "sd_mod" "sdhci_pci"];
+  boot.supportedFilesystems = ["bcachefs"];
+  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usb_storage" "sd_mod" "sdhci_pci"];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-intel"];
+  boot.initrd.systemd = {
+    enable = true;
+  };
   fileSystems."/" = {
     device = "UUID=9972f2d9-9d2a-48e1-b29e-097ac1e73557";
     fsType = "bcachefs";
