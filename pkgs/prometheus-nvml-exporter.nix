@@ -2,7 +2,6 @@
   rustPlatform,
   fetchFromGitHub,
   lib,
-  ...
 }:
 rustPlatform.buildRustPackage rec {
   pname = "prometheus-nvml-exporter";
@@ -14,7 +13,7 @@ rustPlatform.buildRustPackage rec {
     rev = "1f3be5d394d83631228ee5ae15117f5667c7718d";
     hash = "sha256-HOIbxQqKAI+yVHQ8RVEUr9Yj8mi7AzgKArhSbJDtLMI=";
   };
-  cargoSha256 = "sha256-Yej4hgG6huZvwl6ZWbLIhCxfmKUe4NUnxRh63Giteb8=";
+  cargoLock.lockFile = "${src}/Cargo.lock";
 
   meta = with lib; {
     description = "nvml / nvidia graphics card prometheus metrics exporter";

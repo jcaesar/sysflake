@@ -4,7 +4,6 @@
   fuse3,
   pkg-config,
   lib,
-  ...
 }:
 rustPlatform.buildRustPackage rec {
   pname = "polaris-fuse";
@@ -16,7 +15,7 @@ rustPlatform.buildRustPackage rec {
     rev = "e4342f982b99e019269b25874d078e0643b4438d";
     hash = "sha256-VJ3H1MxvNv9wG/p7W51QtnMqJYhooyH1FlIw8f9tSW0=";
   };
-  cargoSha256 = "sha256-9jYltiEiJgc9VsZtpTS7/t/3lUswbARfP7O9avJDf9o=";
+  cargoLock.lockFile = "${src}/Cargo.lock";
 
   nativeBuildInputs = [pkg-config];
   PKG_CONFIG_PATH = "${fuse3}/lib/pkgconfig";
