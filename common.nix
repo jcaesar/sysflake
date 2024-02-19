@@ -58,6 +58,9 @@
       sshfs
       wol
       pwgen
+      binutils
+      binwalk
+      bat
       (python3.withPackages (ps:
         with ps; [
           netaddr

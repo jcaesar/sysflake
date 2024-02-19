@@ -127,6 +127,7 @@
     element-desktop-wayland
     (himalaya.override {buildFeatures = ["notmuch"];})
     notmuch
+    nextcloud-client
   ];
 
   system.stateVersion = "24.05";

@@ -59,4 +59,4 @@ $env.PATH = (
 
 # aliases
 export def lsm [] { ls | sort-by modified }
-export def psf [name] { ps | where name =~ $name }
+export def psf [name] { ps --long | where command =~ $name }

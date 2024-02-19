@@ -48,9 +48,11 @@
     nvd
     nix-diff
     miniserve
+    inotify-tools
   ];
 
-  # nix shell --print-build-logs .#nixosConfigurations.$host.config.system.build.vm -c run-korsika-vm
-  # Switch to serial0 console from qemu viewer
+  # env $"SHARED_DIR=(pwd)/share" "QEMU_OPTS=-nographic" \
+  #  nix shell -vL .#nixosConfigurations.${host}.config.system.build.vm -c run-${host}-vm
+  # Replace the -nographic with -display curses if you need the boot log
   services.getty.autologinUser = lib.mkIf (config.virtualisation ? mountHostNixStore) "root";
 }
