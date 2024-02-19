@@ -74,7 +74,7 @@ in
     in {
       enable = true;
       allowedUDPPorts = [1900 5351 5353];
-      allowedTCPPorts = [49152];
+      allowedTCPPorts = [49152 24800];
       extraCommands = extraRules "A";
       extraStopCommands = extraRules "D";
     };
