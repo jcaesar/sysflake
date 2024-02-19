@@ -1,4 +1,6 @@
 {pkgs, ...}: {
+  services.logind.powerKey = "suspend";
+
   services.xserver = {
     xkb = {
       layout = "us";
