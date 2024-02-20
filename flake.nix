@@ -6,7 +6,7 @@
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
-    sysSingle = variantModule: main:
+    sys = main:
       nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
@@ -35,16 +35,9 @@
             }_${self.lastModifiedDate}";
             system.systemBuilderCommands = "ln -s ${self} $out/sysflake";
           })
-          variantModule
           main
+          ./variants.nix
         ];
-      };
-    sys = main: sysSingle ({...}: {}) main //
-      {
-        installerMinimal = sysSingle "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix" main;
-        installerGraphical = sysSingle "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix" main;
-        # nix build --show-trace -vL .#nixosConfigurations.${host}.netbootMinimal.config.system.build.kexecTree
-        netbootMinimal = sysSingle "${nixpkgs}/nixos/modules/installer/netboot/netboot-minimal.nix" main;
       };
     work = import ./work.nix;
   in {
@@ -55,6 +48,16 @@
         mictop = sys ./mictop.nix;
         lasta = sys ./lasta.nix;
         pride = sys ./pride.nix;
+        shamo0Install = sys ({lib, ...}: {
+          imports = [
+            (import ./shamo/configuration.nix 0)
+            ({config, ...}: {
+              config.boot.initrd.luks.devices = lib.mkForce {};
+              config.fileSystems = {};
+            })
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
+          ];
+        });
         installerBCacheFS = sys ./installer.nix;
       }
       // work.shamo.eachNixed (index: {
