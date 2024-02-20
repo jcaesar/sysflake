@@ -22,13 +22,9 @@
     var
     "${modulesPath}/installer/${mod}";
 in {
+  # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.installer.isoImage
   config.system.build.installer = vari "cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix";
-  #   sys = main: sysSingle ({...}: {}) main //
-  # {
-  #   installerMinimal = sysSingle "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix" main;
-  #   installerGraphical = sysSingle "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix" main;
-  #   # nix build --show-trace -vL .#nixosConfigurations.${host}.netbootMinimal.config.system.build.kexecTree
-  #   netbootMinimal = sysSingle "${nixpkgs}/nixos/modules/installer/netboot/netboot-minimal.nix" main;
-  # };
-  # }
+  config.system.build.installerGui = vari "cd-dvd/installation-cd-graphical-gnome.nix";
+  # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.netboot.kexecTree
+  config.system.build.netboot = vari "netboot/netboot-minimal.nix";
 }
