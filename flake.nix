@@ -6,7 +6,7 @@
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
-    sys = main:
+    sysSingle = variantModule: main:
       nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
@@ -35,8 +35,16 @@
             }_${self.lastModifiedDate}";
             system.systemBuilderCommands = "ln -s ${self} $out/sysflake";
           })
+          variantModule
           main
         ];
+      };
+    sys = main: sysSingle ({...}: {}) main //
+      {
+        installerMinimal = sysSingle "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix" main;
+        installerGraphical = sysSingle "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix" main;
+        # nix build --show-trace -vL .#nixosConfigurations.${host}.netbootMinimal.config.system.build.kexecTree
+        netbootMinimal = sysSingle "${nixpkgs}/nixos/modules/installer/netboot/netboot-minimal.nix" main;
       };
     work = import ./work.nix;
   in {

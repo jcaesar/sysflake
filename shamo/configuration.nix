@@ -15,9 +15,7 @@ in {
   imports = [
     ../base.nix
     common.fnet
-  ]
-   ++ (if shamoIndex == 0 then ["${modulesPath}/installer/netboot/netboot-minimal.nix"] else [])
-  ;
+  ];
 
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
