@@ -1,6 +1,8 @@
 shamoIndex: {
   pkgs,
   lib,
+  modulesPath,
+  config,
   ...
 }: let
   common = import ../work.nix;
@@ -12,11 +14,36 @@ shamoIndex: {
 in {
   imports = [
     ../base.nix
-    ./hardware-shamo${toString shamoIndex}.nix
     common.fnet
-  ];
+  ]
+   ++ (if shamoIndex == 0 then ["${modulesPath}/installer/netboot/netboot-minimal.nix"] else [])
+  ;
 
-  boot.initrd.luks.devices."crypt".preLVM = false;
+
+  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  nixpkgs.hostPlatform = "x86_64-linux";
+  boot.initrd.availableKernelModules = ["ahci" "xhci_pci" "nvme" "megaraid_sas" "usbhid" "sd_mod"];
+  boot.initrd.kernelModules = ["dm-snapshot"];
+  boot.kernelModules = ["kvm-intel"];
+
+  boot.initrd.luks.devices."nixroot".preLVM = false;
+  boot.initrd.luks.devices."nixroot".device = {
+    shamo0 = "/dev/mapper/nvme-nixos";
+    shamo2 = "/dev/disk/by-label/nixcrypt";
+    shamo6 = "/dev/mapper/nvme-nixos";
+    shamo7 = "/dev/mapper/nvme-nixos";
+  }.${shamo.name shamoIndex};
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-label/ESP";
+    fsType = "vfat";
+  };
+  fileSystems."/" = {
+    device = "/dev/mapper/nixroot";
+    fsType = "ext4";
+  };
+
+  
   users.users.root.openssh.authorizedKeys.keys =
     common.sshKeys.strong
     ++ [

@@ -5,6 +5,7 @@
   config,
   lib,
   pkgs,
+  modulesPath,
   ...
 }: {
   imports = [
@@ -74,7 +75,7 @@
   services.getty.autologinUser =
     if config.virtualisation ? mountHostNixStore
     then "root"
-    else null;
+    else lib.mkDefault null;
   #system.copySystemConfiguration = true;
 
   environment.systemPackages = with pkgs; [
