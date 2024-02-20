@@ -47,13 +47,7 @@
     };
     efi.canTouchEfiVariables = true;
   };
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-    settings.PermitRootLogin = "prohibit-password";
-    settings.ListenAddress = "0.0.0.0:2222";
-  };
+  services.openssh.enable = true;
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   services.xserver = {

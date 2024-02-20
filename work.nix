@@ -56,13 +56,7 @@ rec {
       ${lib.concatStringsSep "\n" (shamo.each (x: "${shamo.ip x} ${shamo.name x}"))}
     '';
     boot.initrd.systemd.network.enable = true; # Not sure if necessary or effectful
-    services.openssh = {
-      enable = true;
-      settings.PasswordAuthentication = false;
-      settings.KbdInteractiveAuthentication = false;
-      settings.PermitRootLogin = lib.mkForce "prohibit-password";
-      settings.ListenAddress = "0.0.0.0:2222";
-    };
+    services.openssh.enable = true;
     virtualisation.docker = {
       enable = true;
       rootless = {

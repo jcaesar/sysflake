@@ -49,6 +49,25 @@
         lasta = sys ./lasta.nix;
         pride = sys ./pride.nix;
         installerBCacheFS = sys ./installer.nix;
+        tmpPicardLive = sys ({lib, ...}: {
+          imports = [
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
+          ];
+          environment.defaultPackages = with pkgs; [
+            picard picard-tools
+          ];
+          virtualisation.vmware.guest.enable = lib.mkForce false;
+          virtualisation.hypervGuest.enable = lib.mkForce false;
+          services.xe-guest-utilities.enable = lib.mkForce false;
+          virtualisation.virtualbox.guest.enable = lib.mkForce false;
+          boot.plymouth.enable = lib.mkForce false;
+          fileSystems."/host" = {
+            device = "host";
+            fsType = "virtiofs";
+            options = ["noauto" "x-systemd.automount" "user_id=1000" "group_id=100" "allow_other" "_netdev" "noexec" "nosuid" "nodev" "noatime"];
+          };
+        });
       }
       // work.shamo.eachNixed (index: {
         name = "shamo${toString index}";
