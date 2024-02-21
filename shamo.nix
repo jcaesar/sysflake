@@ -80,6 +80,8 @@ in {
 
   environment.systemPackages = with pkgs; [kompose kubectl kubernetes] ++ common.packages pkgs;
 
+  # Configure client: ssh shamo2 kubectl config view  --flatten | save -f .kube/config
+  # Join a node: ssh shamo2 cat /var/lib/kubernetes/secrets/apitoken.secret | ssh shamoX nixos-kubernetes-node-join
   systemd.services.containerd.environment = {
     http_proxy = proxy;
     https_proxy = proxy;

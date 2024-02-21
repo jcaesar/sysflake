@@ -16,9 +16,13 @@ def tag [hostname: string] {
 }
 
 def main [host?: string] {
-  if ($host == null) {
+  if ($host == work) {
+    [shamo0 shamo2 shamo6 shamo7 capri null] | par-each { main $in }
+  } else if ($host == home) {
+    [pride null] | par-each { main $in }
+  } else if ($host == null) {
     nixos-rebuild --no-build-nix list-generations --json | tag (hostname)
   } else {
-    ssh $host nixos-rebuild --no-build-nix list-generations --json | tag (ssh $host hostname)
+    ssh -q $host nixos-rebuild --no-build-nix list-generations --json | tag (ssh -q $host hostname)
   }
 }
