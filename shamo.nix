@@ -110,6 +110,7 @@ in {
         kubelet.kubeconfig.server = api;
       }
     );
+  systemd.services.etcd.serviceConfig.SupplementaryGroups = "kubernetes";
 
   networking.firewall = let
     inherit (lib.strings) concatStringsSep;
@@ -120,7 +121,7 @@ in {
             (idx: "
       iptables -${sign} INPUT -p tcp -s ${shamo.ip idx} -m tcp --dport ${toString port} -j ACCEPT
       iptables -${sign} INPUT -p tcp -s ${shamo.internalIp idx} -m tcp --dport ${toString port} -j ACCEPT
-    ") [2 6 7])) [10250 8888]);
+    ") shamo.nixed)) [10250 8888]);
   in {
     allowedTCPPorts = [2222 1337 6443];
     allowedUDPPorts = [];
