@@ -14,10 +14,9 @@
   networking.hostName = "lasta";
 
   boot.supportedFilesystems = ["bcachefs"];
-  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usb_storage" "sd_mod" "sdhci_pci"];
+  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usb_storage" "sd_mod" "sdhci_pci" "i2c_i801" "i8042" "atkbd"];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-intel"];
-  boot.plymouth.enable = true;
   boot.initrd.systemd.enable = true;
   fileSystems."/" = {
     device = "/dev/disk/by-partlabel/primary";
@@ -31,8 +30,8 @@
   };
 
   networking.useDHCP = lib.mkDefault true;
-  networking.supplicant.wlp3s0.configFile.writable = true;
-  networking.supplicant.wlp3s0.configFile.path = "/etc/wpa_supplicant.conf";
+  networking.supplicant.wlp2s0.configFile.writable = true;
+  networking.supplicant.wlp2s0.configFile.path = "/etc/wpa_supplicant.conf";
   networking.wireless.userControlled.enable = true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
