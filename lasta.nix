@@ -8,6 +8,7 @@
   imports = [
     ./common.nix
     ./graphical.nix
+    ./dlna.nix
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 

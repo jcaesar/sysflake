@@ -2,11 +2,11 @@ let
   palmarolaPort = "enp0s31f6";
   cameoPort = "enp2s0";
 in
-  {
-    config,
-    pkgs,
-    ...
-  }: {
+  {pkgs, ...}: {
+    imports = [
+      ../dlna.nix
+    ];
+
     networking.useDHCP = false;
     #boot.extraModulePackages = [config.boot.kernelPackages.wireguard];
     systemd.network = {
@@ -67,15 +67,9 @@ in
 
     environment.systemPackages = [pkgs.wireguard-tools];
 
-    networking.firewall = let
-      extraRules = sign: "
-        iptables -${sign} nixos-fw -p udp -m udp --sport 1900 -j nixos-fw-accept
-      ";
-    in {
+    networking.firewall = {
       enable = true;
-      allowedUDPPorts = [1900 5351 5353];
+      allowedUDPPorts = [5351 5353];
       allowedTCPPorts = [49152 24800];
-      extraCommands = extraRules "A";
-      extraStopCommands = extraRules "D";
     };
   }

@@ -118,12 +118,15 @@ in {
     inherit (lib.strings) concatStringsSep;
     inherit (lib) concatMap;
     extraRules = sign:
-      concatStringsSep "\n" (concatMap
-        (port: (map
-            (idx: "
-      iptables -${sign} INPUT -p tcp -s ${shamo.ip idx} -m tcp --dport ${toString port} -j ACCEPT
-      iptables -${sign} INPUT -p tcp -s ${shamo.internalIp idx} -m tcp --dport ${toString port} -j ACCEPT
-    ") shamo.nixed)) [10250 8888]);
+      concatStringsSep "\n" (
+        concatMap (port: (map
+          (idx: ''
+            iptables -${sign} INPUT -p tcp -s ${shamo.ip idx} -m tcp --dport ${toString port} -j ACCEPT
+            iptables -${sign} INPUT -p tcp -s ${shamo.internalIp idx} -m tcp --dport ${toString port} -j ACCEPT
+          '')
+          shamo.nixed))
+        [10250 8888]
+      );
   in {
     allowedTCPPorts = [2222 1337 6443];
     allowedUDPPorts = [];

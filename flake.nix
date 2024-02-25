@@ -55,7 +55,8 @@
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
           ];
           environment.defaultPackages = with pkgs; [
-            picard picard-tools
+            picard
+            picard-tools
           ];
           virtualisation.vmware.guest.enable = lib.mkForce false;
           virtualisation.hypervGuest.enable = lib.mkForce false;

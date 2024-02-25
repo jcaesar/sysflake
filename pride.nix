@@ -9,6 +9,7 @@
     "${modulesPath}/installer/scan/not-detected.nix"
     ./common.nix
     ./graphical.nix
+    ./dlna.nix
     ./prometheus-nvml-exporter.nix
   ];
 
