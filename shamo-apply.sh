@@ -12,7 +12,7 @@ cd "$(dirname "$0")"
 
 export NIX_SSHOPTS="-q -oCompression=yes"
 
-for h in {0,2,6,7}; do
+for h in {0,2,4,6,7}; do
 	echo -en "\nshamo$h\n======\n"
 	nixos-rebuild switch --target-host "shamo$h" --build-host shamo2 --flake ".#shamo$h" || echo 1>&2 "shamo$h failed"
 done

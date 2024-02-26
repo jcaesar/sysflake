@@ -48,7 +48,6 @@
     efi.canTouchEfiVariables = true;
   };
   services.openssh.enable = true;
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   services.xserver = {
     enable = true;

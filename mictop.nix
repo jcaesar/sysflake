@@ -71,7 +71,6 @@
     };
     efi.canTouchEfiVariables = true;
   };
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   services.xserver = {
     enable = true;

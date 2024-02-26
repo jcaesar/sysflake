@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   lib,
   modulesPath,
   ...
@@ -36,7 +35,6 @@
     tmux
     lls
     htop
-    bottom
     zenith-nvidia
     iftop
     iotop
@@ -54,6 +52,8 @@
     nix-diff
     miniserve
     inotify-tools
+    vulnix
+    tcpdump
   ];
 
   services.openssh = {
@@ -62,4 +62,6 @@
     settings.PermitRootLogin = lib.mkForce "prohibit-password";
     settings.ListenAddress = lib.mkDefault "0.0.0.0:2222";
   };
+
+  networking.firewall.allowedTCPPorts = [9418 1337];
 }

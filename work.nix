@@ -2,7 +2,7 @@ rec {
   shamo = rec {
     all = builtins.genList (x: x) 8;
     each = f: map f all;
-    nixed = [0 2 6 7];
+    nixed = [0 2 4 6 7];
     eachNixed = f: builtins.listToAttrs (map f nixed);
     ip = x: "10.25.211." + toString (84 - x);
     internalIp = x: "192.168.100.${toString (x + 2)}";
@@ -64,7 +64,6 @@ rec {
         setSocketVariable = true;
       };
     };
-    boot.binfmt.emulatedSystems = ["aarch64-linux"];
   };
   fnet = {...}: {
     imports = [config];

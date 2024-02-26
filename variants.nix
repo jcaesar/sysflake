@@ -34,6 +34,7 @@ in {
     imports = [
       "${modulesPath}/virtualisation/qemu-vm.nix"
     ];
+    services.getty.autologinUser = "root";
     virtualisation.graphics = false;
     virtualisation.memorySize = 2048;
     systemd.network = lib.mkForce {

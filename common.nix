@@ -9,7 +9,7 @@
   ];
   home-manager.users.julius = import ./home.nix;
 
-  # Use the systemd-boot EFI boot loader.
+  boot.binfmt.emulatedSystems = ["aarch64-linux" "wasm32-wasi" "wasm64-wasi"];
 
   fonts.packages = with pkgs; [
     ipafont

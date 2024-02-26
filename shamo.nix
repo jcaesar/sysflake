@@ -15,6 +15,11 @@ in {
   imports = [
     ./base.nix
     common.fnet
+    (
+      if shamoIndex == 4
+      then ./shamo4.nix
+      else ({...}: {})
+    )
   ];
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
@@ -29,6 +34,7 @@ in {
     {
       shamo0 = "/dev/mapper/nvme-nixos";
       shamo2 = "/dev/disk/by-label/nixcrypt";
+      shamo4 = "/dev/disk/by-label/nixcrypt";
       shamo6 = "/dev/mapper/nvme-nixos";
       shamo7 = "/dev/mapper/nvme-nixos";
     }
