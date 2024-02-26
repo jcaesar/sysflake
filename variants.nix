@@ -1,14 +1,12 @@
 {
-  config,
   extendModules,
-  lib,
   modulesPath,
   ...
 }: let
   var = mod:
     (extendModules {
       modules = [
-        ({config, ...}: {
+        ({lib, ...}: {
           config.boot.initrd.luks.devices = lib.mkForce {};
           config.fileSystems = {};
         })
