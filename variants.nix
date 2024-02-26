@@ -25,4 +25,24 @@ in {
   config.system.build.installerGui = vari "cd-dvd/installation-cd-graphical-gnome.nix";
   # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.netboot.kexecTree
   config.system.build.netboot = vari "netboot/netboot-minimal.nix";
+  # env $"SHARED_DIR=(pwd)/share" nix run -vL .#nixosConfigurations.(hostname).config.system.build.test.vm
+  config.system.build.test = var ({
+    lib,
+    modulesPath,
+    ...
+  }: {
+    imports = [
+      "${modulesPath}/virtualisation/qemu-vm.nix"
+    ];
+    virtualisation.graphics = false;
+    virtualisation.memorySize = 2048;
+    systemd.network = lib.mkForce {
+      enable = true;
+      networks."10-test-vm-net" = {
+        matchConfig.Name = "eth0";
+        DHCP = "yes";
+      };
+    };
+    # implicit: autologin for root, writable store
+  });
 }
