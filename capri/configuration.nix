@@ -30,6 +30,7 @@ in rec {
       enable = true;
       networks = systemd.network.networks;
     };
+    units.emergency.enable = false;
   };
   boot.initrd.network.enable = true;
   boot.initrd.network.ssh = {
@@ -41,7 +42,6 @@ in rec {
     ];
     authorizedKeys = common.sshKeys.strong;
   };
-  systemd.enableEmergencyMode = false;
 
   networking.proxy.default = common.proxy "julius9dev9gemini1" "7049740682";
   networking.useDHCP = false;
