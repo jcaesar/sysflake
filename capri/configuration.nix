@@ -22,6 +22,7 @@ in rec {
   };
   services.smartd.enable = lib.mkForce false;
 
+  # remote unlock: sh -tt capri-init systemd-cryptsetup attach crypt /dev/disk/by-label/crypt -
   boot.initrd.kernelModules = ["e1000"];
   boot.initrd.systemd = {
     enable = true;
@@ -40,6 +41,7 @@ in rec {
     ];
     authorizedKeys = common.sshKeys.strong;
   };
+  boot.plymouth.enable = true; # meh, but it prevents emergency mode during start
 
   networking.proxy.default = common.proxy "julius9dev9gemini1" "7049740682";
   networking.useDHCP = false;
