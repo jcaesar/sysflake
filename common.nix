@@ -10,6 +10,7 @@
   home-manager.users.julius = import ./home.nix;
 
   boot.binfmt.emulatedSystems = ["aarch64-linux" "wasm32-wasi" "wasm64-wasi"];
+  systemd.oomd.enableUserSlices = true;
 
   fonts.packages = with pkgs; [
     ipafont
