@@ -30,7 +30,11 @@ in rec {
       enable = true;
       networks = systemd.network.networks;
     };
-    units.emergency.enable = false;
+    units.emergency = {
+      enable = false; # ignored?
+      unitConfig.Conflicts = "systemd-cryptsetup@crypt.service";
+      serviceConfig.ExecStartPre = ["/usr/bin/env false"];
+    };
   };
   boot.initrd.network.enable = true;
   boot.initrd.network.ssh = {
