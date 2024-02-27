@@ -35,6 +35,7 @@ in rec {
       unitConfig.Conflicts = "systemd-cryptsetup@crypt.service";
       serviceConfig.ExecStartPre = ["/usr/bin/env false"];
     };
+    services."systemd-cryptsetup@".serviceConfig.Restart = "on-failure";
   };
   boot.initrd.network.enable = true;
   boot.initrd.network.ssh = {
@@ -46,6 +47,8 @@ in rec {
     ];
     authorizedKeys = common.sshKeys.strong;
   };
+  fileSystems."/".options = ["x-systemd.device-timeout=infinity"];
+  fileSystems."/boot".options = ["x-systemd.device-timeout=infinity"];
 
   networking.proxy.default = common.proxy "julius9dev9gemini1" "7049740682";
   networking.useDHCP = false;
