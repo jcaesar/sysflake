@@ -27,6 +27,7 @@
   users.users.yamaguchi = {
     uid = 1006;
     isNormalUser = true;
+    linger = true;
     packages = with pkgs; [
       fish
       helix
