@@ -30,7 +30,7 @@ in rec {
       enable = true;
       networks = systemd.network.networks;
     };
-    units.emergency = {
+    services.emergency = {
       enable = false; # ignored?
       unitConfig.Conflicts = "systemd-cryptsetup@crypt.service";
       serviceConfig.ExecStartPre = ["/usr/bin/env false"];
