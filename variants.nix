@@ -18,7 +18,10 @@
     .build;
   vari = mod:
     var
-    "${modulesPath}/installer/${mod}";
+    ({lib, ...}: {
+      imports = ["${modulesPath}/installer/${mod}"];
+      config.users.users.yamaguchi = lib.mkForce {isNormalUser = true;};
+    });
 in {
   # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.installer.isoImage
   config.system.build.installer = vari "cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix";
