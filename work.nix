@@ -56,6 +56,7 @@ rec {
       ${lib.concatStringsSep "\n" (shamo.each (x: "${shamo.ip x} ${shamo.name x}"))}
     '';
     boot.initrd.systemd.network.enable = true; # Not sure if necessary or effectful
+    networking.firewall.enable = true;
     services.openssh.enable = true;
     virtualisation.docker = {
       enable = true;
@@ -65,10 +66,5 @@ rec {
       };
     };
   };
-  fnet = {...}: {
-    imports = [config];
-    networking.firewall.enable = true;
-    networking.nameservers = ["10.0.238.1" "10.0.238.70"];
-    networking.useNetworkd = true; # TODO: translate
-  };
+  dns = ["10.0.238.1" "10.0.238.70"];
 }

@@ -5,10 +5,10 @@
 }: let
   common = import ../work.nix;
   eth = "ens32";
-in {
+in rec {
   imports = [
     ../common.nix
-    common.fnet
+    common.config
     ./hardware-configuration.nix
   ];
 
@@ -22,12 +22,14 @@ in {
   };
   services.smartd.enable = lib.mkForce false;
 
-  # Stage 1 ssh decrypt. Several things about this are dumb
-  #  - Somehow, it includes the /etc/ssh/boot in the initrd, but I have no idea how
-  #  - It does not automatically pick up on the network configuration
-  #  - Need to specify the driver manually
-  #  - The password is entered with "echo pw >/crypt-ramfs/passphrase" (that's not a pipe, its a file that's checked once per second)
   boot.initrd.kernelModules = ["e1000"];
+  boot.initrd.systemd = {
+    enable = true;
+    network = {
+      enable = true;
+      networks = systemd.network.networks;
+    };
+  };
   boot.initrd.network.enable = true;
   boot.initrd.network.ssh = {
     enable = true;
@@ -38,21 +40,18 @@ in {
     ];
     authorizedKeys = common.sshKeys.strong;
   };
-  boot.kernelParams = [
-    "ip=10.38.90.22::10.38.90.1:255.255.255.0:capri:${eth}:off" # Bit stupid that this isn't taken from networking.interfaces.…
-    # Debugging init: "boot.trace" "boot.debugtrace" "debug1"
-  ];
 
   networking.proxy.default = common.proxy "julius9dev9gemini1" "7049740682";
-  networking.interfaces.${eth}.ipv4.addresses = [
-    {
-      address = "10.38.90.22";
-      prefixLength = 24;
-    }
-  ];
-  networking.defaultGateway = {
-    address = "10.38.90.1";
-    interface = eth;
+  networking.useDHCP = false;
+  systemd.network = {
+    enable = true;
+    networks."10-vm-${eth}" = {
+      matchConfig.Name = eth;
+      DHCP = "no";
+      address = ["10.38.90.22/24"];
+      gateway = ["10.38.90.1"];
+      dns = common.dns;
+    };
   };
   networking.hostName = "capri";
 

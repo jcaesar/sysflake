@@ -14,7 +14,7 @@ shamoIndex: {
 in {
   imports = [
     ./base.nix
-    common.fnet
+    common.config
     (
       if shamoIndex == 4
       then ./shamo4.nix
@@ -58,6 +58,8 @@ in {
       Port 2222
   '';
   networking.proxy.default = proxy;
+  networking.useNetworkd = true; # TODO: translate
+  networking.nameservers = common.dns;
   networking.interfaces.eno1.ipv4.addresses = [
     {
       address = shamo.ip shamoIndex;

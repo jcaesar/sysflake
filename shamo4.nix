@@ -1,10 +1,14 @@
-{lib, pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   # Not for now
   services.kubernetes = {
     roles = lib.mkForce [];
     easyCerts = lib.mkForce false;
   };
-  
+
   fileSystems."/home" = {
     device = "/dev/mapper/centos_shamox-home";
     fsType = "xfs";

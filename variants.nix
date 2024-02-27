@@ -37,6 +37,7 @@ in {
     imports = [
       "${modulesPath}/virtualisation/qemu-vm.nix"
     ];
+    boot.initrd.secrets = lib.mkForce {};
     services.getty.autologinUser = "root";
     virtualisation.graphics = false;
     virtualisation.memorySize = 2048;
