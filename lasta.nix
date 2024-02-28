@@ -18,7 +18,24 @@
   networking.hostName = "lasta";
 
   boot.supportedFilesystems = ["bcachefs"];
-  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usb_storage" "sd_mod" "sdhci_pci" "i2c_i801" "i8042" "atkbd"];
+  boot.initrd.availableKernelModules = [
+    "ahci"
+    "atkbd"
+    "btusb"
+    "e1000e"
+    "i2c_i801"
+    "i2c_smbus"
+    "i8042"
+    "i915"
+    "intel-lpss"
+    "iwlwifi"
+    "sdhci-pci"
+    "sdhci_pci"
+    "sd_mod"
+    "usb_storage"
+    "xhci_hcd"
+    "xhci_pci"
+  ];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-intel"];
   boot.initrd.systemd.enable = true;

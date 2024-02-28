@@ -13,7 +13,7 @@
     ./prometheus-nvml-exporter.nix
     (import ./ssh-unlock.nix {
       authorizedKeys = import ./julius-home-ssh.nix;
-      extraModules = [];
+      extraModules = ["igb"];
     })
   ];
 
