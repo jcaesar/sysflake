@@ -12,7 +12,7 @@ in {
     ./hardware-configuration.nix
     (import ../ssh-unlock.nix {
       authorizedKeys = common.sshKeys.strong;
-      extraModules = ["igb" "i40e"];
+      extraModules = ["e1000"];
     })
   ];
 
