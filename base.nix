@@ -54,6 +54,7 @@
     inotify-tools
     vulnix
     tcpdump
+    lshw
   ];
 
   services.openssh = {

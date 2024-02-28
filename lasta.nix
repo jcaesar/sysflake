@@ -10,6 +10,10 @@
     ./graphical.nix
     ./dlna.nix
     (modulesPath + "/installer/scan/not-detected.nix")
+    (import ./ssh-unlock.nix {
+      authorizedKeys = import ./julius-home-ssh.nix;
+      extraModules = ["e1000"];
+    })
   ];
 
   networking.hostName = "lasta";

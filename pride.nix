@@ -4,13 +4,17 @@
   pkgs,
   modulesPath,
   ...
-}: rec {
+}: {
   imports = [
     "${modulesPath}/installer/scan/not-detected.nix"
     ./common.nix
     ./graphical.nix
     ./dlna.nix
     ./prometheus-nvml-exporter.nix
+    (import ./ssh-unlock.nix {
+      authorizedKeys = import ./julius-home-ssh.nix;
+      extraModules = ["e1000"];
+    })
   ];
 
   boot.loader = {
@@ -26,14 +30,6 @@
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-amd"];
   boot.extraModulePackages = [];
-
-  boot.initrd.systemd = {
-    enable = true;
-    network = {
-      enable = true;
-      networks."10-cameo-net" = systemd.network.networks."10-cameo-net";
-    };
-  };
 
   # parted /dev/nvme1n1 -- mklabel gpt
   # parted /dev/nvme1n1 -- mkpart ESP fat32 1MB 512MB
@@ -175,11 +171,8 @@
     browsh
   ];
 
-  users.users.root.openssh.authorizedKeys.keys = [
-    "ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAAqmN0bQWftRFvSCFRmIct6nvwoosuX3hqfp+4uKhUdDxDOThqqqturJUEpovz6Jb/p9nQPee+hMkCMDmpNIEPTKgDaD+MY58tX3bcayHBAoGPyY+RMOaEvHQ+AWjicVqE7Yo9E27sbELIbp0p9QSGDYTaN690ap7KjpoyhlpAvOkV++Q== julius"
-    "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEl5k7aYexi95LNugqwBZQAk/qmA3bruEYqQqFgSpnXSLDeNX0ZZNa8NekuN+Cf7qm9ZJsWZpKzEOi7C//hZa2E= julius@korsika"
-  ];
-  users.users.julius.openssh.authorizedKeys.keys = users.users.root.openssh.authorizedKeys.keys;
+  users.users.root.openssh.authorizedKeys.keys = import ./julius-home-ssh.nix;
+  users.users.julius.openssh.authorizedKeys.keys = import ./julius-home-ssh.nix;
 
   services.openssh.enable = true;
   services.prometheus.exporters.node = {

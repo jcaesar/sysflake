@@ -15,6 +15,10 @@ in {
   imports = [
     ./base.nix
     common.config
+    (import ../ssh-unlock.nix {
+      authorizedKeys = common.sshKeys.strong;
+      extraModules = ["igb" "i40e"];
+    })
     (
       if shamoIndex == 4
       then ./shamo4.nix

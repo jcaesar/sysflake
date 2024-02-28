@@ -5,11 +5,15 @@
 }: let
   common = import ../work.nix;
   eth = "ens32";
-in rec {
+in {
   imports = [
     ../common.nix
     common.config
     ./hardware-configuration.nix
+    (import ../ssh-unlock.nix {
+      authorizedKeys = common.sshKeys.strong;
+      extraModules = ["igb" "i40e"];
+    })
   ];
 
   boot.initrd.luks.devices = {
@@ -21,28 +25,6 @@ in rec {
     };
   };
   services.smartd.enable = lib.mkForce false;
-
-  # remote unlock: ssh -tt capri-init systemd-cryptsetup attach crypt /dev/disk/by-label/crypt
-  boot.initrd.kernelModules = ["e1000"];
-  boot.initrd.systemd = {
-    enable = true;
-    network = {
-      enable = true;
-      networks = systemd.network.networks;
-    };
-  };
-  boot.initrd.network.enable = true;
-  boot.initrd.network.ssh = {
-    enable = true;
-    port = 2223;
-    hostKeys = [
-      "/etc/ssh/boot/host_rsa_key"
-      "/etc/ssh/boot/host_ed25519_key"
-    ];
-    authorizedKeys = common.sshKeys.strong;
-  };
-  fileSystems."/".options = ["x-systemd.device-timeout=infinity"];
-  fileSystems."/boot".options = ["x-systemd.device-timeout=infinity"];
 
   networking.proxy.default = common.proxy "julius9dev9gemini1" "7049740682";
   networking.useDHCP = false;
