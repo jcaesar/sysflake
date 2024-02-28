@@ -33,7 +33,6 @@ in {
   boot.initrd.kernelModules = ["dm-snapshot"];
   boot.kernelModules = ["kvm-intel"];
 
-  boot.initrd.luks.devices."nixroot".preLVM = false;
   boot.initrd.luks.devices."nixroot".device =
     {
       shamo0 = "/dev/mapper/nvme-nixos";
@@ -62,33 +61,29 @@ in {
       Port 2222
   '';
   networking.proxy.default = proxy;
-  networking.useNetworkd = true; # TODO: translate
-  networking.nameservers = common.dns;
-  networking.interfaces.eno1.ipv4.addresses = [
-    {
-      address = shamo.ip shamoIndex;
-      prefixLength = 24;
-    }
-  ];
-  networking.interfaces.enp216s0f0.ipv4 = {
-    addresses = [
-      {
-        address = shamo.internalIp shamoIndex;
-        prefixLength = 24;
-      }
-    ];
-    routes = shamo.each (x: {
-      prefixLength = 32;
-      address = shamo.ip x;
-      via = shamo.internalIp x;
-    });
-  };
-  networking.defaultGateway = {
-    address = "10.25.211.1";
-    interface = "eno1";
+  systemd.network = {
+    enable = true;
+    networks."10-fnet" = {
+      matchConfig.Name = "eno1";
+      DHCP = "no";
+      address = ["${shamo.ip shamoIndex}/24"];
+      gateway = ["10.25.211.1"];
+      dns = common.dns;
+    };
+    networks."10-rack" = {
+      matchConfig.Name = "enp216s0f0";
+      DHCP = "no";
+      address = ["${shamo.internalIp shamoIndex}/24"];
+      routes = shamo.each (x: {
+        routeConfig = {
+          Destination = "${shamo.ip x}/32";
+          Gateway = shamo.internalIp x;
+        };
+      });
+    };
   };
   networking.hostName = shamo.name shamoIndex;
-  networking.dhcpcd.enable = false;
+  networking.useDHCP = false;
 
   environment.systemPackages = with pkgs; [kompose kubectl kubernetes] ++ common.packages pkgs;
 
