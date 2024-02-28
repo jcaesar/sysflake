@@ -15,7 +15,7 @@ in {
   imports = [
     ./base.nix
     common.config
-    (import ../ssh-unlock.nix {
+    (import ./ssh-unlock.nix {
       authorizedKeys = common.sshKeys.strong;
       extraModules = ["igb" "i40e"];
     })
