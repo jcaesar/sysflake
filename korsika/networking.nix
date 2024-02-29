@@ -1,6 +1,7 @@
 let
   palmarolaPort = "enp0s31f6";
   cameoPort = "enp2s0";
+  common = import ../work.nix;
 in
   {pkgs, ...}: {
     imports = [
@@ -42,7 +43,7 @@ in
         address = ["10.13.26.2/24"];
         DHCP = "no";
         dns = ["10.9.70.1" "10.9.200.1" "10.10.10.1"];
-        ntp = [];
+        ntp = common.ntp;
         gateway = [
           "10.13.26.1"
         ];

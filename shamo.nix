@@ -68,7 +68,7 @@ in {
       DHCP = "no";
       address = ["${shamo.ip shamoIndex}/24"];
       gateway = ["10.25.211.1"];
-      dns = common.dns;
+      inherit (common) dns ntp;
     };
     networks."10-rack" = {
       matchConfig.Name = "enp216s0f0";

@@ -67,4 +67,5 @@ rec {
     };
   };
   dns = ["10.0.238.1" "10.0.238.70"];
+  ntp = ["ntp2.css.fujitsu.com" "ntp1.css.fujitsu.com"];
 }
