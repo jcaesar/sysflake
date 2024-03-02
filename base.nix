@@ -67,6 +67,5 @@
       addr = "0.0.0.0";
     }];
   };
-
-  networking.firewall.allowedTCPPorts = [9418 1337];
+  networking.firewall.allowedTCPPorts = [2222 9418 1337];
 }
