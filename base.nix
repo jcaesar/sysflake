@@ -62,6 +62,7 @@
     settings.KbdInteractiveAuthentication = false;
     settings.PermitRootLogin = lib.mkForce "prohibit-password";
     settings.ListenAddress = lib.mkDefault "0.0.0.0:2222";
+    openFirewall = true;
   };
 
   networking.firewall.allowedTCPPorts = [9418 1337];

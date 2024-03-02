@@ -52,7 +52,7 @@ in {
   services.acpid.enable = true; # Was supposed to prevent shutdown hang, doesn't
   virtualisation.vmware.guest.enable = true;
 
-  networking.firewall.allowedTCPPorts = [2222 2223 1337];
+  networking.firewall.allowedTCPPorts = [2223 1337];
   networking.firewall.allowedUDPPorts = [];
   networking.firewall.enable = true;
 
