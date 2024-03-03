@@ -1,4 +1,7 @@
 {pkgs, ...}: {
+  imports = [
+    ./firefox
+  ];
   services.logind.powerKey = "suspend";
 
   services.xserver = {
@@ -41,7 +44,6 @@
 
   users.users.julius.packages = with pkgs; [
     xpra
-    firefox
     mpv
     yt-dlp
     vlc
