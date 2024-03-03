@@ -152,10 +152,7 @@
     ) (lib.getName pkg);
 
   services.xserver = {
-    displayManager.gdm = {
-      enable = true;
-      autoSuspend = false;
-    };
+    displayManager.gdm.enable = true;
     desktopManager.gnome = {
       enable = true;
     };

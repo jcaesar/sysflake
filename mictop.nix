@@ -77,9 +77,6 @@
     desktopManager = {
       xterm.enable = false;
     };
-    displayManager = {
-      defaultSession = "none+i3";
-    };
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [
@@ -121,6 +118,7 @@
     (himalaya.override {buildFeatures = ["notmuch"];})
     notmuch
     nextcloud-client
+    wl-clipboard
   ];
 
   system.stateVersion = "24.05";
