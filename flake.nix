@@ -48,6 +48,7 @@
         mictop = sys ./mictop.nix;
         lasta = sys ./lasta.nix;
         pride = sys ./pride.nix;
+        doggieworld = sys ./doggieworld/configuration.nix;
         installerBCacheFS = sys ./installer.nix;
         tmpPicardLive = sys ({lib, ...}: {
           imports = [
