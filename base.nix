@@ -55,6 +55,7 @@
     vulnix
     tcpdump
     lshw
+    cyme # better lsusb
   ];
 
   services.openssh = {

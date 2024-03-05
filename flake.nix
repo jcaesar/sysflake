@@ -34,6 +34,9 @@
               or self.dirtyShortRev or "nogit"
             }_${self.lastModifiedDate}";
             system.systemBuilderCommands = "ln -s ${self} $out/sysflake";
+            environment.etc."sysflake/self".source = self;
+            environment.etc."sysflake/nixpkgs".source = nixpkgs;
+            environment.etc."sysflake/home-manager".source = home-manager;
           })
           main
           ./variants.nix
