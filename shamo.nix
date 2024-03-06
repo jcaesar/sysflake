@@ -142,5 +142,33 @@ in {
     extraStopCommands = extraRules "D";
   };
 
+  services.prometheus = rec {
+    exporters.node.enable = true;
+    port = 9090;
+    enable = shamoIndex == 2;
+    globalConfig = {
+      scrape_interval = "5s";
+      evaluation_interval = "5s";
+    };
+    scrapeConfigs = [
+      {
+        job_name = "prometheus";
+        static_configs = [
+          {
+            targets = ["localhost:${toString port}"];
+          }
+        ];
+      }
+      {
+        job_name = "node";
+        static_configs = [
+          {
+            targets = map (idx: "${shamo.name idx}:9100") shamo.nixed;
+          }
+        ];
+      }
+    ];
+  };
+
   system.stateVersion = "23.05";
 }
