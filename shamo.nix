@@ -11,7 +11,7 @@ shamoIndex: {
   kubeMasterHostname = shamo.name 2;
   kubeMasterAPIServerPort = 6443;
   proxy = common.proxy "shamo09stratus9flab" "9491387463";
-in {
+in rec {
   imports = [
     ./base.nix
     common.config
@@ -132,7 +132,7 @@ in {
             iptables -${sign} INPUT -p tcp -s ${shamo.internalIp idx} -m tcp --dport ${toString port} -j ACCEPT
           '')
           shamo.nixed))
-        [10250 8888]
+        [10250 8888 services.prometheus.exporters.node.port]
       );
   in {
     allowedTCPPorts = [2222 1337 6443];
@@ -147,7 +147,6 @@ in {
       enable = true;
       openFirewall = true;
       port = 9100;
-      firewallFilter = "-s ${shamo.internalIp 2} -p tcp -m tcp --dport ${toString port}";
     };
     port = 9090;
     enable = shamoIndex == 2;
