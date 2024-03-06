@@ -143,7 +143,12 @@ in {
   };
 
   services.prometheus = rec {
-    exporters.node.enable = true;
+    exporters.node = {
+      enable = true;
+      openFirewall = true;
+      port = 9100;
+      firewallFilter = "-s ${shamo.internalIp 2} -p tcp -m tcp --dport ${toString port}";
+    };
     port = 9090;
     enable = shamoIndex == 2;
     globalConfig = {
@@ -163,7 +168,7 @@ in {
         job_name = "node";
         static_configs = [
           {
-            targets = map (idx: "${shamo.name idx}:9100") shamo.nixed;
+            targets = map (idx: "${shamo.name idx}:${toString exporters.node.port}") shamo.nixed;
           }
         ];
       }
