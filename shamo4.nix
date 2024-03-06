@@ -23,11 +23,13 @@
   };
   boot.binfmt.emulatedSystems = ["aarch64-linux" "wasm32-wasi" "wasm64-wasi"];
   programs.java.binfmt = true;
+  programs.nix-ld.enable = true;
 
   users.users.yamaguchi = {
     uid = 1006;
     isNormalUser = true;
     linger = true;
+    extraGroups = ["wheel"];
     packages = with pkgs; [
       fish
       helix
