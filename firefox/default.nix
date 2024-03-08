@@ -5,7 +5,11 @@ let
     Status = "locked";
   };
 in
-  {lib, ...}: {
+  {
+    pkgs,
+    lib,
+    ...
+  }: {
     programs = {
       firefox = {
         enable = true;
@@ -41,12 +45,18 @@ in
           # | save addons.json
           # Alternatively: Check about:support for extension/add-on ID strings.
           ExtensionSettings = builtins.listToAttrs (map (ex: {
-            name = ex.id;
-            value = {
-              install_url = ex.sourceURI;
-              installation_mode = "normal_installed";
-            };
-          }) (lib.importJSON ./addons.json));
+              name = ex.id;
+              value = {
+                install_url = ex.sourceURI;
+                installation_mode = "normal_installed";
+              };
+            }) (
+              lib.importJSON ./addons.json
+              ++ map (ex: {
+                id = "jcaesar-nix-${ex}";
+                sourceURI = "file://${pkgs.callPackage ../pkgs/rowserext.nix {}}/${ex}/manifest.json";
+              }) ["lionel" "join-on-time"]
+            ));
 
           # ---- PREFERENCES ----
           Preferences = {
