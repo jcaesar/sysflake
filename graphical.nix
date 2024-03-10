@@ -4,6 +4,28 @@
   ];
   services.logind.powerKey = "suspend";
 
+  fonts.packages = with pkgs; [
+    ipafont
+    ipaexfont
+    hanazono
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts.githubRelease
+    dina-font
+    proggyfonts
+    (nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "Terminus"];})
+    iosevka
+    sarasa-gothic
+    source-code-pro
+    terminus_font
+    inconsolata
+    "${wine}/share/wine/fonts"
+  ];
+
   services.xserver = {
     xkb = {
       layout = "us";
