@@ -44,6 +44,7 @@
     networking.supplicant = lib.mkForce {};
     networking.wireless = lib.mkForce {};
     networking.wireguard.interfaces = lib.mkForce {};
+    services.knot.keyFiles = [];
   };
 in {
   # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.installer.isoImage
