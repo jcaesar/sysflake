@@ -21,5 +21,5 @@ def main [] {
       rev: $rev,
       tag: (git tag --format '%(*authordate)' -n1 $tag | into datetime),
     } | merge ($dates | transpose -rid)
-  } | sort-by --reverse tag | sort-by --reverse nixpkgs
+  } | sort-by --reverse nixpkgs tag
 }
