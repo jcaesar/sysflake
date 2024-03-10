@@ -15,6 +15,7 @@ in {
     (private.wireguardToDoggieworld {
       listenPort = 51820;
       finalOctet = 2;
+      privateKeyFile = "/mnt/oldroot/etc/wireguard/wg-private.key";
     })
   ];
 

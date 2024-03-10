@@ -7,6 +7,7 @@
   wireguardToDoggieworld = {
     listenPort,
     finalOctet,
+    privateKeyFile ? "/etc/secrets/wg.pk",
   }: {...}: {
     systemd.network = {
       enable = true;
@@ -17,7 +18,7 @@
           #MTUBytes = "1350";
         };
         wireguardConfig = {
-          PrivateKeyFile = "/etc/secrets/wg.pk";
+          PrivateKeyFile = privateKeyFile;
           ListenPort = listenPort;
         };
         wireguardPeers = [
