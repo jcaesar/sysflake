@@ -1,9 +1,5 @@
 #!/usr/bin/env nu
 
-def fmttime [] {
-  format date "%Y-%m-%d %H:%M"
-}
-
 def main [] {
   git tag 
   | lines | parse "{machine}-{rev}"  | group-by machine 
@@ -15,7 +11,7 @@ def main [] {
       | get nodes 
       | items {|k, v|
         if "locked" in $v { 
-          {input: $k, date: ($v.locked.lastModified * 10 ** 9 | into datetime | fmttime)} 
+          {input: $k, date: ($v.locked.lastModified * 10 ** 9 | into datetime )} 
         } 
       }
       | where { $in != null }
@@ -23,7 +19,7 @@ def main [] {
     {
       machine: $machine,
       rev: $rev,
-      tag: (git tag --format '%(*authordate)' -n1 $tag | fmttime),
+      tag: (git tag --format '%(*authordate)' -n1 $tag | into datetime),
     } | merge ($dates | transpose -rid)
-  }
+  } | sort-by --reverse tag | sort-by --reverse nixpkgs
 }
