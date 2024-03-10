@@ -8,8 +8,6 @@ in
       ../dlna.nix
     ];
 
-    networking.useDHCP = false;
-    #boot.extraModulePackages = [config.boot.kernelPackages.wireguard];
     systemd.network = {
       enable = true;
       networks."10-palmarola-eth-net" = {

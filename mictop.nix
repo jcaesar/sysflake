@@ -4,12 +4,18 @@
   pkgs,
   modulesPath,
   ...
-}: {
+}: let
+  private = import ./private.nix;
+in {
   imports = [
     ./common.nix
     ./graphical.nix
     ./dlna.nix
     (modulesPath + "/installer/scan/not-detected.nix")
+    (private.wireguardToDoggieworld {
+      listenPort = 51820;
+      finalOctet = 2;
+    })
   ];
 
   networking.hostName = "mictop";
@@ -38,24 +44,14 @@
     options = ["bind"];
   };
 
-  networking.useDHCP = lib.mkDefault true;
-  #networking.wireless.enable = true;
   networking.supplicant.wlp3s0.configFile.writable = true;
   networking.supplicant.wlp3s0.configFile.path = "/etc/wpa_supplicant.conf";
   networking.wireless.userControlled.enable = true;
-  networking.wireguard.interfaces = {
-    wg0 = {
-      ips = ["10.13.38.2/24" "fc00:1337:dead:beef:caff::2/96"];
-      listenPort = 51820;
-      privateKeyFile = "/mnt/oldroot/etc/wireguard/wg-private.key";
-      peers = [
-        {
-          publicKey = "3dY3B1IlbCuBb8FrZ472u+cGXihRGE6+qmo5RZlHdFg=";
-          allowedIPs = ["10.13.38.0/24" "10.13.44.0/24" "fc00:1337:dead:beef:caff::/96"];
-          endpoint = "128.199.185.74:13518";
-          persistentKeepalive = 29;
-        }
-      ];
+  systemd.network = {
+    enable = true;
+    networks."12-dhcp" = {
+      matchConfig.Name = ["enp0s25" "wlp3s0"];
+      DHCP = "yes";
     };
   };
 

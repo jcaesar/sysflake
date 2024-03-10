@@ -83,7 +83,6 @@ in rec {
     };
   };
   networking.hostName = shamo.name shamoIndex;
-  networking.useDHCP = false;
 
   environment.systemPackages = with pkgs; [kompose kubectl kubernetes] ++ common.packages pkgs;
 

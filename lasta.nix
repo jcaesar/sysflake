@@ -34,10 +34,16 @@
     fsType = "vfat";
   };
 
-  networking.useDHCP = lib.mkDefault true;
   networking.supplicant.wlp2s0.configFile.writable = true;
   networking.supplicant.wlp2s0.configFile.path = "/etc/wpa_supplicant.conf";
   networking.wireless.userControlled.enable = true;
+  systemd.network = {
+    enable = true;
+    networks."12-dhcp" = {
+      matchConfig.Name = ["wlp2s0"];
+      DHCP = "yes";
+    };
+  };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

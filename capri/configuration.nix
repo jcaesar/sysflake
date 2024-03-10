@@ -18,7 +18,7 @@ in {
 
   boot.initrd.luks.devices = {
     crypt = {
-      # cryptsetup conrig /dev/foo --label crypt
+      # cryptsetup config /dev/foo --label crypt
       device = "/dev/disk/by-label/crypt";
       preLVM = true;
       allowDiscards = false;
@@ -27,7 +27,6 @@ in {
   services.smartd.enable = lib.mkForce false;
 
   networking.proxy.default = common.proxy "julius9dev9gemini1" "7049740682";
-  networking.useDHCP = false;
   systemd.network = {
     enable = true;
     networks."10-vm-${eth}" = {

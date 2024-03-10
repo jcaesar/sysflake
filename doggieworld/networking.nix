@@ -1,5 +1,4 @@
 {...}: {
-  networking.useDHCP = false;
   networking.domain = "liftm.de";
   systemd.network = {
     enable = true;

@@ -4,7 +4,9 @@
   pkgs,
   modulesPath,
   ...
-}: {
+}: let
+  private = import ./private.nix;
+in {
   imports = [
     "${modulesPath}/installer/scan/not-detected.nix"
     ./common.nix
@@ -14,6 +16,10 @@
     (import ./ssh-unlock.nix {
       authorizedKeys = import ./julius-home-ssh.nix;
       extraModules = ["igb"];
+    })
+    (private.wireguardToDoggieworld {
+      listenPort = 16816;
+      finalOctet = 8;
     })
   ];
 
@@ -76,7 +82,6 @@
 
   swapDevices = [];
 
-  networking.useDHCP = false;
   systemd.network = {
     enable = true;
     networks."10-cameo-net" = {
@@ -84,38 +89,7 @@
       DHCP = "no";
       address = ["10.13.52.20/25"];
       dns = ["10.13.52.1" "9.9.9.9"];
-      gateway = [
-        "10.13.52.1"
-      ];
-    };
-    netdevs."11-wg-dev" = {
-      netdevConfig = {
-        Kind = "wireguard";
-        Name = "wg0";
-        #MTUBytes = "1350";
-      };
-      wireguardConfig = {
-        PrivateKeyFile = "/etc/secrets/wg.pk";
-        ListenPort = 16816;
-      };
-      wireguardPeers = [
-        {
-          wireguardPeerConfig = {
-            PublicKey = "3dY3B1IlbCuBb8FrZ472u+cGXihRGE6+qmo5RZlHdFg=";
-            Endpoint = "128.199.185.74:13518";
-            AllowedIPs = ["10.13.38.0/24" "fc00:1337:dead:beef:caff::0/96"];
-            PersistentKeepalive = 29;
-          };
-        }
-      ];
-    };
-    networks."11-wg-net" = {
-      matchConfig.Name = "wg0";
-      address = ["10.13.38.8/24" "fc00:1337:dead:beef:caff::8/96"];
-      DHCP = "no";
-      networkConfig = {
-        IPv6AcceptRA = false;
-      };
+      gateway = ["10.13.52.1"];
     };
   };
 

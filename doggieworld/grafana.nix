@@ -7,7 +7,7 @@ in
     services.nginx = {
       enable = true;
     };
-  
+
     services.nginx.virtualHosts.${domain} = {
       forceSSL = true;
       enableACME = true;
