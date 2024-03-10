@@ -49,8 +49,13 @@ in {
   networking.wireless.userControlled.enable = true;
   systemd.network = {
     enable = true;
-    networks."12-dhcp" = {
-      matchConfig.Name = ["enp0s25" "wlp3s0"];
+    networks."12-wireless" = {
+      matchConfig.Name = ["wlp3s0"];
+      DHCP = "yes";
+    };
+    networks."12-wired" = {
+      matchConfig.Name = ["enp0s25"];
+      linkConfig.RequiredForOnline = false;
       DHCP = "yes";
     };
   };
