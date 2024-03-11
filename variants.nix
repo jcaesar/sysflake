@@ -34,6 +34,8 @@
     services.getty.autologinUser = "root";
     virtualisation.graphics = false;
     virtualisation.memorySize = 2048;
+    systemd.services.digitalocean-metadata.enable = false;
+    systemd.services.growpart.enable = false;
     systemd.network = lib.mkForce {
       enable = true;
       networks."10-test-vm-net" = {
@@ -60,7 +62,7 @@ in {
     services.xserver = {
       displayManager = {
         autoLogin.user = "julius";
-        defaultSession = "none+twm"; # TODO: Find a way to pass super from the host, then we use the host's WM
+        defaultSession = lib.mkForce "none+twm"; # TODO: Find a way to pass super from the host, then we use the host's WM
       };
       windowManager.twm.enable = true;
     };

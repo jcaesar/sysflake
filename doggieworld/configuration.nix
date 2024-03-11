@@ -8,6 +8,7 @@
     ../common.nix
     ./grafana.nix
     ./networking.nix
+    ./do.nix
   ];
   services.dante = {
     enable = true;
