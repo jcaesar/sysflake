@@ -14,7 +14,7 @@ in {
     ./dlna.nix
     ./prometheus-nvml-exporter.nix
     (import ./ssh-unlock.nix {
-      authorizedKeys = import ./julius-home-ssh.nix;
+      authorizedKeys = private.terminalKeys;
       extraModules = ["igb"];
     })
     (private.wireguardToDoggieworld {
@@ -142,8 +142,8 @@ in {
     browsh
   ];
 
-  users.users.root.openssh.authorizedKeys.keys = import ./julius-home-ssh.nix;
-  users.users.julius.openssh.authorizedKeys.keys = import ./julius-home-ssh.nix;
+  users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
+  users.users.julius.openssh.authorizedKeys.keys = private.terminalKeys;
 
   services.openssh.enable = true;
   services.prometheus.exporters.node = {

@@ -4,14 +4,16 @@
   pkgs,
   modulesPath,
   ...
-}: {
+}:
+let private = import ./private.nix;
+in {
   imports = [
     ./common.nix
     ./graphical.nix
     ./dlna.nix
     (modulesPath + "/installer/scan/not-detected.nix")
     (import ./ssh-unlock.nix {
-      authorizedKeys = import ./julius-home-ssh.nix;
+      authorizedKeys = private.terminalKeys;
       extraModules = ["e1000e"];
     })
   ];
