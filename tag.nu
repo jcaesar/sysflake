@@ -10,7 +10,6 @@ def tag [hostname: string] {
         git tag -a -m $desc $tag $l.configurationRevision
         return $"($tag) created"
       }
-      return $"($tag) existed"
     }
   }
 }
