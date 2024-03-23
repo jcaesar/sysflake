@@ -121,6 +121,7 @@ in {
     notmuch
     nextcloud-client
     wl-clipboard
+    thunderbird # keine zeit für sparifankerl
   ];
 
   system.stateVersion = "24.05";
