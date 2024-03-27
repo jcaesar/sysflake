@@ -1,4 +1,6 @@
-{lib, ...}: {
+{lib, ...}: let
+  private = import ./private.nix;
+in {
   networking.hostName = "doggieworld";
   security.acme = {
     defaults.email = "letsencrypt-doggieworld@liftm.de";
@@ -25,5 +27,7 @@
     extraConfig = lib.readFile ./turnserver.conf; # nixpkgs doesn't know about many of teh setting I use. TODO pr
   };
   services.prometheus = import ./prometheus.nix;
+  services.openssh.enable = true;
+  users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
   system.stateVersion = "24.05";
 }

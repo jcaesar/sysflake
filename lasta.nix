@@ -4,8 +4,8 @@
   pkgs,
   modulesPath,
   ...
-}:
-let private = import ./private.nix;
+}: let
+  private = import ./private.nix;
 in {
   imports = [
     ./common.nix
