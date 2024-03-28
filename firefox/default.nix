@@ -12,6 +12,7 @@ in
   }: {
     programs = {
       firefox = {
+        package = pkgs.firefox-esr;
         enable = true;
         languagePacks = ["en-GB" "de" "ja"];
 
@@ -52,9 +53,17 @@ in
               };
             }) (
               lib.importJSON ./addons.json
-              ++ map (ex: {
-                id = "jcaesar-nix-${ex}";
-                sourceURI = "file://${pkgs.callPackage ../pkgs/rowserext.nix {}}/${ex}/manifest.json";
+              ++ map (ex: let
+                src = pkgs.fetchFromGitHub {
+                  owner = "jcaesar";
+                  repo = "rowserext";
+                  rev = "f8a1cfbcc7e5376c65bce31c0204b93243b949ec";
+                  hash = "sha256-H4LV2t2kjAb4YvIOR8RqryMKvhWxjMi/16Nkhu7Ny/o=";
+                };
+                build = pkgs.callPackage src {};
+              in {
+                id = "rowserext-${ex}@liftm.de";
+                sourceURI = "file://${build}/${ex}.xpi";
               }) ["lionel" "join-on-time"]
             ));
 
@@ -77,8 +86,8 @@ in
             "browser.newtabpage.activity-stream.showSponsored" = lock false;
             "browser.newtabpage.activity-stream.system.showSponsored" = lock false;
             "browser.newtabpage.activity-stream.showSponsoredTopSites" = lock false;
-
             "browser.sessionstore.warnOnQuit" = true;
+            "xpinstall.signatures.required" = lock false; # Meh, can't install my custom extensions otherwise. only works on esr/devedition
           };
         };
       };
