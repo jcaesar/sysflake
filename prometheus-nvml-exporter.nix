@@ -1,9 +1,9 @@
-{pkgs, ...}: {
+{pkgsStable, ...}: {
   systemd.services."prometheus-nvml-exporter" = {
     wantedBy = ["multi-user.target"];
     after = ["network.target"];
     serviceConfig = {
-      ExecStart = "${pkgs.callPackage ./pkgs/prometheus-nvml-exporter.nix {}}/bin/prometheus-nvml-exporter";
+      ExecStart = "${pkgsStable.callPackage ./pkgs/prometheus-nvml-exporter.nix {}}/bin/prometheus-nvml-exporter";
       PrivateTmp = true;
       WorkingDirectory = /tmp;
       DynamicUser = true;

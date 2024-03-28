@@ -2,14 +2,17 @@
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-stable,
     home-manager,
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
+    pkgsStable = import nixpkgs-stable {inherit system;};
     sys = main:
       nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
+          inherit pkgsStable;
           enableHM = {
             imports = [
               home-manager.nixosModules.home-manager
@@ -84,6 +87,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.11";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };

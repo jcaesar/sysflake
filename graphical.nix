@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  pkgsStable,
+  ...
+}: {
   imports = [
     ./firefox
   ];
@@ -86,6 +90,6 @@
     swww
     hyprpaper
     polkit-kde-agent
-    (pkgs.callPackage ./pkgs/polaris-fuse.nix {})
+    (pkgsStable.callPackage ./pkgs/polaris-fuse.nix {})
   ];
 }

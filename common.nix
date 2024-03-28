@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgsStable,
   enableHM,
   ...
 }: {
@@ -50,7 +51,7 @@
           pandas
           numpy
         ]))
-      (pkgs.callPackage ./pkgs/cyrly.nix {})
+      (pkgsStable.callPackage ./pkgs/cyrly.nix {})
     ];
     shell = pkgs.nushellFull;
     password = "";
