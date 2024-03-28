@@ -29,5 +29,6 @@ in {
   services.prometheus = import ./prometheus.nix;
   services.openssh.enable = true;
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
+  users.users.julius.openssh.authorizedKeys.keys = private.terminalKeys + (import ./work.nix).sshKeys.client;
   system.stateVersion = "24.05";
 }

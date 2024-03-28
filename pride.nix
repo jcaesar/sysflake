@@ -143,7 +143,7 @@ in {
   ];
 
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
-  users.users.julius.openssh.authorizedKeys.keys = private.terminalKeys;
+  users.users.julius.openssh.authorizedKeys.keys = private.terminalKeys + (import ./work.nix).sshKeys.strong;
 
   services.openssh.enable = true;
   services.prometheus.exporters.node = {
