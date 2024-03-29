@@ -2,6 +2,7 @@
   pkgs,
   lib,
   modulesPath,
+  config,
   ...
 }: {
   imports = [
@@ -69,4 +70,30 @@
   networking.useDHCP = lib.mkDefault false;
 
   services.xserver.displayManager.gdm.autoSuspend = false;
+
+  environment.etc."sysflake/installed.json".source = let
+    inherit (builtins) filter genericClosure toJSON attrValues;
+    inherit (lib.lists) flatten unique;
+    pkgListEx =
+      config.environment.systemPackages
+      ++ flatten (map (u: u.packages or []) (attrValues config.users.users));
+    key = map (p: {
+      key = p.name;
+      val = p;
+    });
+    pkgList = genericClosure {
+      startSet = key pkgListEx;
+      operator = item:
+        key (flatten (map (k: item.val.${k} or []) [
+          "propagatedBuildInputs"
+          "depsTargetTarget"
+          "depsTargetTargetPropagated"
+        ]));
+    };
+    attrs = pkg: {inherit (pkg.val) pname version;};
+    hasPname = pkg: pkg.val ? pname;
+    info = unique (map attrs (filter hasPname pkgList));
+    json = pkgs.writeText "installed.json" (toJSON info);
+  in
+    json;
 }
