@@ -12,7 +12,7 @@ in
   }: {
     programs = {
       firefox = {
-        package = pkgs.firefox-esr;
+        package = pkgs.firefox-devedition;
         enable = true;
         languagePacks = ["en-GB" "de" "ja"];
 
