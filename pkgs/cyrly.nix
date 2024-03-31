@@ -15,8 +15,6 @@ rustPlatform.buildRustPackage rec {
   };
   cargoLock.lockFile = "${src}/Cargo.lock";
 
-  cargoBuildFlags = ["--package=${pname}"];
-
   meta = with lib; {
     description = "A serde-based YAML serializer for Rust with an unusual output style.";
     license = licenses.mit;

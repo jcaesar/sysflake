@@ -52,6 +52,7 @@
           numpy
         ]))
       (pkgsStable.callPackage ./pkgs/cyrly.nix {})
+      (pkgsStable.callPackage ./pkgs/urlendec.nix {})
     ];
     shell = pkgs.nushellFull;
     password = "";
