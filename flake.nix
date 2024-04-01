@@ -25,6 +25,14 @@
         };
         modules = [
           ({...}: {
+            nixpkgs.overlays = [
+              (final: prev: {
+                xz =
+                  if builtins.any (v: prev.xz.version == v) ["5.6.1" "5.6.0"]
+                  then throw "NOPE"
+                  else prev.xz;
+              })
+            ];
             nix.settings.experimental-features = ["nix-command" "flakes"];
             nix.registry.nixpkgs.flake = nixpkgs;
             nix.registry.n.flake = nixpkgs;
