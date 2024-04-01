@@ -117,7 +117,7 @@ in {
 
   users.users.julius.packages = with pkgs; [
     element-desktop-wayland
-    (himalaya.override {buildFeatures = ["notmuch"];})
+    (pkgsStable.himalaya.override {withNotmuchBackend = true;})
     notmuch
     nextcloud-client
     wl-clipboard

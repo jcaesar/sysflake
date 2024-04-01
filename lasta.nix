@@ -94,7 +94,7 @@ in {
 
   users.users.julius.packages = with pkgs; [
     element-desktop-wayland
-    (pkgsStable.himalaya.override {buildFeatures = ["notmuch"];})
+    (pkgsStable.himalaya.override {withNotmuchBackend = true;})
     notmuch
   ];
 
