@@ -4,6 +4,10 @@
   extraModules ? [],
 }: {config, ...}: {
   # remote luks unlock: ssh -tt $host systemd-cryptsetup attach $luks $disk
+  # alternative:
+  #   $ ssh $host
+  #   # systemctl restart systemd-ask-password-console
+  #   get asked password, input, yay
   boot.initrd.kernelModules = extraModules;
   boot.initrd = {
     systemd = {
