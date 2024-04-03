@@ -23,7 +23,7 @@ in {
 
   boot.loader.systemd-boot.editor = lib.mkForce true;
   boot.supportedFilesystems = ["bcachefs"];
-  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usb_storage" "sd_mod" "sdhci_pci" "i2c_i801" "i8042" "atkbd"];
+  boot.initrd.availableKernelModules = import ./lasta-allmods.nix;
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-intel"];
   boot.initrd.systemd.enable = true;
@@ -44,7 +44,7 @@ in {
   systemd.network = {
     enable = true;
     networks."12-dhcp" = {
-      matchConfig.Name = ["wlp2s0"];
+      matchConfig.Name = ["wlp2s0" "enp0s31f6"];
       DHCP = "yes";
     };
   };
