@@ -21,6 +21,7 @@ in {
 
   networking.hostName = "lasta";
 
+  boot.loader.systemd-boot.editor = lib.mkForce true;
   boot.supportedFilesystems = ["bcachefs"];
   boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usb_storage" "sd_mod" "sdhci_pci" "i2c_i801" "i8042" "atkbd"];
   boot.initrd.kernelModules = [];
@@ -51,15 +52,6 @@ in {
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader = {
-    systemd-boot = {
-      enable = true;
-      configurationLimit = 15;
-      editor = false;
-    };
-    efi.canTouchEfiVariables = true;
-  };
   services.openssh.enable = true;
 
   services.xserver = {

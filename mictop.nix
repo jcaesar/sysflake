@@ -65,16 +65,6 @@ in {
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader = {
-    systemd-boot = {
-      enable = true;
-      configurationLimit = 15;
-      editor = false;
-    };
-    efi.canTouchEfiVariables = true;
-  };
-
   services.xserver = {
     enable = true;
     desktopManager = {
