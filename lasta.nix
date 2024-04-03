@@ -90,5 +90,30 @@ in {
     notmuch
   ];
 
+  services.nzbget = {
+    enable = true;
+    settings.MainDir = "/home/julius/nz";
+    user = "julius";
+    group = "users";
+  };
+  services.minidlna = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      inotify = "yes";
+      media_dir = [
+        "V,/home/julius/nz/dst/"
+        "V,/home/julius/anime/"
+      ];
+    };
+  };
+  systemd.services.minidlna.serviceConfig.SupplementaryGroups = "julius";
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    (
+      name: (builtins.elem name [
+        "unrar"
+      ])
+    ) (lib.getName pkg);
+
   system.stateVersion = "24.05";
 }
