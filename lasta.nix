@@ -43,8 +43,13 @@ in {
   networking.wireless.userControlled.enable = true;
   systemd.network = {
     enable = true;
-    networks."12-dhcp" = {
-      matchConfig.Name = ["wlp2s0" "enp0s31f6"];
+    networks."12-wifi-dhcp-required" = {
+      matchConfig.Name = ["wlp2s0"];
+      DHCP = "yes";
+    };
+    networks."12-wired-dhcp-optional" = {
+      matchConfig.Name = ["enp0s31f6"];
+      linkConfig.RequiredForOnline = false;
       DHCP = "yes";
     };
   };
@@ -107,12 +112,17 @@ in {
       ];
     };
   };
-  systemd.services.minidlna.serviceConfig.SupplementaryGroups = "julius";
+  systemd.services.minidlna.serviceConfig.SupplementaryGroups = "users";
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    (
+      name: (builtins.elem name [
+        "unrar"
+      ])
+    ) (lib.getName pkg);
 
   networking.extraHosts = ''
     0.0.0.0 pr0gramm.com
   '';
-
 
   system.stateVersion = "24.05";
 }
