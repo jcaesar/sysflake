@@ -88,6 +88,13 @@
     openjdk11
     kcat
   ];
+  
+  networking.extraHosts = ''
+    0.0.0.0 blog.fefe.de
+    0.0.0.0 news.ycombinator.com
+    0.0.0.0 pr0gramm.com # never actually opened
+  '';
+
 
   system.stateVersion = "24.05";
 }
