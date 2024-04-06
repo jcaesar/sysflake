@@ -1,3 +1,4 @@
+# keyboard wouldn't work, hit problem with wrench
 [
   "8250_pci"
   "ac"

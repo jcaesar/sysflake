@@ -92,6 +92,6 @@
     hyprlock
     swayidle
     polkit-kde-agent
-    (pkgsStable.callPackage ./pkgs/polaris-fuse.nix {})
+    (pkgsStable.callPackage ../pkgs/polaris-fuse.nix {})
   ];
 }

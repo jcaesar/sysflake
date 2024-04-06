@@ -5,7 +5,7 @@ shamoIndex: {
   config,
   ...
 }: let
-  common = import ./work.nix;
+  common = import ../work.nix;
   shamo = common.shamo;
   kubeMasterIP = shamo.ip 2;
   kubeMasterHostname = shamo.name 2;
@@ -13,9 +13,9 @@ shamoIndex: {
   proxy = common.proxy "shamo09stratus9flab" "9491387463";
 in rec {
   imports = [
-    ./base.nix
+    ../mod/base.nix
     common.config
-    (import ./ssh-unlock.nix {
+    (import ../mod/ssh-unlock.nix {
       authorizedKeys = common.sshKeys.strong;
       extraModules = ["igb" "i40e"];
     })

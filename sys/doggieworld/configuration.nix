@@ -1,5 +1,5 @@
 {lib, ...}: let
-  private = import ./private.nix;
+  private = import ../../private.nix;
 in {
   networking.hostName = "doggieworld";
   security.acme = {
@@ -7,7 +7,7 @@ in {
     acceptTerms = true;
   };
   imports = [
-    ../common.nix
+    ../../mod/common.nix
     ./grafana.nix
     ./networking.nix
     ./do.nix
@@ -29,6 +29,6 @@ in {
   services.prometheus = import ./prometheus.nix;
   services.openssh.enable = true;
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
-  users.users.julius.openssh.authorizedKeys.keys = private.terminalKeys + (import ./work.nix).sshKeys.client;
+  users.users.julius.openssh.authorizedKeys.keys = builtins.concatLists [(import ../../work.nix).sshKeys.strong private.terminalKeys];
   system.stateVersion = "24.05";
 }

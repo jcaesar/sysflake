@@ -3,7 +3,7 @@
     wantedBy = ["multi-user.target"];
     after = ["network.target"];
     serviceConfig = {
-      ExecStart = "${pkgsStable.callPackage ./pkgs/prometheus-nvml-exporter.nix {}}/bin/prometheus-nvml-exporter";
+      ExecStart = "${pkgsStable.callPackage ../pkgs/prometheus-nvml-exporter.nix {}}/bin/prometheus-nvml-exporter";
       PrivateTmp = true;
       WorkingDirectory = /tmp;
       DynamicUser = true;

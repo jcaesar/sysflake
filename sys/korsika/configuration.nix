@@ -8,9 +8,9 @@
   ...
 }: {
   imports = [
-    ../common.nix
-    ../graphical.nix
-    (import ../work.nix).config
+    ../../mod/common.nix
+    ../../mod/graphical.nix
+    (import ../../work.nix).config
     ./hardware-configuration.nix
     ./networking.nix
   ];
@@ -88,13 +88,12 @@
     openjdk11
     kcat
   ];
-  
+
   networking.extraHosts = ''
     0.0.0.0 blog.fefe.de
     0.0.0.0 news.ycombinator.com
     0.0.0.0 pr0gramm.com # never actually opened
   '';
-
 
   system.stateVersion = "24.05";
 }

@@ -6,14 +6,15 @@
   modulesPath,
   ...
 }: let
-  private = import ./private.nix;
+  private = import ../../private.nix;
 in {
   imports = [
-    ./common.nix
-    ./graphical.nix
-    ./dlna.nix
+    ../../mod/common.nix
+    ../../mod/graphical.nix
+    ../../mod/dlna.nix
+    ../../mod/bluetooth.nix
     (modulesPath + "/installer/scan/not-detected.nix")
-    (import ./ssh-unlock.nix {
+    (import ../../mod/ssh-unlock.nix {
       authorizedKeys = private.terminalKeys;
       extraModules = ["e1000e"];
     })
@@ -23,7 +24,7 @@ in {
 
   boot.loader.systemd-boot.editor = lib.mkForce true;
   boot.supportedFilesystems = ["bcachefs"];
-  boot.initrd.availableKernelModules = import ./lasta-allmods.nix;
+  boot.initrd.availableKernelModules = import ./bootmods.nix;
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-intel"];
   boot.initrd.systemd.enable = true;
@@ -57,39 +58,7 @@ in {
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
-  home-manager.users.julius = {...}: {
-    systemd.user.services.mpris-proxy = {
-      Unit.Description = "Mpris proxy";
-      Unit.After = ["network.target" "sound.target"];
-      Unit.WantedBy = ["default.target"];
-      Service.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
-    };
-  };
-
   services.openssh.enable = true;
-
-  services.xserver = {
-    enable = true;
-    desktopManager = {
-      xterm.enable = false;
-    };
-    displayManager = {
-      defaultSession = "none+i3";
-    };
-    windowManager.i3 = {
-      enable = true;
-      extraPackages = with pkgs; [
-        rofi
-        alacritty
-        rxvt-unicode
-        i3status
-        i3lock
-      ];
-    };
-  };
 
   programs.hyprland = {
     enable = true;

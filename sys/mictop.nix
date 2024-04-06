@@ -6,12 +6,13 @@
   modulesPath,
   ...
 }: let
-  private = import ./private.nix;
+  private = import ../private.nix;
 in {
   imports = [
-    ./common.nix
-    ./graphical.nix
-    ./dlna.nix
+    ../mod/common.nix
+    ../mod/graphical.nix
+    ../mod/dlna.nix
+    ../mod/bluetooth.nix
     (modulesPath + "/installer/scan/not-detected.nix")
     (private.wireguardToDoggieworld {
       listenPort = 51820;
@@ -64,23 +65,6 @@ in {
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-
-  services.xserver = {
-    enable = true;
-    desktopManager = {
-      xterm.enable = false;
-    };
-    windowManager.i3 = {
-      enable = true;
-      extraPackages = with pkgs; [
-        rofi
-        alacritty
-        rxvt-unicode
-        i3status
-        i3lock
-      ];
-    };
-  };
 
   programs.hyprland = {
     enable = true;

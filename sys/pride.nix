@@ -5,15 +5,15 @@
   modulesPath,
   ...
 }: let
-  private = import ./private.nix;
+  private = import ../private.nix;
 in {
   imports = [
     "${modulesPath}/installer/scan/not-detected.nix"
-    ./common.nix
-    ./graphical.nix
-    ./dlna.nix
-    ./prometheus-nvml-exporter.nix
-    (import ./ssh-unlock.nix {
+    ../mod/common.nix
+    ../mod/graphical.nix
+    ../mod/dlna.nix
+    ../mod/prometheus-nvml-exporter.nix
+    (import ../mod/ssh-unlock.nix {
       authorizedKeys = private.terminalKeys;
       extraModules = ["igb"];
     })
@@ -143,7 +143,7 @@ in {
   ];
 
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
-  users.users.julius.openssh.authorizedKeys.keys = private.terminalKeys + (import ./work.nix).sshKeys.strong;
+  users.users.julius.openssh.authorizedKeys.keys = builtins.concatLists [(import ../work.nix).sshKeys.strong private.terminalKeys];
 
   services.openssh.enable = true;
   services.prometheus.exporters.node = {

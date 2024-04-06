@@ -8,7 +8,7 @@
 }: {
   imports = [
     "${modulesPath}/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"
-    ./base.nix
+    ../mod/base.nix
   ];
   boot.supportedFilesystems = ["bcachefs"];
   boot.kernelPackages = lib.mkOverride 0 pkgs.linuxPackages_latest;

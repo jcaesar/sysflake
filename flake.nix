@@ -50,20 +50,20 @@
             environment.etc."sysflake/home-manager".source = home-manager;
           })
           main
-          ./variants.nix
+          ./mod/variants.nix
         ];
       };
     work = import ./work.nix;
   in {
     nixosConfigurations =
       {
-        korsika = sys ./korsika/configuration.nix;
-        capri = sys ./capri/configuration.nix;
-        mictop = sys ./mictop.nix;
-        lasta = sys ./lasta.nix;
-        pride = sys ./pride.nix;
-        doggieworld = sys ./doggieworld/configuration.nix;
-        installerBCacheFS = sys ./installer.nix;
+        korsika = sys ./sys/korsika/configuration.nix;
+        capri = sys ./sys/capri/configuration.nix;
+        mictop = sys ./sys/mictop.nix;
+        lasta = sys ./sys/lasta/configuration.nix;
+        pride = sys ./sys/pride.nix;
+        doggieworld = sys ./sys/doggieworld/configuration.nix;
+        installerBCacheFS = sys ./sys/installer.nix;
         tmpPicardLive = sys ({lib, ...}: {
           imports = [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
@@ -87,7 +87,7 @@
       }
       // work.shamo.eachNixed (index: {
         name = "shamo${toString index}";
-        value = sys ((import ./shamo.nix) index);
+        value = sys ((import ./sys/shamo.nix) index);
       });
 
     formatter.${system} = pkgs.alejandra;

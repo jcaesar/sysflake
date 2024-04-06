@@ -1,13 +1,9 @@
 let
   palmarolaPort = "enp0s31f6";
   cameoPort = "enp2s0";
-  common = import ../work.nix;
+  common = import ../../work.nix;
 in
   {pkgs, ...}: {
-    imports = [
-      ../dlna.nix
-    ];
-
     systemd.network = {
       enable = true;
       networks."10-palmarola-eth-net" = {

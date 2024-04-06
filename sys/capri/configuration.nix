@@ -3,14 +3,14 @@
   lib,
   ...
 }: let
-  common = import ../work.nix;
+  common = import ../../work.nix;
   eth = "ens32";
 in {
   imports = [
-    ../common.nix
+    ../../mod/common.nix
     common.config
     ./hardware-configuration.nix
-    (import ../ssh-unlock.nix {
+    (import ../../mod/ssh-unlock.nix {
       authorizedKeys = common.sshKeys.strong;
       extraModules = ["e1000"];
     })
