@@ -57,6 +57,18 @@ in {
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
+  home-manager.users.julius = {...}: {
+    systemd.user.services.mpris-proxy = {
+      Unit.Description = "Mpris proxy";
+      Unit.After = ["network.target" "sound.target"];
+      Unit.WantedBy = ["default.target"];
+      Service.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
+    };
+  };
+
   services.openssh.enable = true;
 
   services.xserver = {
