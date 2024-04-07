@@ -92,6 +92,7 @@
     hyprlock
     swayidle
     waybar
+    alacritty
     polkit-kde-agent
     (pkgsStable.callPackage ../pkgs/polaris-fuse.nix {})
   ];
