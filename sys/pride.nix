@@ -58,10 +58,10 @@ in {
       device = "/dev/disk/by-label/nixboot";
       fsType = "vfat";
     };
-    "/mnt/file" = {
-      device = "/dev/disk/by-uuid/1521d981-c56e-4c80-af64-ac1ad11ef80b";
-      fsType = "btrfs";
-    };
+    #"/mnt/file" = {
+    #  device = "/dev/disk/by-uuid/1521d981-c56e-4c80-af64-ac1ad11ef80b";
+    #  fsType = "btrfs";
+    #};
     "/mnt/cameo" = {
       device = "/dev/disk/by-uuid/e890f00d-912d-414f-ac26-918a2bc840d1";
       fsType = "btrfs";
@@ -74,8 +74,8 @@ in {
       keyFile = "/etc/secrets/filkey";
     };
   in {
-    "file1" = dev "c2b6f644-c505-4d8e-be79-db0d80dd149d";
-    "file2" = dev "ba5c6f26-ebfc-475b-9801-713b66ed55fb";
+    #"file1" = dev "c2b6f644-c505-4d8e-be79-db0d80dd149d";
+    #"file2" = dev "ba5c6f26-ebfc-475b-9801-713b66ed55fb";
     "cameo1" = dev "4d8fe471-1685-4540-844c-d76000911869";
     "cameo2" = dev "54b76e1d-ce44-4dad-93c4-a8f3030da827";
   };
@@ -151,10 +151,10 @@ in {
     openFirewall = true;
   };
 
-  services.nzbget = {
-    enable = true;
-    settings.MainDir = "/mnt/file/nzbget";
-  };
+  #services.nzbget = {
+  #  enable = true;
+  #  settings.MainDir = "/mnt/file/nzbget";
+  #};
   networking.firewall.allowedTCPPorts = [6789];
   services.minidlna = {
     enable = true;
@@ -162,7 +162,7 @@ in {
     settings = {
       inotify = "yes";
       media_dir = [
-        "V,/mnt/file/nzbget/dst/"
+        #"V,/mnt/file/nzbget/dst/"
         "V,/mnt/cameo/@/home/julius/media/"
       ];
     };
