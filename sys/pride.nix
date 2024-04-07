@@ -155,7 +155,6 @@ in {
   #  enable = true;
   #  settings.MainDir = "/mnt/file/nzbget";
   #};
-  networking.firewall.allowedTCPPorts = [6789];
   services.minidlna = {
     enable = true;
     openFirewall = true;
@@ -168,6 +167,8 @@ in {
     };
   };
   systemd.services.minidlna.serviceConfig.SupplementaryGroups = "nzbget";
+
+  networking.firewall.allowedTCPPorts = [6789 9151];
 
   system.stateVersion = "23.11";
 }
