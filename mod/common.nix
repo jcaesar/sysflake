@@ -41,6 +41,7 @@
       binutils
       binwalk
       bat
+      urlencode
       (python3.withPackages (ps:
         with ps; [
           netaddr
@@ -52,7 +53,6 @@
           numpy
         ]))
       (pkgsStable.callPackage ../pkgs/cyrly.nix {})
-      (pkgsStable.callPackage ../pkgs/urlendec.nix {})
     ];
     shell = pkgs.nushellFull;
     password = "";
