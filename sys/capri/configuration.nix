@@ -26,7 +26,7 @@ in {
   };
   services.smartd.enable = lib.mkForce false;
 
-  networking.proxy.default = common.proxy "capri";
+  networking.proxy.default = common.proxy "julius9dev9gemini1" "7049740682";
   systemd.network = {
     enable = true;
     networks."10-vm-${eth}" = {
