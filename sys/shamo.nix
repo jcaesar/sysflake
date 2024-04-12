@@ -10,7 +10,7 @@ shamoIndex: {
   kubeMasterIP = shamo.ip 2;
   kubeMasterHostname = shamo.name 2;
   kubeMasterAPIServerPort = 6443;
-  proxy = common.proxy "shamo09stratus9flab" "9491387463";
+  proxy = common.proxy "shamo";
 in rec {
   imports = [
     ../mod/base.nix
