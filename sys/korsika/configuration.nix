@@ -36,9 +36,6 @@
     desktopManager = {
       xterm.enable = false;
     };
-    displayManager = {
-      defaultSession = "none+i3";
-    };
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [
@@ -51,6 +48,7 @@
       ];
     };
   };
+  services.displayManager.defaultSession = "none+i3";
 
   programs.command-not-found.enable = true;
 

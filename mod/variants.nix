@@ -60,11 +60,11 @@ in {
     imports = [vm ./graphical.nix];
     virtualisation.graphics = lib.mkForce true;
     services.xserver = {
-      displayManager = {
-        autoLogin.user = "julius";
-        defaultSession = lib.mkForce "none+twm"; # TODO: Find a way to pass super from the host, then we use the host's WM
-      };
       windowManager.twm.enable = true;
+    };
+    services.displayManager = {
+      autoLogin.user = "julius";
+      defaultSession = lib.mkForce "none+twm"; # TODO: Find a way to pass super from the host, then we use the host's WM
     };
   });
 }
