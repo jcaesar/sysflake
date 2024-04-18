@@ -1,7 +1,6 @@
 shamoIndex: {
   pkgs,
   lib,
-  modulesPath,
   config,
   ...
 }: let

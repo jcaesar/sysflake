@@ -27,7 +27,7 @@
     source-code-pro
     terminus_font
     inconsolata
-    "${wine}/share/wine/fonts"
+    "${wine64}/share/wine/fonts"
   ];
 
   services.xserver = {
