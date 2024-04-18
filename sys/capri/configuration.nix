@@ -8,6 +8,7 @@
 in {
   imports = [
     ../../mod/common.nix
+    ../../mod/binfmt.nix
     common.config
     ./hardware-configuration.nix
     (import ../../mod/ssh-unlock.nix {

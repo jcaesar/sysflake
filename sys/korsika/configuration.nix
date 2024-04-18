@@ -10,6 +10,7 @@
   imports = [
     ../../mod/common.nix
     ../../mod/graphical.nix
+    ../../mod/binfmt.nix
     (import ../../work.nix).config
     ./hardware-configuration.nix
     ./networking.nix

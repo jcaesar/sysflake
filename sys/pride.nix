@@ -11,6 +11,7 @@ in {
     "${modulesPath}/installer/scan/not-detected.nix"
     ../mod/common.nix
     ../mod/graphical.nix
+    ../mod/binfmt.nix
     ../mod/dlna.nix
     ../mod/prometheus-nvml-exporter.nix
     (import ../mod/ssh-unlock.nix {
