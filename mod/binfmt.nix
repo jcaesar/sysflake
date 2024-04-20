@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   boot.binfmt.emulatedSystems = ["armv7l-linux" "wasm32-wasi" "wasm64-wasi" "x86_64-windows"];
   environment.etc."binfmt.d/nix-hack-qemu-user-statc.conf".text = let
     pr = pkgs.fetchFromGitHub {
