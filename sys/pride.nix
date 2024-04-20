@@ -112,7 +112,7 @@ in {
   nixpkgs.config.allowUnfreePredicate = pkg:
     (
       name:
-        (builtins.match "^(nvidia-|cuda_).*" name != null)
+        (builtins.match "^(nvidia-|cuda_|cuda-).*" name != null)
         || (builtins.elem name [
           "cudnn"
           "libcublas"
