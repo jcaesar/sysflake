@@ -136,7 +136,6 @@ in {
   with gnomeExtensions; [
     desktop-cube
     burn-my-windows
-    ollama
   ];
   users.users.julius.extraGroups = ["nzbget"];
   users.users.julius.packages = with pkgs; [
@@ -158,6 +157,11 @@ in {
       enable = true;
       setSocketVariable = true;
     };
+  };
+
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda";
   };
 
   #services.nzbget = {
