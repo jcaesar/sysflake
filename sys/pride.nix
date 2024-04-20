@@ -152,6 +152,14 @@ in {
     openFirewall = true;
   };
 
+  virtualisation.docker = {
+    enable = true;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
+  };
+
   #services.nzbget = {
   #  enable = true;
   #  settings.MainDir = "/mnt/file/nzbget";
@@ -167,7 +175,7 @@ in {
       ];
     };
   };
-  systemd.services.minidlna.serviceConfig.SupplementaryGroups = "nzbget";
+  #systemd.services.minidlna.serviceConfig.SupplementaryGroups = "nzbget";
 
   networking.firewall.allowedTCPPorts = [6789 9151];
 
