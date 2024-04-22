@@ -31,6 +31,10 @@
                   if builtins.any (v: prev.xz.version == v) ["5.6.1" "5.6.0"]
                   then throw "NOPE"
                   else prev.xz;
+                glibc =
+                  if prev.glibc.name == "glibc-2.39-5"
+                  then throw "NOPE"
+                  else prev.glibc;
               })
             ];
             nix.settings.experimental-features = ["nix-command" "flakes"];
