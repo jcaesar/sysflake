@@ -32,22 +32,18 @@ in
           }
         ];
       };
-      networks."11-palmarola-wg-net" = {
+      networks."12-palmarola-wg-net" = {
         matchConfig.Name = "gozo";
         address = ["10.13.26.2/24"];
         DHCP = "no";
-        dns = ["10.9.70.1" "10.9.200.1" "10.10.10.1"];
+        dns = ["10.13.26.1:5353"];
         ntp = common.ntp;
-        gateway = [
-          "10.13.26.1"
-        ];
-        networkConfig = {
-          IPv6AcceptRA = false;
-        };
+        gateway = ["10.13.26.1"];
+        networkConfig.IPv6AcceptRA = false;
       };
     };
 
-    systemd.network.networks."10-cameo" = {
+    systemd.network.networks."13-cameo" = {
       matchConfig.Name = cameoPort;
       DHCP = "ipv4";
       networkConfig = {
