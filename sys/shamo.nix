@@ -54,9 +54,8 @@ in rec {
 
   users.users.root.openssh.authorizedKeys.keys =
     common.sshKeys.strong
-    ++ [
-      "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLN6IOSFfpYCNhM/Qzj02GdHIblSsvV2LtgTUSawvZNapLxdCThhn6BD863/960MOnUThW9IyXf4jmX4eVzyqFI= root@shamo2"
-    ];
+    ++ common.sshKeys.k8sconfig
+    ++ [common.sshKeys.shamo2];
   programs.ssh.extraConfig = ''
     Host shamo*
       Port 2222

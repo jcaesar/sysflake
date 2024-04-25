@@ -30,6 +30,7 @@
     isNormalUser = true;
     linger = true;
     extraGroups = ["wheel"];
+    openssh.authorizedKeys.keys = (import ../work.nix).sshKeys.yamaguchi;
     packages = with pkgs; [
       fish
       helix
