@@ -82,7 +82,7 @@
       forwarded_for off
     '';
   };
-  systemd.services.squid.serviceConfig.ExecStartPre = ''${pkgs.bash} -c "mkdir -p /var/cache/squid && chown squid:squid /var/cache/squid"'';
+  systemd.services.squid.serviceConfig.ExecStartPre = ''${pkgs.bash}/bin/bash -c "mkdir -p /var/cache/squid && chown squid:squid /var/cache/squid"'';
 
   networking.firewall = let
     extraRules = sign: ''
