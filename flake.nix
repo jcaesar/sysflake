@@ -25,18 +25,6 @@
         };
         modules = [
           ({...}: {
-            nixpkgs.overlays = [
-              (final: prev: {
-                xz =
-                  if builtins.any (v: prev.xz.version == v) ["5.6.1" "5.6.0"]
-                  then throw "NOPE"
-                  else prev.xz;
-                glibc =
-                  if prev.glibc.name == "glibc-2.39-5"
-                  then throw "NOPE"
-                  else prev.glibc;
-              })
-            ];
             nix.settings.experimental-features = ["nix-command" "flakes"];
             nix.registry.nixpkgs.flake = nixpkgs;
             nix.registry.n.flake = nixpkgs;
@@ -78,8 +66,8 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.11-small";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
