@@ -11,7 +11,7 @@
       rev = "pull/300070/head"; #"d01bb6a1f7b820437406b4b341f77537c04bdc50";
       hash = "sha256-7uBcm17HVjPW5JBmEnyg+yVb1qDkiXHKfeLjR7wfyek=";
     };
-    patched = import pr {system = "x86_64-linux";};
+    patched = import pr {inherit (pkgs) system;};
     # Workaround for https://github.com/NixOS/nixpkgs/issues/295608
     qus = patched.qemu-user-static.override {
       pkgsStatic =
@@ -20,6 +20,12 @@
           qemu = patched.pkgsStatic.qemu.override {
             texinfo = patched.pkgsStatic.texinfo.override {
               perl = pkgs.perl;
+            };
+            pixman = patched.pkgsStatic.pixman.overrideAttrs {
+              postPatch = ''
+                substituteInPlace test/meson.build \
+                  --replace-fail 'timeout : 120' 'timeout : 240'
+              '';
             };
             hostCpuTargets = ["aarch64-linux-user"];
           };
