@@ -9,21 +9,23 @@ shamoIndex: {
   kubeMasterIP = shamo.ip 2;
   kubeMasterHostname = shamo.name 2;
   kubeMasterAPIServerPort = 6443;
-  proxy = common.proxy "shamo09stratus9flab" "9491387463";
+  proxy = "http://${shamo.internalIp 0}:3128";
 in rec {
-  imports = [
-    ../mod/base.nix
-    common.config
-    (import ../mod/ssh-unlock.nix {
-      authorizedKeys = common.sshKeys.strong;
-      extraModules = ["igb" "i40e"];
-    })
-    (
-      if shamoIndex == 4
-      then ./shamo4.nix
-      else ({...}: {})
-    )
-  ];
+  imports =
+    [
+      ../mod/base.nix
+      common.config
+      (import ../mod/ssh-unlock.nix {
+        authorizedKeys = common.sshKeys.strong;
+        extraModules = ["igb" "i40e"];
+      })
+    ]
+    ++ lib.optionals (shamoIndex == 4) [
+      ./shamo4.nix
+    ]
+    ++ lib.optionals (shamoIndex == 0) [
+      ../mod/squid.nix
+    ];
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
@@ -130,8 +132,11 @@ in rec {
             iptables -${sign} INPUT -p tcp -s ${shamo.internalIp idx} -m tcp --dport ${toString port} -j ACCEPT
           '')
           shamo.nixed))
-        [10250 8888 services.prometheus.exporters.node.port]
-      );
+        [10250 8888 services.prometheus.exporters.node.port 3128]
+      )
+      + ''
+        iptables -${sign} INPUT -p tcp -i mynet -m tcp --dport 3128 -j ACCEPT # shitty name for kube interface
+      '';
   in {
     allowedTCPPorts = [2222 1337 6443];
     allowedUDPPorts = [];

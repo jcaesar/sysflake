@@ -9,6 +9,7 @@ in {
   imports = [
     ../../mod/common.nix
     ../../mod/binfmt.nix
+    ../../mod/squid.nix
     common.config
     ./hardware-configuration.nix
     (import ../../mod/ssh-unlock.nix {
@@ -27,7 +28,7 @@ in {
   };
   services.smartd.enable = lib.mkForce false;
 
-  networking.proxy.default = common.proxy "julius9dev9gemini1" "7049740682";
+  networking.proxy.default = "http://172.17.0.1:3128/";
   systemd.network = {
     enable = true;
     networks."10-vm-${eth}" = {

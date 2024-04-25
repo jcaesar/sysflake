@@ -44,11 +44,6 @@ rec {
       direnv
     ];
   noProxy = "127.0.0.1,localhost,fujitsu.co.jp,${builtins.concatStringsSep "," (shamo.each shamo.name)}";
-  # Escaping fun: If you were to use an email address as user name, nix doesn't quite handle that correctly, and you need to overwrite.
-  #systemd.services.nix-daemon.environment =
-  #  let p = "http://michaelis%%40jp.fujitsu.com:0123456789@10.128.145.88:8080/";
-  #  in lib.mkForce { http_proxy = p; https_proxy = p; all_proxy = p; ftp_proxy = p; };
-  proxy = user: pw: "http://${user}:${pw}@10.128.145.88:8080/";
   config = {lib, ...}: {
     networking.proxy.noProxy = noProxy;
     networking.extraHosts = ''
