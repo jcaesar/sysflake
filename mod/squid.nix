@@ -8,7 +8,20 @@
       # Needs to contain a few lines like
       #cache_peer oym3.proxy.nic.fujitsu.com parent 8080 0 no-query no-digest carp login=user:pw name=oym3
       include /etc/secrets/squid
-      acl update_servers dstdomain .ubuntu.com .debian.org .centos.org .ubuntulinux.jp .vinelinux.org .maven.org .maven.apache.org .fedoraproject.org .mozilla.org ftp.iij.ad.jp deb.debian.org cdn-fastly.deb.debian.org deb.debian.org security.debian.org archive.ubuntu.com security.ubuntu.com registry.npmjs.org static.rust-lang.org .crates.io ftp.tsukuba.wide.ad.jp .mirror.pkgbuild.com
+
+      # nixos lube
+      # Application logs to syslog, access and store logs have specific files
+      cache_log       syslog
+      access_log      stdio:/var/log/squid/access.log
+      cache_store_log stdio:/var/log/squid/store.log
+      # Required by systemd service
+      pid_filename    /run/squid.pid
+      # Run as user and group squid
+      cache_effective_user squid squid
+      # Leave coredumps in the first cache dir                                                    71 access_log      stdio:/var/log/squid/access.log
+      coredump_dir /var/cache/squid   
+      
+      acl update_servers dstdomain .ubuntu.com .debian.org .centos.org .ubuntulinux.jp .vinelinux.org .maven.org .maven.apache.org .fedoraproject.org .mozilla.org ftp.iij.ad.jp registry.npmjs.org static.rust-lang.org .crates.io ftp.tsukuba.wide.ad.jp .mirror.pkgbuild.com
       acl direct dstdomain capri .local localhost .fujitsu.co.jp 127.0.0.25 shamo0 shamo1 shamo2 shamo3 shamo4 shamo5 shamo6 shamo7 192.168.0.0/16
       acl nondirect dstdomain fujitsu.com
       acl nope dstdomain facebook.com www.facebook.com fbcdn.net
@@ -26,6 +39,7 @@
       acl smpt port 25
       http_access deny smpt
       http_access deny nope
+      http_access deny to_localhost
       http_access allow localhosta
       http_access allow minikube
       http_access allow vmnet
@@ -40,7 +54,7 @@
       # cache conf
       #hierarchy_stoplist cgi-bin ?
       cache_mem 128 MB
-      cache_dir diskd /var/spool/squid 10960 2 8
+      cache_dir diskd /var/cache/squid 10960 2 8
       maximum_object_size 5120 MB
       refresh_pattern ^ftp: 1440 20% 10080
       refresh_pattern ^gopher: 1440 0% 1440
@@ -57,8 +71,8 @@
 
       # shut up netdata
       acl acclogexclude1 url_regex ^cache_object://localhost/counters$
-      acl acclogexclude2 url_regex .*shamo.*/jobs/.*
-      acl acclogexclude3 url_regex .*stratus.*\.stratus\..*/(jobs|datasources)/.*
+      acl acclogexclude2 url_regex shamo.*/jobs/
+      acl acclogexclude3 url_regex stratus.*\.stratus\..*/(jobs|datasources)/
       acl acclogexclude any-of acclogexclude1 acclogexclude2 acclogexclude3
       access_log none acclogexclude
       access_log syslog:debug squid
@@ -68,7 +82,7 @@
       forwarded_for off
     '';
   };
-  systemd.services.squid.serviceConfig.ExecStartPre = ''${pkgs.bash} -c "mkdir -p /var/spool/squid && chown squid:squid /var/spool/squid"'';
+  systemd.services.squid.serviceConfig.ExecStartPre = ''${pkgs.bash} -c "mkdir -p /var/cache/squid && chown squid:squid /var/cache/squid"'';
 
   networking.firewall = let
     extraRules = sign: ''
