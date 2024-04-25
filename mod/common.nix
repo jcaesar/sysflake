@@ -42,6 +42,10 @@
       binwalk
       bat
       urlencode
+      nmap
+      dos2unix
+      dnsutils
+      tokei
       (python3.withPackages (ps:
         with ps; [
           netaddr

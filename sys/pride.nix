@@ -136,6 +136,8 @@ in {
   with gnomeExtensions; [
     desktop-cube
     burn-my-windows
+    meshlab
+    python3Packages.opensfm
   ];
   users.users.julius.extraGroups = ["nzbget"];
   users.users.julius.packages = with pkgs; [

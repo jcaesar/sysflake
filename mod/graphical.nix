@@ -83,6 +83,7 @@
     barrier
     imagemagick
     libreoffice
+    gimp
     xclip
     # Hyprland stuff
     #qt6-wayland
