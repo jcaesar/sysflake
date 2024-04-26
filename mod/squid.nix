@@ -35,7 +35,7 @@
       acl vbox src 192.168.56.0/24
       acl minikube src 192.168.49.0/24
       acl localstub src 10.13.24.255
-      acl shamo_local src 192.168.0.0/28
+      acl shamo_local src 192.168.100.0/28
       acl smpt port 25
       http_access deny smpt
       http_access deny nope
