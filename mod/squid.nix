@@ -28,7 +28,6 @@
       acl apache dstdomain .apache.org
       always_direct deny nondirect
       always_direct allow direct
-      always_direct allow update_servers
       never_direct allow all
       acl localhosta src 127.0.0.0/8 ::1
       acl vmnet src 172.18.147.0/24
