@@ -28,7 +28,7 @@ in {
   };
   services.smartd.enable = lib.mkForce false;
 
-  networking.proxy.default = "http://172.17.0.1:3128/";
+  networking.proxy.default = "http://10.13.24.255:3128/";
   systemd.network = {
     enable = true;
     networks."10-vm-${eth}" = {
@@ -37,6 +37,15 @@ in {
       address = ["10.38.90.22/24"];
       gateway = ["10.38.90.1"];
       dns = common.dns;
+    };
+    netdevs."8-stubbytoe".netdevConfig = {
+      Name="stubbytoe";
+      Kind="dummy";
+      MACAddress="de:ad:be:ef:ca:fe";
+    };
+    networks."9-stubbytoe" = {
+      matchConfig.Name="stubbytoe";
+      address=["10.13.24.255/32"];
     };
   };
   networking.hostName = "capri";

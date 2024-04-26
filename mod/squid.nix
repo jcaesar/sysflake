@@ -35,12 +35,14 @@
       acl docker src 172.17.0.0/15 10.0.2.15
       acl vbox src 192.168.56.0/24
       acl minikube src 192.168.49.0/24
+      acl localstub src 10.13.24.255
       acl shamo_local src 192.168.0.0/28
       acl smpt port 25
       http_access deny smpt
       http_access deny nope
       http_access deny to_localhost
       http_access allow localhosta
+      http_access allow localstub
       http_access allow minikube
       http_access allow vmnet
       http_access allow docker
