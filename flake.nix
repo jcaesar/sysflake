@@ -25,7 +25,7 @@
         };
         modules = [
           ({...}: {
-            nix.settings.experimental-features = ["nix-command" "flakes"];
+            nix.settings.experimental-features = ["nix-command" "flakes" "repl-flake"];
             nix.registry.nixpkgs.flake = nixpkgs;
             nix.registry.n.flake = nixpkgs;
             nix.nixPath = ["nixpkgs=${nixpkgs}"];
