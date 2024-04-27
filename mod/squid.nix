@@ -19,8 +19,8 @@
       # Run as user and group squid
       cache_effective_user squid squid
       # Leave coredumps in the first cache dir                                                    71 access_log      stdio:/var/log/squid/access.log
-      coredump_dir /var/cache/squid   
-      
+      coredump_dir /var/cache/squid
+
       acl update_servers dstdomain .ubuntu.com .debian.org .centos.org .ubuntulinux.jp .vinelinux.org .maven.org .maven.apache.org .fedoraproject.org .mozilla.org ftp.iij.ad.jp registry.npmjs.org static.rust-lang.org .crates.io ftp.tsukuba.wide.ad.jp .mirror.pkgbuild.com
       acl direct dstdomain capri .local localhost .fujitsu.co.jp 127.0.0.25 shamo0 shamo1 shamo2 shamo3 shamo4 shamo5 shamo6 shamo7 192.168.0.0/16
       acl nondirect dstdomain fujitsu.com

@@ -39,13 +39,13 @@ in {
       dns = common.dns;
     };
     netdevs."8-stubbytoe".netdevConfig = {
-      Name="stubbytoe";
-      Kind="dummy";
-      MACAddress="de:ad:be:ef:ca:fe";
+      Name = "stubbytoe";
+      Kind = "dummy";
+      MACAddress = "de:ad:be:ef:ca:fe";
     };
     networks."9-stubbytoe" = {
-      matchConfig.Name="stubbytoe";
-      address=["10.13.24.255/32"];
+      matchConfig.Name = "stubbytoe";
+      address = ["10.13.24.255/32"];
     };
   };
   networking.hostName = "capri";

@@ -1,6 +1,5 @@
 {
   pkgs,
-  lib,
   pkgsStable,
   enableHM,
   ...
@@ -13,8 +12,16 @@
 
   systemd.oomd.enableUserSlices = true;
 
-  environment.variables.EDITOR = "hx";
-  environment.variables.VISUAL = "hx";
+  environment.variables = {
+    EDITOR = "hx";
+    VISUAL = "hx";
+    MINISERVE_PORT = toString 1337;
+  };
+
+  environment.systemPackages = with pkgs; [
+    deadnix
+    nil
+  ];
 
   hardware.opengl = {
     enable = true;

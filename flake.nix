@@ -30,12 +30,10 @@
             nix.registry.n.flake = nixpkgs;
             nix.nixPath = ["nixpkgs=${nixpkgs}"];
             system.configurationRevision =
-              self.rev
-              or self.dirtyRev or "nogit";
-            system.nixos.version = "j_${
-              self.shortRev
-              or self.dirtyShortRev or "nogit"
-            }_${self.lastModifiedDate}";
+              self.rev or self.dirtyRev or "nogit";
+            system.nixos.version = let
+              r = self.shortRev or self.dirtyShortRev or "nogit";
+            in "j_${r}_${self.lastModifiedDate}";
             system.systemBuilderCommands = "ln -s ${self} $out/sysflake";
             environment.etc."sysflake/self".source = self;
             environment.etc."sysflake/nixpkgs".source = nixpkgs;

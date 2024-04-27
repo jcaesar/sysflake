@@ -2,7 +2,6 @@
   pkgs,
   lib,
   modulesPath,
-  config,
   ...
 }: {
   imports = [
@@ -25,7 +24,6 @@
   environment.systemPackages = with pkgs; [
     vim
     helix
-    nil
     pv
     jq
     rq
