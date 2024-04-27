@@ -152,6 +152,11 @@ in {
     enable = true;
     openFirewall = true;
   };
+  systemd.services.prometheus-node-exporter.serviceConfig = {
+    SupplementaryGroups = "powercap";
+    ExecStartPre = ["!${pkgs.findutils}/bin/find /sys/devices/virtual/powercap -name energy_uj -exec chmod g+r -R {} + -exec chown root:powercap {} +"];
+  };
+  users.groups.powercap = {};
 
   virtualisation.docker = {
     enable = true;
