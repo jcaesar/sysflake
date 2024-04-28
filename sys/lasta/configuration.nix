@@ -73,6 +73,7 @@ in {
 
   users.users.julius.packages = with pkgs; [
     element-desktop-wayland
+    (python3Packages.callPackage ../../pkgs/pyanidb.nix {})
     (pkgsStable.himalaya.override {withNotmuchBackend = true;})
     notmuch
   ];

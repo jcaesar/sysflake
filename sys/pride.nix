@@ -142,6 +142,7 @@ in {
   users.users.julius.extraGroups = ["nzbget"];
   users.users.julius.packages = with pkgs; [
     browsh
+    (python3Packages.callPackage ../pkgs/pyanidb.nix {})
   ];
 
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
