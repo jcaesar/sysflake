@@ -9,9 +9,13 @@ buildPythonPackage {
   src = fetchFromGitHub {
     owner = "jcaesar";
     repo = "pyanidb";
-    rev = "9b0bfb96ce2c59eb90fa3abe57bf53cdc15433e3";
-    hash = "sha256-h2sXEFTz6Y3QN7fRlg0P3MtMeFOXWd3LItM80MpnZ5A=";
+    rev = "e9963b4669ce3f0026e8c9853813b989ea97999e";
+    hash = "sha256-aBqwvcXXELgIJOQICnOr6HecWNUkUdyqMaC4UNrU98M=";
   };
   propagatedBuildInputs = [setuptools];
   doCheck = false;
+  postInstall = ''
+    install -Dm444 ./openssl.cnf.legacy $out/share/openssl.legacy.cnf
+    wrapProgram $out/bin/anidb --set OPENSSL_CONF=$out/share/openssl.legacy.cnf
+  '';
 }
