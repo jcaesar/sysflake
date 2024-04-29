@@ -22,6 +22,15 @@
         "C-s" = "split_selection_on_newline";
       };
     };
+    languages = {
+      language = [
+        {
+          name = "nix";
+          language-servers = [ "nixd" ];
+        }
+      ];
+      language-server.nixd.command = "${pkgs.nixd}/bin/nixd";
+    };
     extraPackages = with pkgs; [
       dhall-lsp-server
       rust-analyzer
