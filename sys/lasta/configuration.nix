@@ -60,16 +60,8 @@ in {
   services.openssh.enable = true;
 
   services.xserver.enable = true;
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
   home-manager.users.julius.wayland.windowManager.hyprland.enable = true;
   programs.command-not-found.enable = true;
-
-  environment.sessionVariables = {
-    WLR_NO_HARDWARE_CURSORS = "1";
-  };
 
   users.users.julius.packages = with pkgs; [
     element-desktop-wayland

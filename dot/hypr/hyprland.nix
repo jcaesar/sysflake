@@ -1,7 +1,6 @@
 let
   mainMod = "SUPER";
   yes = "yes";
-  off = "off";
 in {
   # See https://wiki.hyprland.org/Configuring/Monitors/
   monitor = [
@@ -14,7 +13,7 @@ in {
   # See https://wiki.hyprland.org/Configuring/Keywords/ for more
 
   # Execute your favorite apps at launch
-  exec-once = "swww init & swww clear & blueman-applet & swayidle -w timeout 300 'hyprctl dispatch dpms off' timeout 330 hyprlock resume 'hyprctl dispatch dpms on' before-sleep hyprlock";
+  exec-once = "swww init & swww clear & blueman-applet & swayidle -w timeout 330 hyprlock before-sleep hyprlock";
 
   env = ["XCURSOR_SIZE,24"];
 
@@ -42,7 +41,7 @@ in {
     gaps_out = 20;
     border_size = 2;
     col.active_border = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-    col.inactive_border = "rgba(595959aa)";
+    col.inactive_border = "rgba(59595977)";
 
     layout = "dwindle";
 
@@ -54,12 +53,6 @@ in {
     # See https://wiki.hyprland.org/Configuring/Variables/ for more
 
     rounding = 5;
-
-    #blur {
-    #    enabled = true
-    #    size = 3
-    #    passes = 1
-    #}
 
     drop_shadow = yes;
     shadow_range = 4;
@@ -95,12 +88,12 @@ in {
 
   gestures = {
     # See https://wiki.hyprland.org/Configuring/Variables/ for more
-    workspace_swipe = off;
+    workspace_swipe = "on";
   };
 
   misc = {
     # See https://wiki.hyprland.org/Configuring/Variables/ for more
-    force_default_wallpaper = -1; # Set to 0 to disable the anime mascot wallpapers
+    force_default_wallpaper = 0; # Set to 0 to disable the anime mascot wallpapers
   };
 
   # Example windowrule v1
