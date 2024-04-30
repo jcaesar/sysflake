@@ -26,7 +26,7 @@
       language = [
         {
           name = "nix";
-          language-servers = [ "nixd" ];
+          language-servers = ["nixd"];
         }
       ];
       language-server.nixd.command = "${pkgs.nixd}/bin/nixd";

@@ -16,6 +16,6 @@ buildPythonPackage {
   doCheck = false;
   postInstall = ''
     install -Dm444 ./openssl.cnf.legacy $out/share/openssl.legacy.cnf
-    wrapProgram $out/bin/anidb --set OPENSSL_CONF=$out/share/openssl.legacy.cnf
+    wrapProgram $out/bin/anidb --set OPENSSL_CONF $out/share/openssl.legacy.cnf
   '';
 }
