@@ -53,17 +53,9 @@ in
               };
             }) (
               lib.importJSON ./addons.json
-              ++ map (ex: let
-                src = pkgs.fetchFromGitHub {
-                  owner = "jcaesar";
-                  repo = "rowserext";
-                  rev = "f8a1cfbcc7e5376c65bce31c0204b93243b949ec";
-                  hash = "sha256-H4LV2t2kjAb4YvIOR8RqryMKvhWxjMi/16Nkhu7Ny/o=";
-                };
-                build = pkgs.callPackage src {};
-              in {
+              ++ map (ex: {
                 id = "rowserext-${ex}@liftm.de";
-                sourceURI = "file://${build}/${ex}.xpi";
+                sourceURI = "file://${pkgs.rowserext}/${ex}.xpi";
               }) ["lionel" "join-on-time"]
             ));
 

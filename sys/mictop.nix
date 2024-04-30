@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  pkgsStable,
   modulesPath,
   ...
 }: let
@@ -93,7 +92,7 @@ in {
 
   users.users.julius.packages = with pkgs; [
     element-desktop-wayland
-    (pkgsStable.himalaya.override {withNotmuchBackend = true;})
+    (pkgs.himalaya.override {buildFeatures = ["notmuch"];})
     notmuch
     nextcloud-client
     wl-clipboard

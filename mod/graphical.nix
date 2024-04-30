@@ -1,8 +1,4 @@
-{
-  pkgs,
-  pkgsStable,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./firefox
   ];
@@ -85,6 +81,7 @@
     libreoffice
     gimp
     xclip
+    polaris-fuse
     # Hyprland stuff
     #qt6-wayland
     wofi
@@ -95,6 +92,5 @@
     waybar
     alacritty
     polkit-kde-agent
-    (pkgsStable.callPackage ../pkgs/polaris-fuse.nix {})
   ];
 }

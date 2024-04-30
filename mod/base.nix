@@ -8,6 +8,9 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  nixpkgs.overlays = [(final: _: import ../pkgs final)];
+  nix.settings.experimental-features = ["nix-command" "flakes" "repl-flake"];
+
   boot.loader = {
     systemd-boot = {
       enable = true;

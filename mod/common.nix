@@ -1,6 +1,5 @@
 {
   pkgs,
-  pkgsStable,
   enableHM,
   ...
 }: {
@@ -53,6 +52,7 @@
       dos2unix
       dnsutils
       tokei
+      cyrly
       (python3.withPackages (ps:
         with ps; [
           netaddr
@@ -63,7 +63,6 @@
           pandas
           numpy
         ]))
-      (pkgsStable.callPackage ../pkgs/cyrly.nix {})
     ];
     shell = pkgs.nushellFull;
     password = "";

@@ -2,17 +2,14 @@
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-stable,
     home-manager,
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
-    pkgsStable = import nixpkgs-stable {inherit system;};
     sys = main:
       nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit pkgsStable;
           enableHM = {
             imports = [
               home-manager.nixosModules.home-manager
@@ -25,7 +22,6 @@
         };
         modules = [
           ({...}: {
-            nix.settings.experimental-features = ["nix-command" "flakes" "repl-flake"];
             nix.registry.nixpkgs.flake = nixpkgs;
             nix.registry.n.flake = nixpkgs;
             nix.nixPath = ["nixpkgs=${nixpkgs}"];
@@ -34,7 +30,6 @@
             system.nixos.version = let
               r = self.shortRev or self.dirtyShortRev or "nogit";
             in "j_${r}_${self.lastModifiedDate}";
-            system.systemBuilderCommands = "ln -s ${self} $out/sysflake";
             environment.etc."sysflake/self".source = self;
             environment.etc."sysflake/nixpkgs".source = nixpkgs;
             environment.etc."sysflake/home-manager".source = home-manager;
@@ -59,13 +54,12 @@
         name = "shamo${toString index}";
         value = sys ((import ./sys/shamo.nix) index);
       });
-
+    packages.${system} = import ./pkgs pkgs;
     formatter.${system} = pkgs.alejandra;
   };
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.11-small";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
