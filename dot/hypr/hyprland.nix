@@ -108,7 +108,6 @@ in {
       "${mainMod}, Return, exec, alacritty"
       "${mainMod} SHIFT, Q, killactive, "
       "${mainMod} SHIFT, E, exit, "
-      "${mainMod}, E, exec, dolphin"
       "${mainMod} SHIFT, Space, togglefloating,"
       "${mainMod}, W, togglegroup,"
       "${mainMod}, S, togglegroup,"
@@ -118,6 +117,7 @@ in {
       "${mainMod}, B, exec, hyprlock"
       "${mainMod}, P, pseudo, # dwindle"
       "${mainMod}, E, togglesplit, # dwindle"
+      "${mainMod}, F, fullscreen"
       "${mainMod}+ALT, Right, changegroupactive, f"
       "${mainMod}+ALT, Left, changegroupactive, b"
 
