@@ -98,9 +98,13 @@
     #'';
   };
 
+  wayland.windowManager.hyprland = {
+    settings = import ../dot/hypr/hyprland.nix;
+    xwayland.enable = true;
+  };
+
   home.file.".config/git/config".source = ../dot/git/config;
   home.file.".config/i3/config".source = ../dot/i3/config;
-  home.file.".config/hypr/hyprland.conf".source = ../dot/hypr/hyprland.conf;
   home.file.".config/hypr/hyprlock.conf".source = ../dot/hypr/hyprlock.conf;
   home.file.".config/alacritty/alacritty.toml".source = ../dot/alacritty.toml;
   home.file.".config/mpv/mpv.conf".source = ../dot/mpv/mpv.conf;

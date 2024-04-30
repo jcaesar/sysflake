@@ -64,6 +64,7 @@ in {
     enable = true;
     xwayland.enable = true;
   };
+  home-manager.users.julius.wayland.windowManager.hyprland.enable = true;
   programs.command-not-found.enable = true;
 
   environment.sessionVariables = {
