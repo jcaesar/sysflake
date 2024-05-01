@@ -138,6 +138,7 @@ in {
     burn-my-windows
     meshlab
     python3Packages.opensfm
+    opensplat
   ];
   users.users.julius.extraGroups = ["nzbget"];
   users.users.julius.packages = with pkgs; [
