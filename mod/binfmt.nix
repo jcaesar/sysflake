@@ -4,6 +4,7 @@
   ...
 }: {
   boot.binfmt.emulatedSystems = ["armv7l-linux" "wasm32-wasi" "wasm64-wasi" "x86_64-windows"];
+  nix.settings.extra-platforms = ["aarch64-linux"];
   environment.etc."binfmt.d/nix-hack-qemu-user-statc.conf".text = let
     pr = pkgs.fetchFromGitHub {
       owner = "NixOS";
