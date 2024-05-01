@@ -13,7 +13,11 @@ in {
   # See https://wiki.hyprland.org/Configuring/Keywords/ for more
 
   # Execute your favorite apps at launch
-  exec-once = "swww init & swww clear & blueman-applet & swayidle -w timeout 330 hyprlock before-sleep hyprlock";
+  exec-once = [
+    "swww init & swww clear"
+    "exec blueman-applet"
+    "exec swayidle -w timeout 330 hyprlock before-sleep hyprlock"
+  ];
 
   env = ["XCURSOR_SIZE,24"];
 
