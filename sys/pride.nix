@@ -108,23 +108,27 @@ in {
     enable = true;
     xwayland.enable = true;
   };
-  nixpkgs.config.cudaSupport = true;
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    (
-      name:
-        (builtins.match "^(nvidia-|cuda_|cuda-).*" name != null)
-        || (builtins.elem name [
-          "cudnn"
-          "libcublas"
-          "libcufft"
-          "libcurand"
-          "libcusolver"
-          "libcusparse"
-          "libnvjitlink"
-          "libnpp"
-          "unrar"
-        ])
-    ) (lib.getName pkg);
+  nixpkgs.config = {
+    cudaSupport = true;
+    cudaCapabilities = ["7.5"];
+    cudaForwardCompat = false;
+    allowUnfreePredicate = pkg:
+      (
+        name:
+          (builtins.match "^(nvidia-|cuda_|cuda-).*" name != null)
+          || (builtins.elem name [
+            "cudnn"
+            "libcublas"
+            "libcufft"
+            "libcurand"
+            "libcusolver"
+            "libcusparse"
+            "libnvjitlink"
+            "libnpp"
+            "unrar"
+          ])
+      ) (lib.getName pkg);
+  };
 
   services.xserver = {
     displayManager.gdm.enable = true;
