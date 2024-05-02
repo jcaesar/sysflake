@@ -4,6 +4,11 @@
   ];
   services.logind.powerKey = "suspend";
 
+  nix = {
+    daemonCPUSchedPolicy = "idle";
+    daemonIOSchedClass = "idle";
+  };
+
   fonts.packages = with pkgs; [
     ipafont
     ipaexfont
