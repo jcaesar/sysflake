@@ -1,4 +1,9 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
   imports = [
     ./firefox
   ];
@@ -98,4 +103,31 @@
     alacritty
     polkit-kde-agent
   ];
+
+  system.systemBuilderCommands = let
+    # reproduce nonexposed envs from nixos/modules/hardware/opengl.nix
+    cfg = config.hardware.opengl;
+    package = pkgs.buildEnv {
+      name = "opengl-drivers";
+      paths = [cfg.package] ++ cfg.extraPackages;
+    };
+    package32 = pkgs.buildEnv {
+      name = "opengl-drivers-32bit";
+      paths = [cfg.package32] ++ cfg.extraPackages32;
+    };
+  in
+    ''
+      mkdir -p $out/opengl
+      ln -s ${package} $out/opengl/driver
+    ''
+    + lib.optionalString cfg.driSupport32Bit ''
+      ln -s ${package32} $out/opengl/driver32
+    '';
+  systemd.tmpfiles.rules =
+    [
+      "L+ /run/opengl-driver - - - - /run/booted-system/opengl/driver"
+    ]
+    ++ lib.optionals config.hardware.opengl.driSupport32Bit [
+      "L+ /run/opengl-driver-32 - - - - /run/booted-system/opengl/driver-32"
+    ];
 }
