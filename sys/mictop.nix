@@ -76,6 +76,7 @@ in {
     nextcloud-client
     wl-clipboard
     thunderbird # keine zeit für sparifankerl
+    picard
   ];
 
   networking.extraHosts = ''
