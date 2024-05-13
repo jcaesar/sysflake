@@ -49,7 +49,7 @@
       http_access allow docker
       http_access allow vbox
       http_access allow shamo_local
-      http_access allow nixcube
+      http_access allow nixkube
       http_access deny all
       http_port 3128
       #visible_hostname master
