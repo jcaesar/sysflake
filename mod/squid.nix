@@ -8,7 +8,7 @@
       # Needs to contain a few lines like
       #cache_peer oym3.proxy.nic.fujitsu.com parent 8080 0 no-query no-digest carp login=user:pw name=oym3
       include /etc/secrets/squid
-
+    '' + ''
       # nixos lube
       # Application logs to syslog, access and store logs have specific files
       cache_log       syslog
@@ -20,7 +20,7 @@
       cache_effective_user squid squid
       # Leave coredumps in the first cache dir                                                    71 access_log      stdio:/var/log/squid/access.log
       coredump_dir /var/cache/squid
-
+    '' + ''
       acl update_servers dstdomain .ubuntu.com .debian.org .centos.org .ubuntulinux.jp .vinelinux.org .maven.org .maven.apache.org .fedoraproject.org .mozilla.org ftp.iij.ad.jp registry.npmjs.org static.rust-lang.org .crates.io ftp.tsukuba.wide.ad.jp .mirror.pkgbuild.com
       acl direct dstdomain capri .local localhost .fujitsu.co.jp 127.0.0.25 shamo0 shamo1 shamo2 shamo3 shamo4 shamo5 shamo6 shamo7 192.168.0.0/16
       acl nondirect dstdomain fujitsu.com
@@ -32,6 +32,8 @@
       acl localhosta src 127.0.0.0/8 ::1
       acl vmnet src 172.18.147.0/24
       acl docker src 172.17.0.0/15 10.0.2.15
+      # not sure what the actual networks are or if they just get expanded when adding a node
+      acl nixkube src 10.1.0.0/20 10.0.0.0/22
       acl vbox src 192.168.56.0/24
       acl minikube src 192.168.49.0/24
       acl localstub src 10.13.24.255
@@ -47,11 +49,12 @@
       http_access allow docker
       http_access allow vbox
       http_access allow shamo_local
+      http_access allow nixcube
       http_access deny all
       http_port 3128
       #visible_hostname master
       #debug_options ALL,1 11,3 20,3
-
+    '' + ''
       # cache conf
       #hierarchy_stoplist cgi-bin ?
       cache_mem 128 MB
@@ -67,7 +70,7 @@
       refresh_pattern Packages.gz$ 1440 50% 2880
       quick_abort_min -1 QB
       read_ahead_gap 1 MB
-
+    '' + ''
       max_filedescriptors 8192
 
       # shut up netdata
