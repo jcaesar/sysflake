@@ -23,6 +23,7 @@
   i18n.defaultLocale = "en_US.UTF-8";
   services.smartd.enable = lib.mkDefault true;
   services.smartd.notifications.wall.enable = true;
+  networking.networkmanager.enable = false;
 
   environment.systemPackages = with pkgs; [
     vim
