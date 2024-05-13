@@ -4,9 +4,8 @@
     nixpkgs,
     home-manager,
   }: let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs {inherit system;};
-    sys = main:
+    eachSystem = f: nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux"] (system: f (import nixpkgs {inherit system;}));
+    sys = system: main:
       nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
@@ -38,24 +37,27 @@
           ./mod/variants.nix
         ];
       };
+    sysI = sys "x86_64-linux";
+    sysA = sys "aarch64-linux";
     work = import ./work.nix;
   in {
     nixosConfigurations =
       {
-        korsika = sys ./sys/korsika/configuration.nix;
-        capri = sys ./sys/capri/configuration.nix;
-        mictop = sys ./sys/mictop.nix;
-        lasta = sys ./sys/lasta/configuration.nix;
-        pride = sys ./sys/pride.nix;
-        doggieworld = sys ./sys/doggieworld/configuration.nix;
-        installerBCacheFS = sys ./sys/installer.nix;
+        korsika = sysI ./sys/korsika/configuration.nix;
+        capri = sysI ./sys/capri/configuration.nix;
+        mictop = sysI ./sys/mictop.nix;
+        lasta = sysI ./sys/lasta/configuration.nix;
+        pride = sysI ./sys/pride.nix;
+        doggieworld = sysI ./sys/doggieworld/configuration.nix;
+        installerBCacheFS = sysI ./sys/installer.nix;
+        pitivi = sysA ./sys/pitivi.nix;
       }
       // work.shamo.eachNixed (index: {
         name = "shamo${toString index}";
-        value = sys ((import ./sys/shamo.nix) index);
+        value = sysI ((import ./sys/shamo.nix) index);
       });
-    packages.${system} = import ./pkgs pkgs;
-    formatter.${system} = pkgs.alejandra;
+    packages = eachSystem (pkgs: import ./pkgs pkgs);
+    formatter = eachSystem (pkgs: pkgs.alejandra);
   };
 
   inputs = {

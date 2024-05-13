@@ -22,6 +22,22 @@
       imports = ["${modulesPath}/installer/${mod}"];
       config.users.users.yamaguchi = lib.mkForce {isNormalUser = true;};
     });
+  varsd = mod:
+    var
+    ({
+      lib,
+      config,
+      ...
+    }: {
+      imports = ["${modulesPath}/installer/${mod}"];
+      config.sdImage = let
+        h = builtins.hashString "sha256" config.networking.hostName;
+        h12 = builtins.substring 0 12 h;
+      in {
+        rootPartitionUUID = "00000000-0000-0000-0001-${h12}";
+        compressImage = false;
+      };
+    });
   vm = {
     lib,
     modulesPath,
@@ -54,6 +70,8 @@ in {
   config.system.build.installerGui = vari "cd-dvd/installation-cd-graphical-gnome.nix";
   # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.netboot.kexecTree
   config.system.build.netboot = vari "netboot/netboot-minimal.nix";
+  config.system.build.aarchSd = varsd "sd-card/sd-image-aarch64.nix";
+  config.system.build.aarchSdInstaller = varsd "sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix";
   # env $"SHARED_DIR=(pwd)/share" nix run -vL .#nixosConfigurations.(hostname).config.system.build.test.vm
   config.system.build.test = var vm;
   config.system.build.testGui = var ({lib, ...}: {
