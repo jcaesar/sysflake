@@ -86,6 +86,7 @@
     jetbrains.idea-community
     openjdk11
     kcat
+    duckdb
   ];
 
   networking.extraHosts = ''
