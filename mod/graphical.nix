@@ -102,6 +102,7 @@
     waybar
     alacritty
     polkit-kde-agent
+    brightnessctl
   ];
 
   system.systemBuilderCommands = let
