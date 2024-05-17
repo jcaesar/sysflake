@@ -54,6 +54,10 @@ in {
     extraGroups = ["wheel" "docker"];
     openssh.authorizedKeys.keys = common.sshKeys.client;
   };
+  users.users.aoki = {
+    openssh.authorizedKeys.keys = [common.sshKeys.aoki];
+    isNormalUser = true;
+  };
   security.sudo.wheelNeedsPassword = false;
 
   environment.systemPackages = common.packages pkgs;
