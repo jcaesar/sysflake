@@ -143,6 +143,29 @@ in {
     meshlab
     python3Packages.opensfm
     opensplat
+    ((colmap.override {
+        freeimage = freeimage.overrideAttrs {
+          meta = freeimage.meta // {knownVulnerabilities = [];};
+        };
+        mkDerivation = cudaPackages.backendStdenv.mkDerivation;
+      })
+      .overrideAttrs (prev: {
+        cmakeFlags = ["-DUSE_CUDA=ON" "-DCMAKE_CUDA_ARCHITECTURES=75"];
+        nativeBuildInputs = prev.nativeBuildInputs ++ [pkgs.qt5.wrapQtAppsHook];
+        buildInputs = prev.buildInputs ++ [
+          flann
+          cgal
+          gmp
+          mpfr
+          xorg.libSM
+        ];
+        src = fetchFromGitHub {
+          owner = "colmap";
+          repo = "colmap";
+          rev = "3.9.1";
+          hash = "sha256-Xb4JOttCMERwPYs5DyGKHw+f9Wik1/rdJQKbgVuygH8=";
+        };
+      }))
   ];
   users.users.julius.extraGroups = ["nzbget"];
   users.users.julius.packages = with pkgs; [
