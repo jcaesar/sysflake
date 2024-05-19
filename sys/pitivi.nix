@@ -26,7 +26,7 @@ in {
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-partlabel/ESP";
+    device = "/dev/disk/by-label/FIRMWARE";
     fsType = "vfat";
   };
   system.stateVersion = "24.05";
