@@ -140,8 +140,8 @@ in {
       "${mainMod}, mouse_up, workspace, e-1"
 
       # Brightness
-      "bind = , XF86MonBrightnessUp, exec, brightnessctl set +5%"
-      "bind = , XF86MonBrightnessDown, exec, brightnessctl set 1%"
+      ", XF86MonBrightnessUp, exec, brightnessctl set +5%"
+      ", XF86MonBrightnessDown, exec, brightnessctl set 1%"
     ]
     ++ builtins.concatLists (builtins.genList (
         x: let
