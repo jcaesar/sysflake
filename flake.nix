@@ -56,7 +56,7 @@
         name = "shamo${toString index}";
         value = sysI ((import ./sys/shamo.nix) index);
       });
-    packages = eachSystem (pkgs: import ./pkgs pkgs);
+    packages = eachSystem (pkgs: import ./pkgs pkgs pkgs);
     formatter = eachSystem (pkgs: pkgs.alejandra);
   };
 

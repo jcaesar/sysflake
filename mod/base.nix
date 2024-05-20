@@ -8,7 +8,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  nixpkgs.overlays = [(final: _: import ../pkgs final)];
+  nixpkgs.overlays = [(import ../pkgs)];
   nix.settings.experimental-features = ["nix-command" "flakes" "repl-flake"];
 
   boot.loader = {
