@@ -87,6 +87,7 @@
     openjdk11
     kcat
     duckdb
+    freerdp3
   ];
 
   networking.extraHosts = ''
