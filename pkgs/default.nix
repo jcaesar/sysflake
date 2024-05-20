@@ -3,8 +3,8 @@ final: prev: {
   polaris-fuse = final.callPackage ./polaris-fuse.nix {};
   prometheus-nvml-exporter = final.callPackage ./prometheus-nvml-exporter.nix {};
   pyanidb = final.python3.pkgs.callPackage ./pyanidb.nix {};
-  njx = import ./njx.nix final;
-  rowserext = import ./rowserext.nix final;
+  njx = final.callPackage ./njx.nix {};
+  rowserext = final.callPackage ./rowserext.nix {};
   colmap = import ./colmap.nix prev;
   archivebox = import ./archivebox.nix prev;
 }

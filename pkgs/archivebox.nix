@@ -78,19 +78,4 @@ in
         setuptools
         w3lib
       ]);
-
-    # map (inp: let
-    #   remVul = lib.flip (lib.foldr lib.remove) [
-    #     "CVE-2021-45115"
-    #     "CVE-2021-45116"
-    #     "CVE-2021-45452"
-    #     "CVE-2022-23833"
-    #     "CVE-2022-22818"
-    #     "CVE-2022-28347"
-    #     "CVE-2022-28346"
-    #   ];
-    #   cleanMeta = inp.meta // {knownVulnerabilities = remVul (inp.meta.knownVulnerabilities or []);};
-    #   meta =cleanMeta;      in
-    #   inp.overrideAttrs {inherit meta;})
-    # old.propagatedBuildInputs;
   })
