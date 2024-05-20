@@ -50,13 +50,15 @@ pkgs: let
     }) {};
   django-extensions = ppkgs.django-extensions.override {django = ppkgs.django_5;};
   django-ninja = ppkgs.django-ninja.override {django = ppkgs.django_5;};
+  django-stubs-ext = ppkgs.django-stubs-ext.override {django = ppkgs.django_5;};
 in
   pkgs.archivebox.overrideAttrs (old: {
     src = pkgs.fetchFromGitHub {
       owner = "ArchiveBox";
       repo = "ArchiveBox";
       rev = "102e87578c6036bb0132dd1ebd17f8f05ffc880f";
-      hash = "sha256-Kmmieis8Fzl07VIIuxlpkhLXx9uoMDZx8BVIfLtKlYM=";
+      fetchSubmodules = true;
+      hash = "sha256-XBvAL1VIf3RxUYmJTxWAjzo4Y/07dgO7Atbxg82APs4=";
     };
     propagatedBuildInputs =
       [
@@ -65,6 +67,7 @@ in
         django-extensions
         django-ninja
         django-admin-data-views
+        django-stubs-ext
       ]
       ++ (with pkgs.python3.pkgs; [
         croniter
