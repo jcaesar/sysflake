@@ -8,6 +8,8 @@ in
       ../mod/base.nix
       common.config
     ];
+
+    boot.initrd.systemd.enable = true;
     virtualisation.docker = {
       enable = lib.mkForce false;
       rootless.enable = lib.mkForce false;

@@ -3,48 +3,43 @@
   modulesPath,
   ...
 }: let
-  var = mod:
+  ext = modules:
     (extendModules {
-      modules = [
-        ({lib, ...}: {
-          config.boot.initrd.luks.devices = lib.mkForce {};
-          config.fileSystems = {};
-        })
-        mod
-      ];
+      inherit modules;
     })
     .config
     .system
     .build;
-  vari = mod:
-    var
-    ({lib, ...}: {
-      imports = ["${modulesPath}/installer/${mod}"];
-      config.users.users.yamaguchi = lib.mkForce {isNormalUser = true;};
-      config.isoImage.squashfsCompression = "zstd -Xcompression-level 6";
-    });
-  varsd = mod:
-    var
-    ({
-      lib,
-      config,
-      ...
-    }: {
-      imports = ["${modulesPath}/installer/${mod}"];
-      config.sdImage = let
-        h = builtins.hashString "sha256" config.networking.hostName;
-        h12 = builtins.substring 0 12 h;
-      in {
-        rootPartitionUUID = "00000000-0000-0000-0001-${h12}";
-        compressImage = false;
-      };
-    });
+  base = {lib, ...}: {
+    config.boot.initrd.luks.devices = lib.mkForce {};
+    config.fileSystems = {};
+  };
+  common = {lib, ...}: {
+    imports = [base];
+    users.users.yamaguchi = lib.mkForce {isNormalUser = true;};
+    boot.initrd.systemd.enable = lib.mkForce false;
+  };
+  iso = _: {
+    imports = [common];
+    isoImage.squashfsCompression = "zstd -Xcompression-level 6";
+  };
+  sd = {config, ...}: {
+    imports = [common];
+    config.sdImage = let
+      h = builtins.hashString "sha256" config.networking.hostName;
+      h12 = builtins.substring 0 12 h;
+    in {
+      rootPartitionUUID = "00000000-0000-0000-0001-${h12}";
+      compressImage = false;
+    };
+  };
   vm = {
     lib,
     modulesPath,
     ...
   }: {
     imports = [
+      base
       "${modulesPath}/virtualisation/qemu-vm.nix"
     ];
     boot.initrd.secrets = lib.mkForce {};
@@ -65,18 +60,7 @@
     networking.wireguard.interfaces = lib.mkForce {};
     services.knot.keyFiles = [];
   };
-in {
-  # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.installer.isoImage
-  config.system.build.installer = vari "cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix";
-  config.system.build.installerOldKernel = vari "cd-dvd/installation-cd-minimal.nix";
-  config.system.build.installerGui = vari "cd-dvd/installation-cd-graphical-gnome.nix";
-  # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.netboot.kexecTree
-  config.system.build.netboot = vari "netboot/netboot-minimal.nix";
-  config.system.build.aarchSd = varsd "sd-card/sd-image-aarch64.nix";
-  config.system.build.aarchSdInstaller = varsd "sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix";
-  # env $"SHARED_DIR=(pwd)/share" nix run -vL .#nixosConfigurations.(hostname).config.system.build.test.vm
-  config.system.build.test = var vm;
-  config.system.build.testGui = var ({lib, ...}: {
+  guivm = {lib, ...}: {
     imports = [vm ./graphical.nix];
     virtualisation.graphics = lib.mkForce true;
     services.xserver = {
@@ -86,5 +70,17 @@ in {
       autoLogin.user = "julius";
       defaultSession = lib.mkForce "none+twm"; # TODO: Find a way to pass super from the host, then we use the host's WM
     };
-  });
+  };
+in {
+  # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.installer.isoImage
+  config.system.build.installer = ext [iso "${modulesPath}/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"];
+  config.system.build.installerOldKernel = ext [iso "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"];
+  config.system.build.installerGui = ext [iso "${modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix"];
+  # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.netboot.kexecTree
+  config.system.build.netboot = ext [common "${modulesPath}/installer/netboot/netboot-minimal.nix"];
+  config.system.build.aarchSd = ext [sd "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"];
+  config.system.build.aarchSdInstaller = ext [sd "${modulesPath}/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"];
+  # env $"SHARED_DIR=(pwd)/share" nix run -vL .#nixosConfigurations.(hostname).config.system.build.test.vm
+  config.system.build.test = ext [vm];
+  config.system.build.testGui = ext [guivm];
 }
