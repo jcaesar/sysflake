@@ -21,6 +21,7 @@
     ({lib, ...}: {
       imports = ["${modulesPath}/installer/${mod}"];
       config.users.users.yamaguchi = lib.mkForce {isNormalUser = true;};
+      config.isoImage.squashfsCompression = "zstd -Xcompression-level 6";
     });
   varsd = mod:
     var
@@ -67,6 +68,7 @@
 in {
   # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.installer.isoImage
   config.system.build.installer = vari "cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix";
+  config.system.build.installerOldKernel = vari "cd-dvd/installation-cd-minimal.nix";
   config.system.build.installerGui = vari "cd-dvd/installation-cd-graphical-gnome.nix";
   # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.netboot.kexecTree
   config.system.build.netboot = vari "netboot/netboot-minimal.nix";

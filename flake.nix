@@ -3,6 +3,7 @@
     self,
     nixpkgs,
     home-manager,
+    disko,
   }: let
     eachSystem = f: nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux"] (system: f (import nixpkgs {inherit system;}));
     sys = system: main:
@@ -33,6 +34,7 @@
             environment.etc."sysflake/nixpkgs".source = nixpkgs;
             environment.etc."sysflake/home-manager".source = home-manager;
           })
+          disko.nixosModules.disko
           main
           ./mod/variants.nix
         ];
@@ -45,6 +47,7 @@
       {
         korsika = sysI ./sys/korsika/configuration.nix;
         capri = sysI ./sys/capri/configuration.nix;
+        gozo = sysI ./sys/gozo.nix;
         mictop = sysI ./sys/mictop.nix;
         lasta = sysI ./sys/lasta/configuration.nix;
         pride = sysI ./sys/pride.nix;
@@ -64,5 +67,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 }
