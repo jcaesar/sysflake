@@ -1,5 +1,5 @@
-pkgs:
-pkgs.python3.pkgs.callPackage (pkgs.fetchFromGitHub {
+{python3, fetchFromGitHub}:
+python3.pkgs.callPackage (fetchFromGitHub {
   owner = "jcaesar";
   repo = "njx";
   rev = "65e65451b5b2604582674ae7e64807d8e8ee4726";

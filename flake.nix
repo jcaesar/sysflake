@@ -35,7 +35,7 @@
             environment.etc."sysflake/home-manager".source = home-manager;
           })
           # This doesn't add any scripts to system packages.
-          # But one can get at the script with 
+          # But one can get at the script with
           # nix build $(realpath /etc/sysflake/self)#.#nixosConfigurations.$(hostname).config.system.build.diskoScript
           # It's possible to do better, but bllr
           # https://github.com/nix-community/disko/blob/cdefe26742f442351e73ce0f7caa3f559be32dc6/docs/disko-install.md#example-for-a-nixos-installer

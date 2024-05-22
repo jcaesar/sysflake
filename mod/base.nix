@@ -59,7 +59,7 @@
     tcpdump
     lshw
     cyme # better lsusb
-    (import ../pkgs/njx.nix pkgs)
+    njx
   ];
 
   services.openssh = {
