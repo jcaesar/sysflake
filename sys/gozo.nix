@@ -75,6 +75,11 @@ in
       };
     };
 
+    networking.nat.enable = true;
+    networking.nat.internalInterfaces = ["wg"];
+    networking.nat.internalIPs = ["10.13.26.0/24"];
+    networking.nat.externalInterface = "enp0s3";
+
     # TODO: factor out into module?
     disko.devices.disk.diks = {
       device = "/dev/sda";
