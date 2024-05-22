@@ -25,7 +25,7 @@ in
       DNSStubListener=no
       DNSStubListenerExtra=10.13.26.1:5353
     '';
-    networking.firewall.allowedTCPPorts = [1337 5353];
+    networking.firewall.allowedUDPPorts = [5353];
 
     systemd.network = {
       enable = true;
