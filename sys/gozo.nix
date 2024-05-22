@@ -16,6 +16,7 @@ in
     };
     virtualisation.virtualbox.guest.enable = true;
     users.users.root.openssh.authorizedKeys.keys = common.sshKeys.strong;
+    services.smartd.enable = false;
 
     services.resolved.extraConfig = ''
       FallbackDNS=
