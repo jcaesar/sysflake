@@ -66,8 +66,9 @@ in {
   users.users.julius.packages = with pkgs; [
     element-desktop-wayland
     pyanidb
-    (pkgs.himalaya.override {buildFeatures = ["notmuch"];})
+    (himalaya.override {buildFeatures = ["notmuch"];})
     notmuch
+    nextcloud-client
   ];
 
   services.nzbget = {

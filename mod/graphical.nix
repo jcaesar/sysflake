@@ -92,6 +92,7 @@
     gimp
     xclip
     polaris-fuse
+    dolphin
     # Hyprland stuff
     #qt6-wayland
     wofi

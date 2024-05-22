@@ -78,9 +78,9 @@
 
   environment.systemPackages = with pkgs; [
     ipmitool
-    awscli
   ];
   users.users.julius.packages = with pkgs; [
+    awscli
     k9s
     kubectl
     jetbrains.idea-community
@@ -88,6 +88,8 @@
     kcat
     duckdb
     freerdp3
+    simplescreenrecorder
+    ffmpeg
   ];
 
   networking.extraHosts = ''
