@@ -50,7 +50,7 @@ in
             # korsika
             wireguardPeerConfig = {
               PublicKey = "I7MQODJwrZHVmAQsXZUsyxdi8hfDpMbPWKGk6TnElxM=";
-              Endpoint = "10.13.25.2:36748";
+              Endpoint = "10.13.25.2:36749";
               AllowedIPs = ["10.13.26.2/32"];
               PersistentKeepalive = 29;
             };
