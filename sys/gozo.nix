@@ -17,6 +17,12 @@ in
     virtualisation.virtualbox.guest.enable = true;
     users.users.root.openssh.authorizedKeys.keys = common.sshKeys.strong;
 
+    services.resolved.extraConfig = ''
+      FallbackDNS=
+      DNSStubListener=no
+      DNSStubListenerExtra=10.13.26.1:5353
+    '';
+
     systemd.network = {
       enable = true;
       networks."10-uplink" = {

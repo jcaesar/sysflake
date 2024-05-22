@@ -1,4 +1,7 @@
-{python3, fetchFromGitHub}:
+{
+  python3,
+  fetchFromGitHub,
+}:
 python3.pkgs.callPackage (fetchFromGitHub {
   owner = "jcaesar";
   repo = "njx";
