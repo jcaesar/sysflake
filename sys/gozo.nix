@@ -25,6 +25,7 @@ in
       DNSStubListener=no
       DNSStubListenerExtra=10.13.26.1:5353
     '';
+    networking.firewall.allowedTCPPorts = [1337 5353];
 
     systemd.network = {
       enable = true;
@@ -77,7 +78,6 @@ in
 
     networking.nat.enable = true;
     networking.nat.internalInterfaces = ["wg"];
-    networking.nat.internalIPs = ["10.13.26.0/24"];
     networking.nat.externalInterface = "enp0s3";
 
     # TODO: factor out into module?
