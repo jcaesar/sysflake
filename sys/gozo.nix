@@ -8,6 +8,8 @@ in
       ../mod/base.nix
       common.config
     ];
+    
+    networking.hostName = "gozo";
 
     boot.initrd.systemd.enable = true;
     virtualisation.docker = {
