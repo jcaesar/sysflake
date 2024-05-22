@@ -57,7 +57,6 @@
         lasta = sysI ./sys/lasta/configuration.nix;
         pride = sysI ./sys/pride.nix;
         doggieworld = sysI ./sys/doggieworld/configuration.nix;
-        installerBCacheFS = sysI ./sys/installer.nix;
         pitivi = sysA ./sys/pitivi.nix;
       }
       // work.shamo.eachNixed (index: {
