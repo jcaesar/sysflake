@@ -1,14 +1,11 @@
 {
-  config,
   lib,
   pkgs,
-  modulesPath,
   ...
 }: let
   private = import ../private.nix;
 in {
   imports = [
-    "${modulesPath}/installer/scan/not-detected.nix"
     ../mod/common.nix
     ../mod/graphical.nix
     ../mod/binfmt.nix
@@ -94,8 +91,7 @@ in {
     };
   };
 
-  nixpkgs.hostPlatform = "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = config.hardware.enableRedistributableFirmware;
+  hardware.cpu.amd.updateMicrocode = true;
 
   networking.hostName = "pride";
   networking.hostId = "7ef47bc5";

@@ -5,7 +5,7 @@
   ...
 }: {
   imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
+    "${modulesPath}/installer/scan/not-detected.nix"
   ];
 
   nixpkgs.overlays = [(import ../pkgs)];

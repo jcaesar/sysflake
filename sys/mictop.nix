@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  modulesPath,
-  ...
-}: let
+{pkgs, ...}: let
   private = import ../private.nix;
 in {
   imports = [
@@ -12,7 +6,6 @@ in {
     ../mod/graphical.nix
     ../mod/dlna.nix
     ../mod/bluetooth.nix
-    (modulesPath + "/installer/scan/not-detected.nix")
     (private.wireguardToDoggieworld {
       listenPort = 51820;
       finalOctet = 2;
@@ -25,6 +18,7 @@ in {
   boot.initrd.availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-intel"];
+  hardware.cpu.intel.updateMicrocode = true;
 
   boot.initrd.luks.devices."nixcrypt".device = "/dev/disk/by-uuid/09e5a891-b57f-4068-9332-5ce8c4dad926";
   boot.initrd.luks.devices."oldroot".device = "/dev/disk/by-uuid/11854422-4b07-4081-a5cf-393f4060b933";
@@ -61,9 +55,6 @@ in {
       DHCP = "yes";
     };
   };
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   services.xserver.enable = true;
   home-manager.users.julius.wayland.windowManager.hyprland.enable = true;

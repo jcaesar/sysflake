@@ -1,14 +1,9 @@
-{
-  modulesPath,
-  lib,
-  ...
-}: let
+{lib, ...}: let
   private = import ../private.nix;
 in {
   imports = [
     ../mod/base.nix
     ../mod/dlna.nix
-    (modulesPath + "/installer/scan/not-detected.nix")
     (import ../mod/ssh-unlock.nix {
       authorizedKeys = private.terminalKeys;
       extraModules = ["smsc95xx" "e1000e"];

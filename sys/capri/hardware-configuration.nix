@@ -1,4 +1,4 @@
-{lib, ...}: {
+{
   imports = [];
 
   boot.initrd.availableKernelModules = ["ata_piix" "mptspi" "sd_mod" "sr_mod"];
@@ -16,5 +16,4 @@
   };
 
   swapDevices = [];
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

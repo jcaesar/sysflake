@@ -20,6 +20,12 @@ in
     users.users.root.openssh.authorizedKeys.keys = common.sshKeys.strong;
     services.smartd.enable = false;
 
+    # Too little ram for nix run nixpkgs#… anyway
+    nixpkgs.flake = {
+      setNixPath = false;
+      setFlakeRegistry = false;
+    };
+
     services.resolved.extraConfig = ''
       FallbackDNS=
       DNSStubListener=no

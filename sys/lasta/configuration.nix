@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  modulesPath,
   ...
 }: let
   private = import ../../private.nix;
@@ -12,7 +11,6 @@ in {
     ../../mod/graphical.nix
     ../../mod/dlna.nix
     ../../mod/bluetooth.nix
-    (modulesPath + "/installer/scan/not-detected.nix")
     (import ../../mod/ssh-unlock.nix {
       authorizedKeys = private.terminalKeys;
       extraModules = ["e1000e"];
@@ -27,6 +25,8 @@ in {
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-intel"];
   boot.initrd.systemd.enable = true;
+  hardware.cpu.intel.updateMicrocode = true;
+
   fileSystems."/" = {
     device = "/dev/disk/by-partlabel/primary";
     fsType = "bcachefs";
@@ -53,9 +53,6 @@ in {
       DHCP = "yes";
     };
   };
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   services.openssh.enable = true;
 

@@ -22,8 +22,8 @@
         };
         modules = [
           ({...}: {
-            nix.registry.nixpkgs.flake = nixpkgs;
             nix.registry.n.flake = nixpkgs;
+            nix.registry.sf.flake = self;
             nix.nixPath = ["nixpkgs=${nixpkgs}"];
             system.configurationRevision =
               self.rev or self.dirtyRev or "nogit";

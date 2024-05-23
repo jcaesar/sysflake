@@ -1,7 +1,6 @@
 shamoIndex: {
   pkgs,
   lib,
-  config,
   ...
 }: let
   common = import ../work.nix;
@@ -28,11 +27,10 @@ in rec {
     ];
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  nixpkgs.hostPlatform = "x86_64-linux";
   boot.initrd.availableKernelModules = ["ahci" "xhci_pci" "nvme" "megaraid_sas" "usbhid" "sd_mod"];
   boot.initrd.kernelModules = ["dm-snapshot"];
   boot.kernelModules = ["kvm-intel"];
+  hardware.cpu.intel.updateMicrocode = true;
 
   boot.initrd.luks.devices."nixroot".device =
     {
@@ -84,7 +82,7 @@ in rec {
   };
   networking.hostName = shamo.name shamoIndex;
 
-  environment.systemPackages = with pkgs; [kompose kubectl kubernetes] ++ common.packages pkgs;
+  environment.systemPackages = (with pkgs; [kompose kubectl kubernetes]) ++ common.packages pkgs;
 
   # Configure client: ssh shamo2 kubectl config view  --flatten | save -f .kube/config
   # Join a node: ssh shamo2 cat /var/lib/kubernetes/secrets/apitoken.secret | ssh shamoX nixos-kubernetes-node-join
