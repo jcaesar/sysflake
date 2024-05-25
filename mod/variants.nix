@@ -23,9 +23,19 @@
     imports = [common];
     isoImage.squashfsCompression = "zstd -Xcompression-level 6";
   };
-  sd = {config, ...}: {
+  sd = {lib, config, ...}: {
     imports = [common];
-    config.sdImage = let
+    fileSystems = lib.mkForce {
+      "/" = {
+        device = "/dev/disk/by-label/NIXOS_SD";
+        fsType = "ext4";
+      };
+      "/boot" = {
+        device = "/dev/disk/by-label/FIRMWARE";
+        fsType = "vfat";
+      };
+    };
+    sdImage = let
       h = builtins.hashString "sha256" config.networking.hostName;
       h12 = builtins.substring 0 12 h;
     in {
