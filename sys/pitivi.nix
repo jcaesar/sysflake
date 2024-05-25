@@ -1,4 +1,8 @@
-{lib, ...}: let
+{
+  pkgs,
+  lib,
+  ...
+}: let
   private = import ../private.nix;
 in {
   imports = [
@@ -12,7 +16,21 @@ in {
 
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.initrd.secrets = lib.mkForce {};
-  hardware.enableRedistributableFirmware = true;
+  hardware.enableRedistributableFirmware = true; # apparently, this also requires:
+  nixpkgs.overlays = [
+    (self: super: {
+      firmwareLinuxNonfree = super.firmwareLinuxNonfree.overrideAttrs (old: {
+        version = "2020-12-18";
+        src = pkgs.fetchgit {
+          url = "https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git";
+          rev = "b79d2396bc630bfd9b4058459d3e82d7c3428599";
+          sha256 = "1rb5b3fzxk5bi6kfqp76q1qszivi0v1kdz1cwj2llp5sd9ns03b5";
+        };
+        outputHash = "1p7vn2hfwca6w69jhw5zq70w44ji8mdnibm1z959aalax6ndy146";
+      });
+    })
+  ];
+
   # https://wiki.nixos.org/wiki/NixOS_on_ARM/Raspberry_Pi_3#Early_boot
   boot.initrd.kernelModules = ["vc4" "bcm2835_dma" "i2c_bcm2835"];
   boot.loader.grub.enable = false;

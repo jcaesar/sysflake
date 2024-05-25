@@ -23,7 +23,11 @@
     imports = [common];
     isoImage.squashfsCompression = "zstd -Xcompression-level 6";
   };
-  sd = {lib, config, ...}: {
+  sd = {
+    lib,
+    config,
+    ...
+  }: {
     imports = [common];
     fileSystems = lib.mkForce {
       "/" = {
