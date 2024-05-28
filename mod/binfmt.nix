@@ -3,44 +3,23 @@
   pkgs,
   ...
 }: {
-  boot.binfmt.emulatedSystems = ["armv7l-linux" "wasm32-wasi" "wasm64-wasi" "x86_64-windows"];
-  nix.settings.extra-platforms = ["aarch64-linux"];
-  environment.etc."binfmt.d/nix-hack-qemu-user-statc.conf".text = let
+  boot.binfmt.emulatedSystems = ["aarch64-linux" "armv7l-linux" "riscv64-linux" "wasm32-wasi" "wasm64-wasi" "x86_64-windows"];
+  boot.binfmt.registrations = let
     pr = pkgs.fetchFromGitHub {
       owner = "NixOS";
       repo = "nixpkgs";
-      rev = "pull/300070/head"; #"d01bb6a1f7b820437406b4b341f77537c04bdc50";
-      hash = "sha256-7uBcm17HVjPW5JBmEnyg+yVb1qDkiXHKfeLjR7wfyek=";
+      rev = "pull/314998/head"; # "d57f30155eb628f27f12d24c3e1fd6a30ee7fee7";
+      hash = "sha256-rzcKVxTJqbkfUufo6Ogaoh50O9AtmTY/1jjRDNXZYk4=";
     };
     patched = import pr {inherit (pkgs) system;};
-    # Workaround for https://github.com/NixOS/nixpkgs/issues/295608
-    qus = patched.qemu-user-static.override {
-      pkgsStatic =
-        patched.pkgsStatic
-        // {
-          qemu = patched.pkgsStatic.qemu.override {
-            texinfo = patched.pkgsStatic.texinfo.override {
-              perl = pkgs.perl;
-            };
-            pixman = patched.pkgsStatic.pixman.overrideAttrs {
-              postPatch = ''
-                substituteInPlace test/meson.build \
-                  --replace-fail 'timeout : 120' 'timeout : 240'
-              '';
-            };
-            hostCpuTargets = ["aarch64-linux-user"];
-          };
-        };
+    qus = patched.pkgsStatic.qemu-user;
+    attrs = sys: {
+      interpreter = "${qus}/bin/qemu-${(lib.systems.elaborate sys).qemuArch}";
+      wrapInterpreterInShell = false;
+      preserveArgvZero = true;
+      matchCredentials = true;
+      fixBinary = true;
     };
   in
-    lib.concatStringsSep ":" [
-      ""
-      "aarch64-linux"
-      "M"
-      ""
-      "\\x7fELF\\x02\\x01\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x02\\x00\\xb7\\x00"
-      "\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\x00\\xff\\xff\\xff\\xff\\xff\\xff\\x00\\xff\\xfe\\xff\\xff\\xff"
-      "${qus}/bin/qemu-aarch64"
-      "FOCP"
-    ];
+    lib.genAttrs ["aarch64-linux" "armv7l-linux" "riscv64-linux"] attrs;
 }
