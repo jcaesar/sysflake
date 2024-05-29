@@ -173,6 +173,9 @@ in {
   services.ollama = {
     enable = true;
     acceleration = "cuda";
+    package = pkgs.ollama.overrideAttrs {
+      env.OLLAMA_CPU_TARGET = "cpu_avx2";
+    };
   };
 
   #services.nzbget = {
