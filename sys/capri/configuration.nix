@@ -55,7 +55,7 @@ in {
     openssh.authorizedKeys.keys = common.sshKeys.client;
   };
   users.users.aoki = {
-    openssh.authorizedKeys.keys = [common.sshKeys.aoki];
+    openssh.authorizedKeys.keys = common.sshKeys.aoki;
     isNormalUser = true;
   };
   security.sudo.wheelNeedsPassword = false;
