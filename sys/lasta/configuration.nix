@@ -93,9 +93,5 @@ in {
       ])
     ) (lib.getName pkg);
 
-  networking.extraHosts = ''
-    0.0.0.0 pr0gramm.com
-  '';
-
   system.stateVersion = "24.05";
 }
