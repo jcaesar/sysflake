@@ -58,6 +58,10 @@ in {
 
   services.xserver.enable = true;
   home-manager.users.julius.wayland.windowManager.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
   programs.command-not-found.enable = true;
 
   users.users.julius.packages = with pkgs; [
