@@ -69,7 +69,7 @@ in {
   boot.initrd.luks.devices = let
     dev = uuid: {
       device = "/dev/disk/by-uuid/${uuid}";
-      keyFile = "/etc/secrets/filkey";
+      keyFile = "/sysroot/etc/secrets/filekey";
     };
   in {
     #"file1" = dev "c2b6f644-c505-4d8e-be79-db0d80dd149d";
