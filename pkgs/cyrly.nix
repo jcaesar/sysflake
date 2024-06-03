@@ -14,6 +14,7 @@ rustPlatform.buildRustPackage rec {
     hash = "sha256-Fik0Vb0WCwx1oiU/GTt703qW6OLFIWz3Fd5DC0UBU6I=";
   };
   cargoLock.lockFile = "${src}/Cargo.lock";
+  buildAndTestSubdir = "bin";
 
   meta = with lib; {
     description = "A serde-based YAML serializer for Rust with an unusual output style.";
