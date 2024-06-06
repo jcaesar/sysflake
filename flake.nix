@@ -5,7 +5,8 @@
     home-manager,
     disko,
   }: let
-    eachSystem = f: nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux"] (system: f (import nixpkgs {inherit system;}));
+    pkgsForSystem = system: import nixpkgs {inherit system;};
+    eachSystem = f: nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux"] (system: f (pkgsForSystem system));
     sys = system: main:
       nixpkgs.lib.nixosSystem {
         inherit system;
@@ -68,6 +69,21 @@
       });
     packages = eachSystem (pkgs: import ./pkgs pkgs pkgs);
     formatter = eachSystem (pkgs: pkgs.alejandra);
+    tests = eachSystem (pkgs: let
+      nixosLib = import "${nixpkgs}/nixos/lib" {};
+      myPkgs = import ./pkgs pkgs pkgs;
+      hostPkgs = import nixpkgs {
+        inherit (pkgs) system;
+        overlays = [(import ./pkgs)];
+      };
+    in
+      builtins.mapAttrs (pkgName: pkg:
+        builtins.mapAttrs (testName: test:
+          nixosLib.runTest {
+            inherit hostPkgs;
+            imports = [test];
+          }) ((pkg.passthru or {}).tests or {}))
+      myPkgs);
   };
 
   inputs = {
