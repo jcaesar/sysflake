@@ -11,8 +11,9 @@
     .system
     .build;
   base = {lib, ...}: {
-    config.boot.initrd.luks.devices = lib.mkForce {};
-    config.fileSystems = {};
+    boot.initrd.luks.devices = lib.mkForce {};
+    fileSystems = {};
+    boot.supportedFilesystems.zfs = lib.mkForce false;
   };
   common = {lib, ...}: {
     imports = [base];
@@ -87,14 +88,14 @@
   };
 in {
   # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.installer.isoImage
-  config.system.build.installer = ext [iso "${modulesPath}/installer/cd-dvd/installation-cd-minimal-new-kernel-no-zfs.nix"];
-  config.system.build.installerOldKernel = ext [iso "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"];
-  config.system.build.installerGui = ext [iso "${modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix"];
-  # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.netboot.kexecTree
-  config.system.build.netboot = ext [common "${modulesPath}/installer/netboot/netboot-minimal.nix"];
-  config.system.build.aarchSd = ext [sd "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"];
-  config.system.build.aarchSdInstaller = ext [sd "${modulesPath}/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"];
-  # env $"SHARED_DIR=(pwd)/share" nix run -vL .#nixosConfigurations.(hostname).config.system.build.test.vm
-  config.system.build.test = ext [vm];
-  config.system.build.testGui = ext [guivm];
+  system.build.installer = ext [iso "${modulesPath}/installer/cd-dvd/installation-cd-minimal-new-kernel.nix"];
+  system.build.installerOldKernel = ext [iso "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"];
+  system.build.installerGui = ext [iso "${modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix"];
+  # nix build --show-trace -vL .#nixosConfigurations.${host}.system.build.netboot.kexecTree
+  system.build.netboot = ext [common "${modulesPath}/installer/netboot/netboot-minimal.nix"];
+  system.build.aarchSd = ext [sd "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"];
+  system.build.aarchSdInstaller = ext [sd "${modulesPath}/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"];
+  # env $"SHARED_DIR=(pwd)/share" nix run -vL .#nixosConfigurations.(hostname).system.build.test.vm
+  system.build.test = ext [vm];
+  system.build.testGui = ext [guivm];
 }
