@@ -5,6 +5,7 @@
   ...
 }: let
   topCfg = config;
+  squashzstd = "zstd -Xcompression-level 6";
   ext = modules:
     (extendModules {
       inherit modules;
@@ -30,9 +31,9 @@
     in
       lib.mkIf (cfg ? diskoScript) {source = cfg.diskoScript;};
   };
-  iso = _: {
+  iso = {
     imports = [common];
-    isoImage.squashfsCompression = "zstd -Xcompression-level 6";
+    isoImage.squashfsCompression = squashzstd;
   };
   sd = {
     lib,
@@ -96,13 +97,16 @@
       defaultSession = lib.mkForce "none+twm"; # TODO: Find a way to pass super from the host, then we use the host's WM
     };
   };
+  netboot = {
+    imports = [common "${modulesPath}/installer/netboot/netboot.nix"];
+    netboot.squashfsCompression = squashzstd;
+  };
 in {
   # nix build --show-trace -vL .#nixosConfigurations.${host}.config.system.build.installer.isoImage
-  system.build.installer = ext [iso "${modulesPath}/installer/cd-dvd/installation-cd-minimal-new-kernel.nix"];
-  system.build.installerOldKernel = ext [iso "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"];
+  system.build.installer = ext [iso "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"];
   system.build.installerGui = ext [iso "${modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix"];
   # nix build --show-trace -vL .#nixosConfigurations.${host}.system.build.netboot.kexecTree
-  system.build.netboot = ext [common "${modulesPath}/installer/netboot/netboot-minimal.nix"];
+  system.build.netboot = ext [netboot];
   system.build.aarchSd = ext [sd "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"];
   system.build.aarchSdInstaller = ext [sd "${modulesPath}/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"];
   # env $"SHARED_DIR=(pwd)/share" nix run -vL .#nixosConfigurations.(hostname).system.build.test.vm
