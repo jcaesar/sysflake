@@ -46,16 +46,40 @@ in {
   # mount /dev/nvme1n1p2 /mnt
   # mkdir /mnt/boot
   # mount /dev/nvme1n1p1 /mnt/boot
+  disko.devices.disk.diks = {
+    device = "/dev/disk/by-id/nvme-ADATA_SX8200PNP_2J3020071323_1";
+    type = "disk";
+    content = {
+      type = "gpt";
+      partitions = {
+        ESP = {
+          type = "EF00";
+          size = "500M";
+          content = {
+            type = "filesystem";
+            format = "vfat";
+            mountpoint = "/boot";
+          };
+        };
+        root = {
+          size = "100%";
+          content = {
+            type = "luks";
+            name = "nixcrypt";
+            settings.allowDiscards = true;
+            content = {
+              type = "filesystem";
+              format = "btrfs";
+              mountpoint = "/";
+              mountOptions = ["defaults" "discard=async" "relatime" "compress=zstd"];
+            };
+          };
+        };
+      };
+    };
+  };
+
   fileSystems = {
-    "/" = {
-      device = "/dev/nvme1n1p2";
-      fsType = "bcachefs";
-      options = ["compression=zstd"];
-    };
-    "/boot" = {
-      device = "/dev/disk/by-label/nixboot";
-      fsType = "vfat";
-    };
     #"/mnt/file" = {
     #  device = "/dev/disk/by-uuid/1521d981-c56e-4c80-af64-ac1ad11ef80b";
     #  fsType = "btrfs";
