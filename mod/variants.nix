@@ -1,8 +1,10 @@
 {
   extendModules,
   modulesPath,
+  config,
   ...
 }: let
+  topCfg = config;
   ext = modules:
     (extendModules {
       inherit modules;
@@ -19,6 +21,14 @@
     imports = [base];
     users.users.yamaguchi = lib.mkForce {isNormalUser = true;};
     boot.initrd.systemd.enable = lib.mkForce false;
+    # Should now be possible to do installs with
+    # # /etc/sysflake/diskoScript
+    # # nixos-install --system /etc/sysflake/toplevel
+    environment.etc."sysflake/toplevel".source = topCfg.system.build.toplevel;
+    environment.etc."sysflake/diskoScript" = let
+      cfg = topCfg.system.build;
+    in
+      lib.mkIf (cfg ? diskoScript) {source = cfg.diskoScript;};
   };
   iso = _: {
     imports = [common];
