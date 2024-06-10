@@ -53,6 +53,7 @@
       dnsutils
       tokei
       cyrly
+      qemu_kvm
       (python3.withPackages (ps:
         with ps; [
           netaddr

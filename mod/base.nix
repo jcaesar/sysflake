@@ -27,39 +27,39 @@
 
   environment.systemPackages = with pkgs; [
     vim
-    helix
     pv
     jq
     rq
     wget
-    httpie
-    git
+    httpie # better wget/curl
     screen
-    tmux
-    lls
-    htop
-    zenith-nvidia
-    iftop
-    iotop
-    logcheck
+    tmux # better screen
+    lls # better ss -loptun
     direnv
     nload
-    ripgrep
-    fd
-    du-dust
+    ripgrep # better grep -R
+    fd # better find
+    htop # better top
+    zenith-nvidia # combined htop/nload/iotop
+    du-dust # better du
+    iftop
+    iotop
     smartmontools
     alejandra
     efibootmgr
     openssl
     nvd
     nix-diff
-    miniserve
+    miniserve # better python -m http.server
     inotify-tools
     vulnix
     tcpdump
     lshw
     cyme # better lsusb
+    libtree # better ldd
     njx
+    helix # better vim
+    git # better svn/hg
   ];
 
   services.openssh = {

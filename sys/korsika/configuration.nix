@@ -46,6 +46,7 @@
         i3status
         i3lock
         x11vnc
+        xdotool
       ];
     };
   };

@@ -146,6 +146,7 @@ in {
     colmap
     archivebox
     pyanidb
+    nixpkgs-review
   ];
 
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
