@@ -11,7 +11,7 @@ cd "$(dirname "$0")"
 export NIX_SSHOPTS="-q -oCompression=yes -oControlMaster=auto -oControlPath=/tmp/ssh-check-nix-build-%C -oControlPersist=60"
 target=shamo2
 exit=true
-for h in korsika shamo4 capri gozo shamo{0,2,6,7}; do
+for h in korsika shamo4 capri gozo shamo{0,2,6,7} gemini5; do
 	(
 		echo -en "\n$h\n$(echo $h | sed 's/./=/g')\n"
 		set -x

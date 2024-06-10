@@ -26,6 +26,7 @@
             nix.registry.n.flake = nixpkgs;
             nix.registry.sf.flake = self;
             nix.nixPath = ["nixpkgs=${nixpkgs}"];
+            nix.channel.enable = false;
             system.configurationRevision =
               self.rev or self.dirtyRev or "nogit";
             system.nixos.version = let
@@ -48,6 +49,7 @@
       {
         korsika = sysI ./sys/korsika/configuration.nix;
         capri = sysI ./sys/capri/configuration.nix;
+        gemini5 = sysI ./sys/gemini5.nix;
         gozo = sysI ./sys/gozo.nix;
         mictop = sysI ./sys/mictop.nix;
         lasta = sysI ./sys/lasta/configuration.nix;
