@@ -5,7 +5,8 @@
     home-manager,
     disko,
   }: let
-    eachSystem = f: nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux"] (system: f (import nixpkgs {inherit system;}));
+    pkgsForSystem = system: import nixpkgs {inherit system;};
+    eachSystem = f: nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux"] (system: f (pkgsForSystem system));
     sys = system: main:
       nixpkgs.lib.nixosSystem {
         inherit system;
@@ -34,14 +35,6 @@
             environment.etc."sysflake/nixpkgs".source = nixpkgs;
             environment.etc."sysflake/home-manager".source = home-manager;
           })
-          # This doesn't add any scripts to system packages.
-          # But one can get the script with
-          # nix build $(realpath /etc/sysflake/self)#nixosConfigurations.$(hostname).config.system.build.diskoScript
-          # For some reason, installing after that only worked with
-          # nixos-install --system $(nix build --no-link --print-out-paths $(realpath /etc/sysflake/self)#nixosConfigurations.$(hostname).config.system.build.toplevel)
-          #
-          # It's possible to do better, but bllr
-          # https://github.com/nix-community/disko/blob/cdefe26742f442351e73ce0f7caa3f559be32dc6/docs/disko-install.md#example-for-a-nixos-installer
           disko.nixosModules.disko
           main
           ./mod/variants.nix
@@ -68,6 +61,21 @@
       });
     packages = eachSystem (pkgs: import ./pkgs pkgs pkgs);
     formatter = eachSystem (pkgs: pkgs.alejandra);
+    tests = eachSystem (pkgs: let
+      nixosLib = import "${nixpkgs}/nixos/lib" {};
+      myPkgs = import ./pkgs pkgs pkgs;
+      hostPkgs = import nixpkgs {
+        inherit (pkgs) system;
+        overlays = [(import ./pkgs)];
+      };
+    in
+      builtins.mapAttrs (pkgName: pkg:
+        builtins.mapAttrs (testName: test:
+          nixosLib.runTest {
+            inherit hostPkgs;
+            imports = [test];
+          }) ((pkg.passthru or {}).tests or {}))
+      myPkgs);
   };
 
   inputs = {
