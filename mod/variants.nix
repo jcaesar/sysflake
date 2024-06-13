@@ -17,6 +17,7 @@
     boot.initrd.luks.devices = lib.mkForce {};
     fileSystems = {};
     boot.supportedFilesystems.zfs = lib.mkForce false;
+    systemd.services.rescue.environment.SYSTEMD_SULOGIN_FORCE = "1";
   };
   common = {lib, ...}: {
     imports = [base];

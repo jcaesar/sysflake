@@ -1,7 +1,7 @@
 # small gateway for korsika
 let
   common =
-    import ../work.nix;
+    import ../work.p anix;
 in
   {lib, ...}: {
     imports = [
