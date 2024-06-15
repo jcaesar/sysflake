@@ -17,6 +17,7 @@ in {
     "swww init & swww clear"
     "exec blueman-applet"
     "exec swayidle -w timeout 330 hyprlock before-sleep hyprlock"
+    "waybar"
   ];
 
   env = ["XCURSOR_SIZE,24"];

@@ -54,6 +54,7 @@ in {
       DHCP = "yes";
     };
   };
+  services.openssh.enable = true;
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
 
   disko.devices.disk.diks = {
