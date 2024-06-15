@@ -57,7 +57,7 @@ in {
   services.openssh.enable = true;
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
 
-  disko.devices.disk.diks = {
+  disko.devices.disk.diks = lib.mkIf false {
     device = "/dev/mmcblk0";
     type = "disk";
     content = {
@@ -92,6 +92,16 @@ in {
           };
         }
       ];
+    };
+  };
+  fileSystems = lib.mkForce {
+    "/" = {
+      device = "/dev/disk/by-label/NIXOS_SD";
+      fsType = "ext4";
+    };
+    "/boot/firmware" = {
+      device = "/dev/disk/by-label/FIRMWARE";
+      fsType = "vfat";
     };
   };
 
