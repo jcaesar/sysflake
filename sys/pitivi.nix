@@ -72,19 +72,31 @@ in {
       format = "msdos";
       partitions = [
         {
-          name = "BOOT";
+          name = "FIRMWARE";
           start = "8M";
-          end = "500M";
-          bootable = true;
+          end = "50M";
+          fs-type = "fat32";
           content = {
             type = "filesystem";
             format = "vfat";
+            # still need to manually copy firmware here
+            mountpoint = "/boot/firmware";
+          };
+        }
+        {
+          name = "BOOT";
+          start = "50M";
+          end = "1G";
+          bootable = true;
+          content = {
+            type = "filesystem";
+            format = "ext4";
             mountpoint = "/boot";
           };
         }
         {
           name = "store";
-          start = "500M";
+          start = "1G";
           end = "60%";
             content = {
               type = "filesystem";
@@ -100,7 +112,6 @@ in {
             type = "luks";
             name = "crypted";
             settings.allowDiscards = true;
-            #passwordFile = "/tmp/secret.key";
             content = {
               type = "filesystem";
               format = "ext4";
