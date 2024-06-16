@@ -55,7 +55,7 @@ in {
     };
   };
   services.openssh.enable = true;
-  users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
+  users.users.root.openssh.authorizedKeys.keys = private.terminalKeys ++ [private.prideKey];
 
   disko.devices.disk.diks = lib.mkIf false {
     device = "/dev/mmcblk0";
