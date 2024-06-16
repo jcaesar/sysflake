@@ -42,10 +42,13 @@ in {
   networking.supplicant.wlan0.userControlled.enable = true;
   networking.supplicant.wlan0.configFile.writable = true;
   networking.supplicant.wlan0.extraConf = "country=JP";
-  systemd.services.supplicant-wlan0.serviceConfig.ExecStartPre = [
-    "+/run/booted-system/sw/bin/rmmod brcmfmac"
-    "+/run/booted-system/sw/bin/modprobe brcmfmac"
-  ];
+  systemd.services.wlan0-hackfix = {
+    wantedBy = ["network.target"];
+    after = ["local-fs.target" "paths.target" "system-modprobe.slice"];
+    serviceConfig.Type = "oneshot";
+    serviceConfig.ExecStart = 
+      "${lib.getExe pkgs.bash} -euc \"set -eu; for a in rmmod modprobe; do /run/booted-system/sw/bin/$a brcmfmac; done\"";
+  };
   systemd.network = {
     enable = true;
     networks."12-wireless" = {
