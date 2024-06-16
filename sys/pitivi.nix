@@ -42,6 +42,10 @@ in {
   networking.supplicant.wlan0.userControlled.enable = true;
   networking.supplicant.wlan0.configFile.writable = true;
   networking.supplicant.wlan0.extraConf = "country=JP";
+  systemd.services.supplicant-wlan0.serviceConfig.ExecStartPre = [
+    "+/run/booted-system/sw/bin/rmmod brcmfmac"
+    "+/run/booted-system/sw/bin/modprobe brcmfmac"
+  ];
   systemd.network = {
     enable = true;
     networks."12-wireless" = {
