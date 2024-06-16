@@ -64,7 +64,7 @@ in {
   services.openssh.enable = true;
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys ++ [private.prideKey];
 
-  disko.devices.disk.diks = lib.mkIf false {
+  disko.devices.disk.diks = {
     device = "/dev/mmcblk0";
     type = "disk";
     content = {
@@ -83,8 +83,18 @@ in {
           };
         }
         {
-          name = "luks";
+          name = "store";
           start = "500M";
+          end = "60%";
+            content = {
+              type = "filesystem";
+              format = "ext4";
+              mountpoint = "/nix/store";
+          };
+        }
+        {
+          name = "luks";
+          start = "60%";
           end = "100%";
           content = {
             type = "luks";
@@ -99,16 +109,6 @@ in {
           };
         }
       ];
-    };
-  };
-  fileSystems = lib.mkForce {
-    "/" = {
-      device = "/dev/disk/by-label/NIXOS_SD";
-      fsType = "ext4";
-    };
-    "/boot/firmware" = {
-      device = "/dev/disk/by-label/FIRMWARE";
-      fsType = "vfat";
     };
   };
 
