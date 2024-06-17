@@ -112,6 +112,7 @@ in {
       ];
     };
   };
+  services.smartd.enable = false;
 
   services.home-assistant = {
     enable = true;
