@@ -47,7 +47,7 @@
         device = "/dev/disk/by-label/NIXOS_SD";
         fsType = "ext4";
       };
-      "/boot" = {
+      "/boot/firmware" = {
         device = "/dev/disk/by-label/FIRMWARE";
         fsType = "vfat";
       };
