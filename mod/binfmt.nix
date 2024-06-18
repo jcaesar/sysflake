@@ -4,7 +4,7 @@
   ...
 }: let
   arches = ["aarch64-linux" "armv7l-linux" "riscv64-linux"];
-  qus = pkgs.pkgsStatic.qemu-user.override {inherit arches;};
+  qus = pkgs.qemu-user-static.override {inherit arches;};
   qusAttrs = sys: {
     interpreter = "${qus.passthru.binaryFor sys}";
     wrapInterpreterInShell = false;

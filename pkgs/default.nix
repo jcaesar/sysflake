@@ -7,10 +7,5 @@ final: prev: {
   rowserext = final.callPackage ./rowserext.nix {};
   colmap = import ./colmap.nix prev;
   archivebox = import ./archivebox.nix prev;
-  qemu-user = final.callPackage ./qemu-user.nix {};
-  pkgsStatic =
-    prev.pkgsStatic
-    // {
-      qemu-user = final.pkgsStatic.callPackage ./qemu-user.nix {};
-    };
+  qemu-user-static = final.pkgsStatic.callPackage ./qemu-user.nix {};
 }
