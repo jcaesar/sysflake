@@ -4,27 +4,62 @@
   config,
   ...
 }: let
+  inherit (lib) mkForce getExe recursiveUpdate;
   linux = let
-    patched = builtins.getFlake "github:jcaesar/fork2pr-nixpkgs/84b9867048928648c80b1f438e61ce0bc5d9ba7d"; # branch pr-10
-    ppkgs = import patched {inherit (pkgs) system;};
-    ob = ppkgs.linux.override {
-      kernelArch = "um";
-      ignoreConfigErrors = true;
-      perferBuiltin = true;
-      autoModules = false;
+    fixShell = ''
+      substituteInPlace arch/um/Makefile --replace-fail 'SHELL := /bin/bash' 'SHELL := ${pkgs.stdenv.shell}'
+    '';
+    cfg = pkgs.linux.configfile.overrideAttrs (old: {
+      postPatch = old.postPatch + fixShell;
+      kernelArch = "um"; # here, the attr works. on the kernel itself, it doesn't.
+      # defconfig = "allmodconfig";
+      # default config sets an impossible value for RC_CORE that breaks autoModules, not possible to override :(
+      kernelConfig = ''
+        # systemd nixos module says these are necessary
+        CRYPTO_USER_API_HASH y
+        CRYPTO_HMAC y
+        CRYPTO_SHA256 y
+        TMPFS_POSIX_ACL y
+        TMPFS_XATTR y
+        BLK_DEV_INITRD y
+
+        # found out the hard way that at least XZ and SCRIPT are necessary for boot
+        EXPERT y
+        MODULE_COMPRESS_XZ y
+        MODULE_SIG n
+        BINFMT_MISC y
+        BINFMT_SCRIPT y
+
+        # debug
+        IKCONFIG y
+        IKCONFIG_PROC y
+      '';
+    });
+    mk = pkgs.linuxManualConfig {
+      # config file for the wrong arch. pukes a bit on build start but ends up working nicely
+      inherit (pkgs.linux) version src;
+      configfile = cfg;
+      allowImportFromDerivation = true;
+    };
+    ob = mk.override {
+      stdenv = recursiveUpdate pkgs.stdenv {
+        hostPlatform.linuxArch = "um";
+        hostPlatform.linux-kernel.target = "linux";
+      };
     };
     oa = ob.overrideAttrs (old: {
-      buildFlags = lib.remove "bzImage" old.buildFlags ++ ["linux"];
+      postPatch = old.postPatch + fixShell;
       installPhase = ''
         # there doesn't seem to be an install target for um
         install -Dm555 ./vmlinux $out/bin/vmlinux
         ln -s $out/bin/vmlinux $out/bin/linux
+        runHook postInstall
       '';
       meta = old.meta // {mainProgram = "vmlinux";};
     });
   in
     oa;
-  # getting networking to work would require some interesting archeology.
+  # getting networking to work without root would require some interesting archeology.
   # This thing's got 17 patches on debian, including two CVEs…
   # bess might be easier.
   slirp = pkgs.stdenv.mkDerivation {
@@ -45,43 +80,45 @@
     buildInputs = [pkgs.libxcrypt];
   };
 in {
-  # boot.kernelPackages = linux;
+  boot.kernelPackages = pkgs.linuxPackagesFor linux;
+  # can't use boot.kernel.enable = false; we do want modules, but we don't have a kernel - any file will do
+  system.boot.loader.kernelFile = "bin/vmlinux";
+  boot.initrd.availableKernelModules = mkForce ["autofs4"]; # autofs is required by systemd, hostfs by this config
+  boot.initrd.kernelModules = mkForce ["hostfs"]; # bunch of modules we don't have or need (tpm, efi, …)
+  boot.loader.grub.enable = false; # needed for eval
+  boot.loader.initScript.enable = false; # unlike the documentation for this option says, not actually required.i
+  system.requiredKernelConfig = mkForce []; # systemd requires DMIID, but that requires DMI, and that doesn't exist on ARCH=um
 
   fileSystems."/" = {
-    device = "-";
+    device = "tmp";
     fsType = "tmpfs";
   };
   fileSystems."/nix/store" = {
-    device = "-";
+    device = "host";
     fsType = "hostfs";
     options = ["/nix/store"];
   };
-  boot.loader.initScript.enable = false; # unlike the documentation for this option says, not actually required.
-  boot.loader.grub.enable = false;
-
-  system.build.uml = pkgs.writeScriptBin "umlvm" ''
-    set -x
-    exec ${lib.getExe linux} \
-      mem=2G \
-      init=${config.system.build.toplevel}/init \
-      initrd=${config.system.build.initialRamdisk}/${config.system.boot.loader.initrdFile} \
-      con0=null,fd:2 con1=fd:0,fd:1 \
-      ${toString config.boot.kernelParams}
-  '';
 
   networking.hostName = "lol"; # short for linux on linux. olo
-
-  boot.initrd.availableKernelModules = ["autofs4"]; # systemd doesn't stop complaining about it being missing
   boot.initrd.systemd.enable = true;
-  boot.initrd.systemd.services.rescue.environment.SYSTEMD_SULOGIN_FORCE = "1";
   services.getty.autologinUser = "root";
 
   # startup is slow enough, disable some unused stuff (esp. networking)
   networking.firewall.enable = false;
   services.nscd.enable = false;
   networking.useDHCP = false;
-  system.nssModules = lib.mkForce [];
+  system.nssModules = mkForce [];
   systemd.oomd.enable = false;
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
+
+  system.build.uml = pkgs.writeScriptBin "umlvm" ''
+    set -x
+    exec ${getExe linux} \
+      mem=2G \
+      init=${config.system.build.toplevel}/init \
+      initrd=${config.system.build.initialRamdisk}/${config.system.boot.loader.initrdFile} \
+      con=null con0=null,fd:2 con1=fd:0,fd:1 \
+      ${toString config.boot.kernelParams}
+  '';
 }
