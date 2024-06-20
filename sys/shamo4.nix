@@ -111,7 +111,8 @@ in
               xarray
               zarr
             ]))
-        ]) ++ config.users.users.julius.packages;
+        ])
+        ++ config.users.users.julius.packages;
       password = "";
       shell = pkgs.bash;
     };
