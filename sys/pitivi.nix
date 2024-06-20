@@ -91,10 +91,10 @@ in {
           name = "store";
           start = "1G";
           end = "60%";
-            content = {
-              type = "filesystem";
-              format = "ext4";
-              mountpoint = "/nix/store";
+          content = {
+            type = "filesystem";
+            format = "ext4";
+            mountpoint = "/nix/store";
           };
         }
         {

@@ -65,10 +65,12 @@
   slirp = pkgs.stdenv.mkDerivation {
     pname = "slirp";
     version = "1.0.17";
-    src = let arc = pkgs.fetchzip {
-      url = "mirror://sourceforge/project/slirp/slirp/1.0.16/slirp-1.0.16.tar.gz";
-      hash = "sha256-0ZQCHMYcMZmRYlfdjNvmu6ZfY21Ux/1yJhUE3vnrjVo=";
-    }; in "${arc}/src";
+    src = let
+      arc = pkgs.fetchzip {
+        url = "mirror://sourceforge/project/slirp/slirp/1.0.16/slirp-1.0.16.tar.gz";
+        hash = "sha256-0ZQCHMYcMZmRYlfdjNvmu6ZfY21Ux/1yJhUE3vnrjVo=";
+      };
+    in "${arc}/src";
     patches = [
       (
         pkgs.fetchpatch {
