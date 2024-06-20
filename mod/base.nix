@@ -60,6 +60,7 @@
     njx
     helix # better vim
     git # better svn/hg
+    rsync # better scp
   ];
 
   services.openssh = {
