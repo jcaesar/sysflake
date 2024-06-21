@@ -4,8 +4,6 @@
   ...
 }: let
   common = import ../work.nix;
-  intake = "/dev/sdb";
-  exhaust = "/dev/sdc";
 in {
   imports = [
     ../mod/base.nix
@@ -26,7 +24,7 @@ in {
 
   disko.devices.disk = {
     exhaust = {
-      device = exhaust;
+      device = "/dev/disk/by-id/nvme-INTEL_SSDPED1K750GAC_PHKS8163009T750BGN";
       type = "disk";
       content = {
         type = "gpt";
@@ -56,35 +54,15 @@ in {
         };
       };
     };
-    intake = {
-      device = intake;
-      type = "disk";
-      content = {
-        type = "luks";
-        name = "filecrypt";
-        content = {
-          type = "btrfs";
-          subvolumes = {
-            "var" = {
-              mountpoint = "/var";
-            };
-            "home" = {
-              mountOptions = ["compress=zstd"];
-              mountpoint = "/home";
-            };
-          };
-        };
-      };
-    };
   };
-  # requires some manual work
-  # dd if=/dev/random out=/etc/secrets/filekey bs=4k
-  # chmod 400 /etc/secrets/filekey
-  # cryptsetup luksAddKey /dev/sdb /etc/secrets/filekey
-  boot.initrd.luks.devices.intake = {
-    device = intake;
-    keyFile = "/sysroot/etc/secrets/filekey";
-  };
+  # # requires some manual work
+  # # dd if=/dev/random out=/etc/secrets/filekey bs=4k
+  # # chmod 400 /etc/secrets/filekey
+  # # cryptsetup luksAddKey /dev/sdb /etc/secrets/filekey
+  # boot.initrd.luks.devices.intake = {
+  #   device = intake;
+  #   keyFile = "/sysroot/etc/secrets/filekey";
+  # };
 
   users.users.root.openssh.authorizedKeys.keys =
     common.sshKeys.strong
@@ -92,6 +70,15 @@ in {
   networking.proxy.default = "http://10.13.24.255:3128/";
   systemd.network = {
     enable = true;
+    netdevs."8-stubbytoe".netdevConfig = {
+      Name = "stubbytoe";
+      Kind = "dummy";
+      MACAddress = "de:ad:be:ef:ca:fe";
+    };
+    networks."9-stubbytoe" = {
+      matchConfig.Name = "stubbytoe";
+      address = ["10.13.24.255/32"];
+    };
     networks."10-fnet" = {
       matchConfig.Name = "eno1";
       DHCP = "no";
