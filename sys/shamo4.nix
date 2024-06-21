@@ -127,4 +127,5 @@ in
     };
 
     users.users.julius.uid = 1000;
+    users.users.julius.openssh.authorizedKeys.keys = keys.client;
   }
