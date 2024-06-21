@@ -86,6 +86,7 @@
     gomuks
     activitywatch
     sxiv
+    zathura
     barrier
     imagemagick
     libreoffice
