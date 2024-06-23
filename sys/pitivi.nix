@@ -10,7 +10,7 @@ in {
     ../mod/dlna.nix
     (import ../mod/ssh-unlock.nix {
       authorizedKeys = private.terminalKeys;
-      extraModules = ["brcmfmac" "smsc95xx"];
+      extraModules = ["smsc95xx"];
     })
   ];
 
