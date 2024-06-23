@@ -33,6 +33,7 @@ in {
 
   # https://wiki.nixos.org/wiki/NixOS_on_ARM/Raspberry_Pi_3#Early_boot
   boot.initrd.kernelModules = ["vc4" "bcm2835_dma" "i2c_bcm2835"];
+  boot.initrd.availableKernelModules = ["brcmfmac_wcc"];
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
   boot.consoleLogLevel = lib.mkDefault 7;
