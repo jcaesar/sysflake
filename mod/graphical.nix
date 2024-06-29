@@ -4,9 +4,8 @@
   config,
   ...
 }: {
-  imports = [
-    ./firefox
-  ];
+  njx."firefox/default" = true;
+
   services.logind.powerKey = "suspend";
 
   nix = {

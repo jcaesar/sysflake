@@ -1,12 +1,8 @@
-{
-  pkgs,
-  enableHM,
-  ...
-}: {
-  imports = [
-    enableHM
-    ./base.nix
-  ];
+{pkgs, ...}: {
+  njx.base = true;
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
   home-manager.users.julius = import ./home.nix;
 
   systemd.oomd.enableUserSlices = true;

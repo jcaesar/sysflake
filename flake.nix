@@ -1,44 +1,14 @@
 {
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    disko,
-  }: let
+  outputs = {nixpkgs, ...} @ flakes: let
     pkgsForSystem = system: import nixpkgs {inherit system;};
     eachSystem = f: nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux"] (system: f (pkgsForSystem system));
     sys = system: main:
       nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = {
-          enableHM = {
-            imports = [
-              home-manager.nixosModules.home-manager
-              ({...}: {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-              })
-            ];
-          };
-        };
+        specialArgs.flakes = flakes;
         modules = [
-          ({...}: {
-            nix.registry.n.flake = nixpkgs;
-            nix.registry.sf.flake = self;
-            nix.nixPath = ["nixpkgs=${nixpkgs}"];
-            nix.channel.enable = false;
-            system.configurationRevision =
-              self.rev or self.dirtyRev or "nogit";
-            system.nixos.version = let
-              r = self.shortRev or self.dirtyShortRev or "nogit";
-            in "j_${r}_${self.lastModifiedDate}";
-            environment.etc."sysflake/self".source = self;
-            environment.etc."sysflake/nixpkgs".source = nixpkgs;
-            environment.etc."sysflake/home-manager".source = home-manager;
-          })
-          disko.nixosModules.disko
+          ./mod
           main
-          ./mod/variants.nix
         ];
       };
     sysI = sys "x86_64-linux";
