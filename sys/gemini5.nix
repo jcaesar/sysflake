@@ -8,10 +8,6 @@ in {
   imports = [
     ../mod/base.nix
     common.config
-    (import ../mod/ssh-unlock.nix {
-      authorizedKeys = common.sshKeys.strong;
-      extraModules = ["igb" "i40e"];
-    })
     ../mod/squid.nix
     ../mod/binfmt.nix
   ];
@@ -22,6 +18,8 @@ in {
   boot.kernelModules = ["kvm-intel"];
   hardware.cpu.intel.updateMicrocode = true;
 
+  njx.sshUnlock.keys = common.sshKeys.strong;
+  njx.sshUnlock.modules = ["igb" "i40e"];
   disko.devices.disk = {
     exhaust = {
       device = "/dev/disk/by-id/nvme-INTEL_SSDPED1K750GAC_PHKS8163009T750BGN";

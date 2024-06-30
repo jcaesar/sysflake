@@ -20,6 +20,7 @@ in {
     flakes.disko.nixosModules.disko
     "${modulesPath}/installer/scan/not-detected.nix"
     ./variants.nix
+    ./ssh-unlock.nix
     (mkModOption "base")
     (mkModOption "binfmt")
     (mkModOption "bluetooth")

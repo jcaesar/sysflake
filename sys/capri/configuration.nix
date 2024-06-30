@@ -12,10 +12,6 @@ in {
     ../../mod/squid.nix
     common.config
     ./hardware-configuration.nix
-    (import ../../mod/ssh-unlock.nix {
-      authorizedKeys = common.sshKeys.strong;
-      extraModules = ["e1000"];
-    })
   ];
 
   boot.initrd.luks.devices = {
@@ -27,6 +23,8 @@ in {
     };
   };
   services.smartd.enable = lib.mkForce false;
+  njx.sshUnlock.keys = common.sshKeys.strong;
+  njx.sshUnlock.modules = ["e1000"];
 
   networking.proxy.default = "http://10.13.24.255:3128/";
   systemd.network = {

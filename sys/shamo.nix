@@ -14,10 +14,6 @@ in rec {
     [
       ../mod/base.nix
       common.config
-      (import ../mod/ssh-unlock.nix {
-        authorizedKeys = common.sshKeys.strong;
-        extraModules = ["igb" "i40e"];
-      })
     ]
     ++ lib.optionals (shamoIndex == 4) [
       ./shamo4.nix
@@ -32,6 +28,8 @@ in rec {
   boot.kernelModules = ["kvm-intel"];
   hardware.cpu.intel.updateMicrocode = true;
 
+  njx.sshUnlock.keys = common.sshKeys.strong;
+  njx.sshUnlock.modules = ["igb" "i40e"];
   boot.initrd.luks.devices."nixroot".device =
     {
       shamo0 = "/dev/mapper/nvme-nixos";

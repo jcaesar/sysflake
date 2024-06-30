@@ -8,12 +8,10 @@ in {
   imports = [
     ../mod/base.nix
     ../mod/dlna.nix
-    (import ../mod/ssh-unlock.nix {
-      authorizedKeys = private.terminalKeys;
-      extraModules = ["smsc95xx"];
-    })
   ];
 
+  njx.sshUnlock.keys = private.terminalKeys;
+  njx.sshUnlock.modules = ["smsc95xx"];
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.initrd.secrets = lib.mkForce {};
   hardware.enableRedistributableFirmware = true; # apparently, this also requires:
