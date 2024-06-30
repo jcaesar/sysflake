@@ -1,20 +1,13 @@
 {
-  config,
   lib,
   pkgs,
   ...
-}: let
-  private = import ../../private.nix;
-in {
+}: {
   imports = [
     ../../mod/common.nix
     ../../mod/graphical.nix
     ../../mod/dlna.nix
     ../../mod/bluetooth.nix
-    (import ../../mod/ssh-unlock.nix {
-      authorizedKeys = private.terminalKeys;
-      extraModules = ["e1000e"];
-    })
   ];
 
   networking.hostName = "lasta";
