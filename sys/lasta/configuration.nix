@@ -7,7 +7,7 @@
   njx.graphical = true;
   njx.dlna = true;
   njx.bluetooth = true;
-  
+
   networking.hostName = "lasta";
 
   boot.loader.systemd-boot.editor = lib.mkForce true;

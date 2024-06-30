@@ -4,10 +4,7 @@ let
     import ../work.nix;
 in
   {lib, ...}: {
-    imports = [
-      common.config
-    ];
-    njx.base = true;
+    njx.work = true;
 
     networking.hostName = "gozo";
 

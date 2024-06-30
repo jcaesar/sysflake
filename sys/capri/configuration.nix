@@ -7,12 +7,12 @@
   eth = "ens32";
 in {
   imports = [
-    common.config
     ./hardware-configuration.nix
   ];
   njx.common = true;
   njx.binfmt = true;
   njx.squid = true;
+  njx.work = true;
 
   boot.initrd.luks.devices = {
     crypt = {
@@ -58,7 +58,6 @@ in {
   };
   security.sudo.wheelNeedsPassword = false;
 
-  environment.systemPackages = common.packages pkgs;
   #programs.direnv.nix-direnv.enable = true; TODO: IDGI
 
   services.acpid.enable = true; # Was supposed to prevent shutdown hang, doesn't

@@ -1,13 +1,4 @@
-{pkgs, ...}: let
-  private = import ../private.nix;
-in {
-  imports = [
-    (private.wireguardToDoggieworld {
-      listenPort = 51820;
-      finalOctet = 2;
-      privateKeyFile = "/etc/secret-wg-private.key";
-    })
-  ];
+{pkgs, ...}: {
   njx.common = true;
   njx.graphical = true;
   njx.dlna = true;
@@ -54,6 +45,11 @@ in {
       linkConfig.RequiredForOnline = false;
       DHCP = "yes";
     };
+  };
+  njx.wireguardToDoggieworld = {
+    listenPort = 51820;
+    finalOctet = 2;
+    privateKeyFile = "/etc/secret-wg-private.key";
   };
 
   services.xserver.enable = true;

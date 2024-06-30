@@ -5,12 +5,10 @@
 }: let
   common = import ../work.nix;
 in {
-  imports = [
-    common.config
-  ];
   njx.base = true;
   njx.squid = true;
   njx.binfmt = true;
+  njx.work = true;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   boot.initrd.availableKernelModules = ["ahci" "xhci_pci" "nvme" "megaraid_sas" "usbhid" "sd_mod"];
@@ -87,7 +85,7 @@ in {
   };
   networking.hostName = "gemini5";
 
-  environment.systemPackages = (with pkgs; [logcheck]) ++ common.packages pkgs;
+  environment.systemPackages = with pkgs; [logcheck];
 
   system.stateVersion = "23.05";
 }

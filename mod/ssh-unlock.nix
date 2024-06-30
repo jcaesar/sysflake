@@ -5,9 +5,9 @@
   ...
 }: let
   inherit (lib) mkOption types;
-  listOfStrings = types.listOf types.string;
+  inherit (types) listOf str path;
   eso = mkOption {
-    type = listOfStrings;
+    type = listOf str;
     default = [];
   };
   key = "sshUnlock";
@@ -17,7 +17,7 @@ in {
     keys = eso;
     modules = eso;
     bootDisks = mkOption {
-      type = listOfStrings;
+      type = listOf path;
       default = ["/" "/boot"];
       description = "Don't fail boot even if these disks don't get unlocked quickly";
     };

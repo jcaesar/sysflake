@@ -5,12 +5,6 @@
 }: let
   private = import ../private.nix;
 in {
-  imports = [
-    (private.wireguardToDoggieworld {
-      listenPort = 16816;
-      finalOctet = 8;
-    })
-  ];
   njx.common = true;
   njx.graphical = true;
   njx.binfmt = true;
@@ -101,6 +95,8 @@ in {
       gateway = ["10.13.52.1"];
     };
   };
+  njx.wireguardToDoggieworld.listenPort = 16816;
+  njx.wireguardToDoggieworld.finalOctet = 8;
 
   hardware.cpu.amd.updateMicrocode = true;
 

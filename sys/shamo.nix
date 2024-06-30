@@ -10,14 +10,10 @@ shamoIndex: {
   kubeMasterAPIServerPort = 6443;
   proxy = "http://${shamo.internalIp 0}:3128";
 in rec {
-  imports =
-    [
-      common.config
-    ]
-    ++ lib.optionals (shamoIndex == 4) [
-      ./shamo4.nix
-    ];
-  njx.base = true;
+  imports = lib.optionals (shamoIndex == 4) [
+    ./shamo4.nix
+  ];
+  njx.work = true;
   njx.squid = shamoIndex == 0;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
@@ -78,7 +74,7 @@ in rec {
   };
   networking.hostName = shamo.name shamoIndex;
 
-  environment.systemPackages = (with pkgs; [kompose kubectl kubernetes logcheck nixpkgs-review]) ++ common.packages pkgs;
+  environment.systemPackages = with pkgs; [kompose kubectl kubernetes logcheck nixpkgs-review];
 
   # Configure client: ssh shamo2 kubectl config view  --flatten | save -f .kube/config
   # Join a node: ssh shamo2 cat /var/lib/kubernetes/secrets/apitoken.secret | ssh shamoX nixos-kubernetes-node-join

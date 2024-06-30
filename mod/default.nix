@@ -21,6 +21,7 @@ in {
     "${modulesPath}/installer/scan/not-detected.nix"
     ./variants.nix
     ./ssh-unlock.nix
+    ./wg-doggieworld.nix
     (mkModOption "base")
     (mkModOption "binfmt")
     (mkModOption "bluetooth")
@@ -30,5 +31,6 @@ in {
     (mkModOption "graphical")
     (mkModOption "prometheus-nvml-exporter")
     (mkModOption "squid")
+    (mkModOption "work")
   ];
 }

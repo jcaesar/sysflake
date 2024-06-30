@@ -8,13 +8,13 @@
   ...
 }: {
   imports = [
-    (import ../../work.nix).config
     ./hardware-configuration.nix
     ./networking.nix
   ];
   njx.common = true;
   njx.graphical = true;
   njx.binfmt = true;
+  njx.work = true;
 
   boot.kernelModules = [
     "akvcam"
