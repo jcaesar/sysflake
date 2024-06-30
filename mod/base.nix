@@ -87,4 +87,10 @@
   networking.useDHCP = lib.mkDefault false;
 
   services.xserver.displayManager.gdm.autoSuspend = false;
+
+  zramSwap = {
+    enable = true;
+    memoryMax = 8 * 1024 * 1024 * 1024;
+    memoryPercent = 30;
+  };
 }
