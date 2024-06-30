@@ -6,16 +6,16 @@
   private = import ../private.nix;
 in {
   imports = [
-    ../mod/common.nix
-    ../mod/graphical.nix
-    ../mod/binfmt.nix
-    ../mod/dlna.nix
-    ../mod/prometheus-nvml-exporter.nix
     (private.wireguardToDoggieworld {
       listenPort = 16816;
       finalOctet = 8;
     })
   ];
+  njx.common = true;
+  njx.graphical = true;
+  njx.binfmt = true;
+  njx.dlna = true;
+  njx.prometheus-nvml-exporter = true;
 
   boot.loader = {
     systemd-boot = {

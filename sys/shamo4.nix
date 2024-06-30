@@ -7,10 +7,8 @@ in
     config,
     ...
   }: {
-    imports = [
-      ../mod/common.nix
-      ../mod/binfmt.nix
-    ];
+    njx.common = true;
+    njx.binfmt = true;
 
     # Not for now
     services.kubernetes = {

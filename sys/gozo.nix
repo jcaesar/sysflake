@@ -5,9 +5,9 @@ let
 in
   {lib, ...}: {
     imports = [
-      ../mod/base.nix
       common.config
     ];
+    njx.base = true;
 
     networking.hostName = "gozo";
 

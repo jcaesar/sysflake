@@ -7,12 +7,12 @@
   eth = "ens32";
 in {
   imports = [
-    ../../mod/common.nix
-    ../../mod/binfmt.nix
-    ../../mod/squid.nix
     common.config
     ./hardware-configuration.nix
   ];
+  njx.common = true;
+  njx.binfmt = true;
+  njx.squid = true;
 
   boot.initrd.luks.devices = {
     crypt = {

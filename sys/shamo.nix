@@ -12,15 +12,13 @@ shamoIndex: {
 in rec {
   imports =
     [
-      ../mod/base.nix
       common.config
     ]
     ++ lib.optionals (shamoIndex == 4) [
       ./shamo4.nix
-    ]
-    ++ lib.optionals (shamoIndex == 0) [
-      ../mod/squid.nix
     ];
+  njx.base = true;
+  njx.squid = shamoIndex == 0;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   boot.initrd.availableKernelModules = ["ahci" "xhci_pci" "nvme" "megaraid_sas" "usbhid" "sd_mod"];

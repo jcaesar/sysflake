@@ -6,11 +6,11 @@
   common = import ../work.nix;
 in {
   imports = [
-    ../mod/base.nix
     common.config
-    ../mod/squid.nix
-    ../mod/binfmt.nix
   ];
+  njx.base = true;
+  njx.squid = true;
+  njx.binfmt = true;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   boot.initrd.availableKernelModules = ["ahci" "xhci_pci" "nvme" "megaraid_sas" "usbhid" "sd_mod"];

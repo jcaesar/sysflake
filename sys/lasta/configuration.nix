@@ -3,13 +3,11 @@
   pkgs,
   ...
 }: {
-  imports = [
-    ../../mod/common.nix
-    ../../mod/graphical.nix
-    ../../mod/dlna.nix
-    ../../mod/bluetooth.nix
-  ];
-
+  njx.common = true;
+  njx.graphical = true;
+  njx.dlna = true;
+  njx.bluetooth = true;
+  
   networking.hostName = "lasta";
 
   boot.loader.systemd-boot.editor = lib.mkForce true;

@@ -5,10 +5,8 @@
 }: let
   private = import ../private.nix;
 in {
-  imports = [
-    ../mod/base.nix
-    ../mod/dlna.nix
-  ];
+  njx.base = true;
+  njx.dlna = true;
 
   njx.sshUnlock.keys = private.terminalKeys;
   njx.sshUnlock.modules = ["smsc95xx"];
