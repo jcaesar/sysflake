@@ -5,21 +5,11 @@
 }: let
   private = import ../private.nix;
 in {
-  imports = [
-    ../mod/common.nix
-    ../mod/graphical.nix
-    ../mod/binfmt.nix
-    ../mod/dlna.nix
-    ../mod/prometheus-nvml-exporter.nix
-    (import ../mod/ssh-unlock.nix {
-      authorizedKeys = private.terminalKeys;
-      extraModules = ["igb"];
-    })
-    (private.wireguardToDoggieworld {
-      listenPort = 16816;
-      finalOctet = 8;
-    })
-  ];
+  njx.common = true;
+  njx.graphical = true;
+  njx.binfmt = true;
+  njx.dlna = true;
+  njx.prometheus-nvml-exporter = true;
 
   boot.loader = {
     systemd-boot = {
@@ -34,6 +24,8 @@ in {
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-amd"];
   boot.extraModulePackages = [];
+  njx.sshUnlock.keys = private.terminalKeys;
+  njx.sshUnlock.modules = ["igb"];
 
   disko.devices.disk.diks = {
     device = "/dev/disk/by-id/nvme-ADATA_SX8200PNP_2J3020071323_1";
@@ -103,6 +95,8 @@ in {
       gateway = ["10.13.52.1"];
     };
   };
+  njx.wireguardToDoggieworld.listenPort = 16816;
+  njx.wireguardToDoggieworld.finalOctet = 8;
 
   hardware.cpu.amd.updateMicrocode = true;
 

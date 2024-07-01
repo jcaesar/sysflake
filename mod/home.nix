@@ -44,7 +44,7 @@
     ];
   };
 
-  # Stolen from https://nixos.wiki/wiki/Nushell
+  # Stolen from https://wiki.nixos.org/wiki/Nushell
   programs = {
     nushell = {
       enable = true;

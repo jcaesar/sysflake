@@ -30,45 +30,7 @@ rec {
     ];
     k8sconfig = map (key: "command=\"kubectl config view --flatten\" ${key}") (aoki ++ [capriJulius]);
   };
-  packages = pkgs:
-    with pkgs; [
-      vim
-      helix
-      nil
-      pv
-      jq
-      rq
-      wget
-      httpie
-      git
-      screen
-      tmux
-      rxvt-unicode
-      lls
-      htop
-      bottom
-      iotop
-      logcheck
-      direnv
-    ];
   noProxy = "127.0.0.1,localhost,fujitsu.co.jp,${builtins.concatStringsSep "," (shamo.each shamo.name)}";
-  config = {lib, ...}: {
-    networking.proxy.noProxy = noProxy;
-    networking.extraHosts = ''
-      10.38.90.22 capri
-      ${lib.concatStringsSep "\n" (shamo.each (x: "${shamo.ip x} ${shamo.name x}"))}
-    '';
-    boot.initrd.systemd.network.enable = true; # Not sure if necessary or effectful
-    networking.firewall.enable = true;
-    services.openssh.enable = true;
-    virtualisation.docker = {
-      enable = true;
-      rootless = {
-        enable = true;
-        setSocketVariable = true;
-      };
-    };
-  };
   dns = ["10.0.238.1" "10.0.238.70"];
   ntp = ["ntp2.css.fujitsu.com" "ntp1.css.fujitsu.com"];
 }

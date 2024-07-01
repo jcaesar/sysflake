@@ -1,17 +1,8 @@
-{pkgs, ...}: let
-  private = import ../private.nix;
-in {
-  imports = [
-    ../mod/common.nix
-    ../mod/graphical.nix
-    ../mod/dlna.nix
-    ../mod/bluetooth.nix
-    (private.wireguardToDoggieworld {
-      listenPort = 51820;
-      finalOctet = 2;
-      privateKeyFile = "/etc/secret-wg-private.key";
-    })
-  ];
+{pkgs, ...}: {
+  njx.common = true;
+  njx.graphical = true;
+  njx.dlna = true;
+  njx.bluetooth = true;
 
   networking.hostName = "mictop";
 
@@ -54,6 +45,11 @@ in {
       linkConfig.RequiredForOnline = false;
       DHCP = "yes";
     };
+  };
+  njx.wireguardToDoggieworld = {
+    listenPort = 51820;
+    finalOctet = 2;
+    privateKeyFile = "/etc/secret-wg-private.key";
   };
 
   services.xserver.enable = true;

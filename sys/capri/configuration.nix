@@ -7,16 +7,12 @@
   eth = "ens32";
 in {
   imports = [
-    ../../mod/common.nix
-    ../../mod/binfmt.nix
-    ../../mod/squid.nix
-    common.config
     ./hardware-configuration.nix
-    (import ../../mod/ssh-unlock.nix {
-      authorizedKeys = common.sshKeys.strong;
-      extraModules = ["e1000"];
-    })
   ];
+  njx.common = true;
+  njx.binfmt = true;
+  njx.squid = true;
+  njx.work = true;
 
   boot.initrd.luks.devices = {
     crypt = {
@@ -27,6 +23,8 @@ in {
     };
   };
   services.smartd.enable = lib.mkForce false;
+  njx.sshUnlock.keys = common.sshKeys.strong;
+  njx.sshUnlock.modules = ["e1000"];
 
   networking.proxy.default = "http://10.13.24.255:3128/";
   systemd.network = {
@@ -60,7 +58,6 @@ in {
   };
   security.sudo.wheelNeedsPassword = false;
 
-  environment.systemPackages = common.packages pkgs;
   #programs.direnv.nix-direnv.enable = true; TODO: IDGI
 
   services.acpid.enable = true; # Was supposed to prevent shutdown hang, doesn't

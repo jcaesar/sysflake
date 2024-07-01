@@ -1,12 +1,25 @@
 {
   pkgs,
   lib,
-  modulesPath,
+  flakes,
   ...
 }: {
-  imports = [
-    "${modulesPath}/installer/scan/not-detected.nix"
-  ];
+  nix.registry.n.flake = flakes.nixpkgs;
+  nix.registry.sf.flake = flakes.self;
+  nix.nixPath = ["nixpkgs=${flakes.nixpkgs}"];
+  nix.channel.enable = false;
+  system.configurationRevision =
+    flakes.self.rev or flakes.self.dirtyRev or "nogit";
+  system.nixos.version = let
+    r = flakes.self.shortRev or flakes.self.dirtyShortRev or "nogit";
+  in "j_${r}_${flakes.self.lastModifiedDate}";
+  environment.etc = let
+    mkLnk = name: flake: {
+      name = "sysflake/${name}";
+      value.source = flake;
+    };
+  in
+    lib.mapAttrs' mkLnk flakes;
 
   nixpkgs.overlays = [(import ../pkgs)];
   nix.settings.experimental-features = ["nix-command" "flakes" "repl-flake"];
@@ -74,4 +87,10 @@
   networking.useDHCP = lib.mkDefault false;
 
   services.xserver.displayManager.gdm.autoSuspend = false;
+
+  zramSwap = {
+    enable = true;
+    memoryMax = 8 * 1024 * 1024 * 1024;
+    memoryPercent = 30;
+  };
 }

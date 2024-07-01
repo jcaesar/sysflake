@@ -5,15 +5,11 @@
 }: let
   private = import ../private.nix;
 in {
-  imports = [
-    ../mod/base.nix
-    ../mod/dlna.nix
-    (import ../mod/ssh-unlock.nix {
-      authorizedKeys = private.terminalKeys;
-      extraModules = ["brcmfmac" "smsc95xx"];
-    })
-  ];
+  njx.base = true;
+  njx.dlna = true;
 
+  njx.sshUnlock.keys = private.terminalKeys;
+  njx.sshUnlock.modules = ["smsc95xx"];
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.initrd.secrets = lib.mkForce {};
   hardware.enableRedistributableFirmware = true; # apparently, this also requires:
@@ -33,6 +29,7 @@ in {
 
   # https://wiki.nixos.org/wiki/NixOS_on_ARM/Raspberry_Pi_3#Early_boot
   boot.initrd.kernelModules = ["vc4" "bcm2835_dma" "i2c_bcm2835"];
+  boot.initrd.availableKernelModules = ["brcmfmac_wcc"];
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
   boot.consoleLogLevel = lib.mkDefault 7;
@@ -115,6 +112,7 @@ in {
       ];
     };
   };
+  services.smartd.enable = false;
 
   services.home-assistant = {
     enable = true;

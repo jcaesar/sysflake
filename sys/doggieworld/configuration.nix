@@ -7,11 +7,11 @@ in {
     acceptTerms = true;
   };
   imports = [
-    ../../mod/common.nix
     ./grafana.nix
     ./networking.nix
     ./do.nix
   ];
+  njx.common = true;
   services.dante = {
     enable = true;
     config = lib.readFile ./danted.conf;

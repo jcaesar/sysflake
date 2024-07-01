@@ -10,21 +10,11 @@ shamoIndex: {
   kubeMasterAPIServerPort = 6443;
   proxy = "http://${shamo.internalIp 0}:3128";
 in rec {
-  imports =
-    [
-      ../mod/base.nix
-      common.config
-      (import ../mod/ssh-unlock.nix {
-        authorizedKeys = common.sshKeys.strong;
-        extraModules = ["igb" "i40e"];
-      })
-    ]
-    ++ lib.optionals (shamoIndex == 4) [
-      ./shamo4.nix
-    ]
-    ++ lib.optionals (shamoIndex == 0) [
-      ../mod/squid.nix
-    ];
+  imports = lib.optionals (shamoIndex == 4) [
+    ./shamo4.nix
+  ];
+  njx.work = true;
+  njx.squid = shamoIndex == 0;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   boot.initrd.availableKernelModules = ["ahci" "xhci_pci" "nvme" "megaraid_sas" "usbhid" "sd_mod"];
@@ -32,6 +22,8 @@ in rec {
   boot.kernelModules = ["kvm-intel"];
   hardware.cpu.intel.updateMicrocode = true;
 
+  njx.sshUnlock.keys = common.sshKeys.strong;
+  njx.sshUnlock.modules = ["igb" "i40e"];
   boot.initrd.luks.devices."nixroot".device =
     {
       shamo0 = "/dev/mapper/nvme-nixos";
@@ -82,7 +74,7 @@ in rec {
   };
   networking.hostName = shamo.name shamoIndex;
 
-  environment.systemPackages = (with pkgs; [kompose kubectl kubernetes logcheck nixpkgs-review]) ++ common.packages pkgs;
+  environment.systemPackages = with pkgs; [kompose kubectl kubernetes logcheck nixpkgs-review];
 
   # Configure client: ssh shamo2 kubectl config view  --flatten | save -f .kube/config
   # Join a node: ssh shamo2 cat /var/lib/kubernetes/secrets/apitoken.secret | ssh shamoX nixos-kubernetes-node-join
