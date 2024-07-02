@@ -73,7 +73,7 @@ in
         nodes.machine = {...}: {
           boot.binfmt.emulatedSystems = ["riscv64-linux"];
           boot.binfmt.registrations.riscv64-linux = {
-            interpreter = "${pkgs.pkgsStatic.qemu-user}/bin/qemu-${archFor "riscv64-linux"}";
+            interpreter = "${pkgs.qemu-user-static}/bin/qemu-${archFor "riscv64-linux"}";
             wrapInterpreterInShell = false;
             preserveArgvZero = true;
             matchCredentials = true;

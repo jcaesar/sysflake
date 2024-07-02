@@ -1,5 +1,9 @@
 {
-  outputs = {nixpkgs, self, ...} @ flakes: let
+  outputs = {
+    nixpkgs,
+    self,
+    ...
+  } @ flakes: let
     pkgsForSystem = system: import nixpkgs {inherit system;};
     eachSystem = f: nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux"] (system: f (pkgsForSystem system));
     sys = system: main:
@@ -33,7 +37,7 @@
       });
     packages = eachSystem (pkgs: import ./pkgs pkgs pkgs);
     formatter = eachSystem (pkgs: pkgs.alejandra);
-    tests = eachSystem (
+    checks = eachSystem (
       pkgs: let
         nixosLib = import "${nixpkgs}/nixos/lib" {};
         myPkgs = import ./pkgs pkgs pkgs;
@@ -41,12 +45,14 @@
           inherit (pkgs) system;
           overlays = [(import ./pkgs)];
         };
-        pkgTests = builtins.mapAttrs (pkgName: pkg:
-          builtins.mapAttrs (testName: test:
-            nixosLib.runTest {
+        pkgTests = nixpkgs.lib.concatMapAttrs (pkgName: pkg:
+          nixpkgs.lib.mapAttrs' (testName: test: {
+            name = "${pkgName}_${testName}";
+            value = nixosLib.runTest {
               inherit hostPkgs;
               imports = [test];
-            }) ((pkg.passthru or {}).tests or {}))
+            };
+          }) ((pkg.passthru or {}).tests or {}))
         myPkgs;
         toplevels = syss:
           pkgs.runCommand "toplevels" {} ''
@@ -54,7 +60,8 @@
             ${builtins.concatStringsSep "\n" (map (sys: "ln -s ${self.nixosConfigurations.${sys}.config.system.build.toplevel} $out/${sys}") syss)}
           '';
       in
-        pkgTests
+        myPkgs
+        // pkgTests
         // {
           workSys = toplevels (["capri" "korsika" "gemini5" "gozo"] ++ map work.shamo.name work.shamo.nixed);
         }
