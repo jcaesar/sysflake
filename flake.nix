@@ -9,7 +9,7 @@
     sys = system: main:
       nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit flakes system; };
+        specialArgs = {inherit flakes system;};
         modules = builtins.attrValues self.nixosModules ++ [main];
       };
     sysI = sys "x86_64-linux";
@@ -41,32 +41,44 @@
     formatter = eachSystem (pkgs: pkgs.alejandra);
     checks = eachSystem (
       pkgs: let
-        nixosLib = import "${nixpkgs}/nixos/lib" {};
         myPkgs = self.packages.${pkgs.system};
-        hostPkgs = import nixpkgs {
-          inherit (pkgs) system;
-          overlays = [(_: _: myPkgs)];
+        pkgTests = let
+          nixosLib = import "${nixpkgs}/nixos/lib" {};
+          hostPkgs = import nixpkgs {
+            inherit (pkgs) system;
+            overlays = [(_: _: myPkgs)];
+          };
+        in
+          pkgs.lib.concatMapAttrs (pkgName: pkg:
+            pkgs.lib.mapAttrs' (testName: test: {
+              name = "${pkgName}_${testName}";
+              value = nixosLib.runTest {
+                inherit hostPkgs;
+                imports = [test];
+              };
+            }) (pkg.tests or {}))
+          myPkgs;
+        sysTests = builtins.mapAttrs (_: sys: sys.config.system.build.toplevel) self.nixosConfigurations;
+        aggSys = let
+          inherit (builtins) attrNames filter;
+          all = attrNames self.nixosConfigurations;
+          linkFor = sys: "ln -s ${self.nixosConfigurations.${sys}.config.system.build.toplevel} $out/${sys}";
+          links = filt: builtins.concatStringsSep "\n" (map linkFor (filter (name: filt name) all));
+          toplevels = filt:
+            pkgs.runCommand "toplevels" {} ''
+              mkdir $out
+              ${links filt}
+            '';
+        in {
+          workSys = toplevels (name: self.nixosConfigurations.${name}.config.njx.work);
+          privSys = toplevels (name: !self.nixosConfigurations.${name}.config.njx.work);
+          allSys = toplevels (_: true);
         };
-        pkgTests = pkgs.lib.concatMapAttrs (pkgName: pkg:
-          pkgs.lib.mapAttrs' (testName: test: {
-            name = "${pkgName}_${testName}";
-            value = nixosLib.runTest {
-              inherit hostPkgs;
-              imports = [test];
-            };
-          }) ((pkg.passthru or {}).tests or {}))
-        myPkgs;
-        toplevels = syss:
-          pkgs.runCommand "toplevels" {} ''
-            mkdir $out
-            ${builtins.concatStringsSep "\n" (map (sys: "ln -s ${self.nixosConfigurations.${sys}.config.system.build.toplevel} $out/${sys}") syss)}
-          '';
       in
         myPkgs
         // pkgTests
-        // {
-          workSys = toplevels (["capri" "korsika" "gemini5" "gozo"] ++ map work.shamo.name work.shamo.nixed);
-        }
+        // sysTests
+        // aggSys
     );
   };
 
