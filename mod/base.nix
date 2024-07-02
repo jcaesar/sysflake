@@ -2,6 +2,7 @@
   pkgs,
   lib,
   flakes,
+  system,
   ...
 }: {
   nix.registry.n.flake = flakes.nixpkgs;
@@ -21,7 +22,7 @@
   in
     lib.mapAttrs' mkLnk flakes;
 
-  nixpkgs.overlays = [(import ../pkgs)];
+  nixpkgs.overlays = [(_: _: flakes.self.packages.${system})];
   nix.settings.experimental-features = ["nix-command" "flakes" "repl-flake"];
 
   boot.loader = {

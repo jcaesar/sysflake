@@ -9,7 +9,7 @@
     sys = system: main:
       nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs.flakes = flakes;
+        specialArgs = { inherit flakes system; };
         modules = builtins.attrValues self.nixosModules ++ [main];
       };
     sysI = sys "x86_64-linux";
@@ -37,18 +37,18 @@
       home-manager = flakes.home-manager.nixosModules.home-manager;
       disko = flakes.disko.nixosModules.disko;
     };
-    packages = eachSystem (pkgs: import ./pkgs pkgs pkgs);
+    packages = eachSystem (pkgs: import ./pkgs pkgs);
     formatter = eachSystem (pkgs: pkgs.alejandra);
     checks = eachSystem (
       pkgs: let
         nixosLib = import "${nixpkgs}/nixos/lib" {};
-        myPkgs = import ./pkgs pkgs pkgs;
+        myPkgs = self.packages.${pkgs.system};
         hostPkgs = import nixpkgs {
           inherit (pkgs) system;
-          overlays = [(import ./pkgs)];
+          overlays = [(_: _: myPkgs)];
         };
-        pkgTests = nixpkgs.lib.concatMapAttrs (pkgName: pkg:
-          nixpkgs.lib.mapAttrs' (testName: test: {
+        pkgTests = pkgs.lib.concatMapAttrs (pkgName: pkg:
+          pkgs.lib.mapAttrs' (testName: test: {
             name = "${pkgName}_${testName}";
             value = nixosLib.runTest {
               inherit hostPkgs;
