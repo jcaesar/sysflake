@@ -10,10 +10,7 @@
       nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs.flakes = flakes;
-        modules = [
-          ./mod
-          main
-        ];
+        modules = builtins.attrValues self.nixosModules ++ [main];
       };
     sysI = sys "x86_64-linux";
     sysA = sys "aarch64-linux";
@@ -35,6 +32,11 @@
         name = "shamo${toString index}";
         value = sysI ((import ./sys/shamo.nix) index);
       });
+    nixosModules = {
+      njx = import ./mod;
+      home-manager = flakes.home-manager.nixosModules.home-manager;
+      disko = flakes.disko.nixosModules.disko;
+    };
     packages = eachSystem (pkgs: import ./pkgs pkgs pkgs);
     formatter = eachSystem (pkgs: pkgs.alejandra);
     checks = eachSystem (

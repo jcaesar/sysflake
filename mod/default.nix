@@ -16,8 +16,6 @@ in {
   options.njx = {
   };
   imports = [
-    flakes.home-manager.nixosModules.home-manager
-    flakes.disko.nixosModules.disko
     "${modulesPath}/installer/scan/not-detected.nix"
     ./variants.nix
     ./ssh-unlock.nix
