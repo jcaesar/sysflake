@@ -46,6 +46,7 @@
     rq
     wget
     httpie # better wget/curl
+    xh # better httpie?
     screen
     tmux # better screen
     lls # better ss -loptun
