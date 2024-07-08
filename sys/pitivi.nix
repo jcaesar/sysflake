@@ -53,6 +53,12 @@ in {
   };
   services.openssh.enable = true;
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys ++ [private.prideKey];
+  users.users.media = {
+    isNormalUser = true;
+    packages = with pkgs; [mpv];
+    shell = pkgs.nushellFull;
+    openssh.authorizedKeys.keys = private.terminalKeys;
+  };
 
   disko.devices.disk.diks = {
     device = "/dev/mmcblk0";
