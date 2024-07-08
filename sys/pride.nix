@@ -154,6 +154,8 @@ in {
     archivebox
     pyanidb
     nixpkgs-review
+    ffmpeg
+    piper-tts
   ];
 
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;

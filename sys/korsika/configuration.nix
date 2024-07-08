@@ -91,6 +91,7 @@
     freerdp3
     simplescreenrecorder
     ffmpeg
+    piper-tts
   ];
 
   networking.extraHosts = ''

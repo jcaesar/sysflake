@@ -93,6 +93,7 @@
     xclip
     polaris-fuse
     dolphin
+    #asak <- add on 24.11
     # Hyprland stuff
     #qt6-wayland
     wofi
