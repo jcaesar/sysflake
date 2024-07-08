@@ -24,7 +24,7 @@ in {
   users.users.media = {
     isNormalUser = true;
     packages = with pkgs; [mpv];
-    shell = pkgs.nushellFull;
+    shell = pkgs.nushell;
     openssh.authorizedKeys.keys = private.terminalKeys;
   };
   environment.systemPackages = with pkgs; [libcec];

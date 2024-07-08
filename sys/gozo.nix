@@ -54,12 +54,10 @@ in
         wireguardPeers = [
           {
             # korsika
-            wireguardPeerConfig = {
-              PublicKey = "I7MQODJwrZHVmAQsXZUsyxdi8hfDpMbPWKGk6TnElxM=";
-              Endpoint = "10.13.25.2:36749";
-              AllowedIPs = ["10.13.26.2/32"];
-              PersistentKeepalive = 29;
-            };
+            PublicKey = "I7MQODJwrZHVmAQsXZUsyxdi8hfDpMbPWKGk6TnElxM=";
+            Endpoint = "10.13.25.2:36749";
+            AllowedIPs = ["10.13.26.2/32"];
+            PersistentKeepalive = 29;
             # forgot what these were
             # [WireGuardPeer]
             # PublicKey=4qitTsPLqLKmFOxRgqhSHDVzmyCeWWuTE2+ygZI7/lU=

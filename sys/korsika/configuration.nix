@@ -23,6 +23,7 @@
   boot.extraModprobeConfig = ''
     options v4l2loopback exclusive_caps=1 card_label="Software"
   '';
+  boot.initrd.services.resolved.enable = lib.mkForce false; # if I don't, I get an error complaining that this only works with systemd stage 1. Oo
 
   networking.hostName = "korsika";
   virtualisation.docker.rootless.daemon.settings.dns = ["9.9.9.9" "1.1.1.1"];

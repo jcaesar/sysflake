@@ -24,8 +24,8 @@ in {
   };
 
   config = lib.mkIf (cfg.keys != []) {
-    boot.initrd.kernelModules = cfg.modules;
     boot.initrd = {
+      kernelModules = cfg.modules;
       systemd = {
         enable = true;
         network = {

@@ -65,10 +65,8 @@ in rec {
       DHCP = "no";
       address = ["${shamo.internalIp shamoIndex}/24"];
       routes = shamo.each (x: {
-        routeConfig = {
-          Destination = "${shamo.ip x}/32";
-          Gateway = shamo.internalIp x;
-        };
+        Destination = "${shamo.ip x}/32";
+        Gateway = shamo.internalIp x;
       });
     };
   };

@@ -18,11 +18,7 @@
     nil
   ];
 
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    #driSupport32Bit = true;
-  };
+  hardware.graphics.enable = true;
 
   users.users.julius = {
     isNormalUser = true;
@@ -62,7 +58,7 @@
           numpy
         ]))
     ];
-    shell = pkgs.nushellFull;
+    shell = pkgs.nushell;
     password = "";
   };
 }

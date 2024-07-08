@@ -49,7 +49,8 @@
   };
 
   i18n.inputMethod = {
-    enabled = "fcitx5";
+    enable = true;
+    type = "fcitx5";
     fcitx5.addons = with pkgs; [
       fcitx5-mozc
       fcitx5-anthy
@@ -57,7 +58,6 @@
     ];
   };
 
-  sound.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -109,7 +109,7 @@
 
   system.systemBuilderCommands = let
     # reproduce nonexposed envs from nixos/modules/hardware/opengl.nix
-    cfg = config.hardware.opengl;
+    cfg = config.hardware.graphics;
     package = pkgs.buildEnv {
       name = "opengl-drivers";
       paths = [cfg.package] ++ cfg.extraPackages;
@@ -118,21 +118,13 @@
       name = "opengl-drivers-32bit";
       paths = [cfg.package32] ++ cfg.extraPackages32;
     };
-  in
-    ''
-      mkdir -p $out/opengl
-      ln -s ${package} $out/opengl/driver
-    ''
-    + lib.optionalString cfg.driSupport32Bit ''
-      ln -s ${package32} $out/opengl/driver32
-    '';
-  systemd.tmpfiles.rules =
-    [
-      "L+ /run/opengl-driver - - - - /run/booted-system/opengl/driver"
-    ]
-    ++ lib.optionals config.hardware.opengl.driSupport32Bit [
-      "L+ /run/opengl-driver-32 - - - - /run/booted-system/opengl/driver-32"
-    ];
+  in ''
+    mkdir -p $out/opengl
+    ln -s ${package} $out/opengl/driver
+  '';
+  systemd.tmpfiles.rules = [
+    "L+ /run/opengl-driver - - - - /run/booted-system/opengl/driver"
+  ];
 
   # Anti-oom-measures pt 2 (press SysRq+Alt+f)
   boot.kernel.sysctl."kernel.sysrq" = let

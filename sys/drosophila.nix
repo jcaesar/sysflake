@@ -81,4 +81,6 @@ in {
     systemctl reboot
   '';
   virtualisation.amazon-init.enable = false;
+
+  boot.initrd.services.resolved.enable = lib.mkDefault false;
 }

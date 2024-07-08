@@ -149,7 +149,7 @@ in {
     pyanidb
     browsh
     meshlab
-    python3Packages.opensfm
+    # python3Packages.opensfm # todo
     opensplat
     colmap
     archivebox

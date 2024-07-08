@@ -3,7 +3,6 @@ pkgs: ((pkgs.colmap.override {
       # Seriously, only use on trusted input
       meta = pkgs.freeimage.meta // {knownVulnerabilities = [];};
     };
-    mkDerivation = pkgs.cudaPackages.backendStdenv.mkDerivation;
   })
   .overrideAttrs (prev: {
     cmakeFlags = ["-DUSE_CUDA=ON" "-DCMAKE_CUDA_ARCHITECTURES=75"];

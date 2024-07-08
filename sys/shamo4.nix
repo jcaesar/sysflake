@@ -64,7 +64,7 @@ in
               ipykernel
               isort
               jupyter
-              jupyter-book
+              # jupyter-book # todo
               jupyterlab
               mamba
               matplotlib
@@ -93,7 +93,7 @@ in
               pytest
               pytest-cov
               pytest-regressions
-              python-jsonrpc-server
+              # python-jsonrpc-server
               pyyaml
               requests
               rich

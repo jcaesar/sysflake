@@ -3,7 +3,7 @@ let
   cameoPort = "enp2s0";
   common = import ../../work.nix;
 in
-  {pkgs, ...}: {
+  {    pkgs,    ...  }: {
     systemd.network = {
       enable = true;
       networks."10-palmarola-eth-net" = {
@@ -23,12 +23,10 @@ in
         };
         wireguardPeers = [
           {
-            wireguardPeerConfig = {
-              PublicKey = "BThC89DqFj+nGtkCytNSskolwCijeyq/XDiAM8hQJRw=";
-              Endpoint = "10.13.25.1:53";
-              AllowedIPs = ["0.0.0.0/0"];
-              PersistentKeepalive = 29;
-            };
+            PublicKey = "BThC89DqFj+nGtkCytNSskolwCijeyq/XDiAM8hQJRw=";
+            Endpoint = "10.13.25.1:53";
+            AllowedIPs = ["0.0.0.0/0"];
+            PersistentKeepalive = 29;
           }
         ];
       };

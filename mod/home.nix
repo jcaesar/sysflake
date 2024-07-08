@@ -52,7 +52,7 @@
   programs = {
     nushell = {
       enable = true;
-      package = pkgs.nushellFull;
+      package = pkgs.nushell;
       configFile.source = ../dot/config.nu;
       shellAliases = {
         vi = "hx";
