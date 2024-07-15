@@ -59,6 +59,15 @@
       rootPartitionUUID = "00000000-0000-0000-0001-${h12}";
       compressImage = false;
     };
+    environment.etc."sysflake/diskoScriptSda" = let
+      cfg = topCfg.system.build;
+      mov = ext [
+        {
+          disko.devices.disk.diks.device = lib.mkForce "/dev/sda";
+        }
+      ];
+    in
+      lib.mkIf (cfg ? diskoScript) {source = mov.diskoScript;};
   };
   vm = {
     lib,
