@@ -79,6 +79,7 @@ in
             "browser.newtabpage.activity-stream.system.showSponsored" = lock false;
             "browser.newtabpage.activity-stream.showSponsoredTopSites" = lock false;
             "browser.sessionstore.warnOnQuit" = true;
+            "dom.private-attribution.submission.enabled" = lock false;
             "xpinstall.signatures.required" = lock false; # Meh, can't install my custom extensions otherwise. only works on esr/devedition
           };
         };
