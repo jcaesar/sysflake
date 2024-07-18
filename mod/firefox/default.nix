@@ -30,7 +30,7 @@ in
           DisablePocket = true;
           DisableFirefoxAccounts = true;
           DisableAccounts = true;
-          DisableFirefoxScreenshots = true;
+          DisableFirefoxScreenshots = false;
           DisableSetDesktopBackground = true;
           OverrideFirstRunPage = "";
           OverridePostUpdatePage = "";
@@ -81,6 +81,63 @@ in
             "browser.sessionstore.warnOnQuit" = true;
             "dom.private-attribution.submission.enabled" = lock false;
             "xpinstall.signatures.required" = lock false; # Meh, can't install my custom extensions otherwise. only works on esr/devedition
+
+            "browser.ctrlTab.sortByRecentlyUsed" = true;
+            "network.captive-portal-service.enabled" = false;
+          };
+          SearchEngines = {
+            Remove = ["Bing" "@bing" "bing" "Google" "DuckDuckGo" "Wikipedia (en)"];
+            Add = [
+              {
+                Alias = "wde";
+                Name = "Wikipedia Durchsuchen";
+                URLTemplate = "https://www.wikipedia.org/search-redirect.php?family=wikipedia&search={searchTerms}&language=de&go=Go";
+                # IconURL = "https://www.example.org/favicon.ico";
+                # Method = "GET";
+                # PostData = "name=value&q={searchTerms}";
+                # SuggestURLTemplate = "https://www.example.org/suggestions/q={searchTerms}";
+              }
+              {
+                Alias = "wen";
+                Name = "Search Wikipedia";
+                URLTemplate = "https://www.wikipedia.org/search-redirect.php?family=wikipedia&search={searchTerms}&language=en&go=Go";
+              }
+              {
+                Alias = "wja";
+                Name = "Wikipediaで検索";
+                URLTemplate = "https://www.wikipedia.org/search-redirect.php?family=wikipedia&search={searchTerms}&language=ja&go=Go";
+              }
+              {
+                Alias = "jisho";
+                Name = "辞書 Dictionary";
+                URLTemplate = "https://jisho.org/search?keyword={searchTerms}";
+              }
+              {
+                Alias = "wad";
+                Name = "Wadoku 辞書 Wörterbuch";
+                URLTemplate = "https://www.wadoku.de/search/{searchTerms}";
+              }
+              {
+                Alias = "wa";
+                Name = "Wolfram Alpha";
+                URLTemplate = "https://www.wolframalpha.com/input?i={searchTerms}";
+              }
+              {
+                Alias = "anidb";
+                Name = "AniDB";
+                URLTemplate = "https://anidb.net/perl-bin/animedb.pl?adb.search={searchTerms}&show=search&do.search=1&cleanurl=1";
+              }
+              {
+                Alias = "d";
+                Name = "DuckDuckGo";
+                URLTemplate = "https://duckduckgo.com/?t=ffab&q={searchTerms}&ia=web";
+              }
+              {
+                Alias = "g";
+                Name = "Google";
+                URLTemplate = "https://google.com/search?q={searchTerms}&lr=lang_en";
+              }
+            ];
           };
         };
       };
