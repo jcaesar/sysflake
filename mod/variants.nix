@@ -97,7 +97,7 @@
     services.knot.keyFiles = [];
   };
   guivm = {lib, ...}: {
-    imports = [vm ./graphical.nix];
+    imports = [vm];
     virtualisation.graphics = lib.mkForce true;
     services.xserver = {
       windowManager.twm.enable = true;
