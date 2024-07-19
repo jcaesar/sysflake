@@ -21,7 +21,7 @@ in {
     openssh.authorizedKeys.keys = common.sshKeys.client;
   };
 
-  system.build.createScript = pkgs.writeScriptBin "create-instance" ''
+  system.build.createScript = pkgs.writeScriptBin "create-${name}-instance" ''
     #!${lib.getExe pkgs.nushell}
 
     let nixorg = 427812963091
@@ -47,15 +47,16 @@ in {
     )
   '';
 
-  system.build.deployScript = pkgs.writeScript "becomeself" ''
+  system.build.deployScript = pkgs.writeScript "become-${name}" ''
     #!/usr/bin/env bash
-    if test $(hostname) == ${name}; then
+    if test $(hostname) == ${name} || test -e /root/.deployed; then
       echo already switched
       exit 0
     fi
     mkdir -p ~/.ssh
     ${lib.concatStringsSep "\n" (map (k: "echo '${k}' >~/.ssh/authorized_keys") common.sshKeys.strong)}
     nixos-rebuild boot --flake github:jcaesar/sysflake/${flakes.self.rev}#${name} --verbose
+    touch /root/.deployed
     systemctl reboot
   '';
 }
