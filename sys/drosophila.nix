@@ -15,8 +15,6 @@ in {
   njx.work = true;
   networking.hostName = name;
   services.openssh.ports = [22];
-  boot.loader.grub.enable = true;
-  boot.loader.systemd-boot.enable = lib.mkForce false;
   system.stateVersion = "23.11";
   users.users.julius = {
     extraGroups = ["wheel" "docker"];
@@ -51,6 +49,10 @@ in {
 
   system.build.deployScript = pkgs.writeScript "becomeself" ''
     #!/usr/bin/env bash
+    if test $(hostname) == ${name}; then
+      echo already switched
+      exit 0
+    fi
     mkdir -p ~/.ssh
     ${lib.concatStringsSep "\n" (map (k: "echo '${k}' >~/.ssh/authorized_keys") common.sshKeys.strong)}
     nixos-rebuild boot --flake github:jcaesar/sysflake/${flakes.self.rev}#${name} --verbose
