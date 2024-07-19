@@ -8,6 +8,7 @@
 }: let
   common = import ../work.nix;
   name = "drosophila";
+  sysflake = "github:jcaesar/sysflake/${flakes.self.rev}";
 in {
   imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
   njx.common = true;
@@ -23,6 +24,8 @@ in {
 
   system.build.createScript = pkgs.writeScriptBin "create-${name}-instance" ''
     #!${lib.getExe pkgs.nushell}
+
+    nix eval ${sysflake}#nixosConfigurations.${name}.config.system.build.toplevel.drvPath
 
     let nixorg = 427812963091
 
@@ -55,7 +58,7 @@ in {
     fi
     mkdir -p ~/.ssh
     ${lib.concatStringsSep "\n" (map (k: "echo '${k}' >~/.ssh/authorized_keys") common.sshKeys.strong)}
-    nixos-rebuild boot --flake github:jcaesar/sysflake/${flakes.self.rev}#${name} --verbose
+    nixos-rebuild boot --flake ${sysflake}#${name} --verbose
     touch /root/.deployed
     systemctl reboot
   '';
