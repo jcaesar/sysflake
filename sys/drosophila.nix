@@ -23,6 +23,13 @@ in {
     extraGroups = ["wheel" "docker"];
     openssh.authorizedKeys.keys = common.sshKeys.client;
   };
+  systemd.network = {
+    enable = true;
+    networks."10-wired" = {
+      matchConfig.Name = ["en*"];
+      DHCP = "yes";
+    };
+  };
 
   system.build.createScript = pkgs.writeScriptBin "create-${name}-instance" ''
     #!${lib.getExe pkgs.nushell}
