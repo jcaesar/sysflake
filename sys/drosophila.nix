@@ -15,6 +15,8 @@ in {
   njx.work = true;
   networking.hostName = name;
   services.openssh.ports = [22];
+  boot.loader.grub.enable = true;
+  boot.loader.systemd-boot.enable = lib.mkForce false;
   system.stateVersion = "23.11";
   users.users.julius = {
     extraGroups = ["wheel" "docker"];
