@@ -54,15 +54,12 @@ in {
 
   system.build.deployScript = pkgs.writeScript "become-${name}" ''
     #!/usr/bin/env bash
-    if test $(hostname) == ${name} || test -e /root/.deployed; then
-      echo already switched
-      exit 0
-    fi
     mkdir -p ~/.ssh
     ${lib.concatStringsSep "\n" (map (k: "echo '${k}' >~/.ssh/authorized_keys") common.sshKeys.strong)}
     nixos-rebuild boot --flake ${sysflake}#${name} --verbose
     touch /root/.deployed
     systemctl reboot
   '';
+  virtualisation.amazon-init.enable = false;
 }
 
