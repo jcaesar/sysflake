@@ -93,6 +93,7 @@
     ffmpeg
     piper-tts
   ];
+  home-manager.users.julius.programs.git.extraConfig."url \"github.com:fltech-dev/\"".insteadOf = "https://github.com/fltech-dev/";
 
   networking.extraHosts = ''
     0.0.0.0 blog.fefe.de

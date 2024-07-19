@@ -35,8 +35,8 @@
       gh
       file
       unar
-      delta
-      difftastic
+      delta # better diff
+      difftastic # much better diff
       sshfs
       wol
       pwgen
