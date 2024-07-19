@@ -27,6 +27,7 @@
         pride = sysI ./sys/pride.nix;
         doggieworld = sysI ./sys/doggieworld/configuration.nix;
         pitivi = sysA ./sys/pitivi.nix;
+        drosophila = sysI ./sys/drosophila.nix;
       }
       // work.shamo.eachNixed (index: {
         name = "shamo${toString index}";
