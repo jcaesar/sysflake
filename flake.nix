@@ -26,8 +26,9 @@
         lasta = sysI ./sys/lasta/configuration.nix;
         pride = sysI ./sys/pride.nix;
         doggieworld = sysI ./sys/doggieworld/configuration.nix;
-        pitivi = sysA ./sys/pitivi.nix;
         drosophila = sysI ./sys/drosophila.nix;
+        pitivi = sysA ./sys/pitivi.nix;
+        gegensprech = sysA ./sys/gegensprech.nix;
       }
       // work.shamo.eachNixed (index: {
         name = "shamo${toString index}";

@@ -10,7 +10,7 @@
   name = "drosophila";
   sysflake = "github:jcaesar/sysflake/${flakes.self.rev}";
 in {
-  imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
+  imports = ["${modulesPath}/virtualisation/amazon-image.nix"];
   njx.common = true;
   njx.binfmt = false; # takes like 10 minutes to build :(
   njx.work = true;
@@ -38,17 +38,17 @@ in {
 
     let nixorg = 427812963091
 
-    let ami = (${lib.getExe pkgs.awscli} ec2 describe-images --owners $nixorg 
-        --filter 'Name=name,Values=nixos/${lib.trivial.release}*' 
+    let ami = (${lib.getExe pkgs.awscli} ec2 describe-images --owners $nixorg
+        --filter 'Name=name,Values=nixos/${lib.trivial.release}*'
         --filter 'Name=architecture,Values=x86_64'
       | from json | get Images | sort-by -r CreationDate).0.ImageId
 
     let vols = [{DeviceName:/dev/xvda,Ebs:{VolumeType:gp3,VolumeSize:80,DeleteOnTermination:true}}];
 
     (
-      ${lib.getExe pkgs.awscli} ec2 run-instances 
+      ${lib.getExe pkgs.awscli} ec2 run-instances
         --image-id $ami
-        --count 1 --instance-type m5a.xlarge 
+        --count 1 --instance-type m5a.xlarge
         --subnet-id subnet-00c8ce36439b1b7d8
         --security-group-ids sg-0e93028f51a4617c2
         --instance-initiated-shutdown-behavior terminate
@@ -69,4 +69,3 @@ in {
   '';
   virtualisation.amazon-init.enable = false;
 }
-
