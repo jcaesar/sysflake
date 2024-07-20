@@ -59,6 +59,7 @@ in {
     shell = pkgs.nushellFull;
     openssh.authorizedKeys.keys = private.terminalKeys;
   };
+  environment.systemPackages = with pkgs; [libcec];
 
   disko.devices.disk.diks = {
     device = "/dev/mmcblk0";
