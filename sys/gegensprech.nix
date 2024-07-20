@@ -98,7 +98,8 @@ in {
           end = "100%";
           content = {
             type = "luks";
-            name = "crypted";
+            name = "gegencrypted"; # avoid collisions when running on another raspi
+            extraFormatArgs = ["--pbkdf-memory 50000"]; # eek, not enough memory with argon
             settings.allowDiscards = true;
             content = {
               type = "filesystem";
