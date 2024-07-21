@@ -20,6 +20,7 @@
       what = "/dev/mmcblk0p2";
       where = "/boot";
       type = "ext4";
+      options = "ro";
     }
   ];
   # can't do: boot.initrd.networking.supplicant = config.networking.supplicant; so:
@@ -30,7 +31,11 @@
     bindsTo = cfg.bindsTo;
     requires = ["boot.mount"];
   };
-  boot.initrd.systemd.services.sshd.after = ["boot.mount"];
+  boot.initrd.systemd.storePaths = [pkgs.wpa_supplicant];
+  boot.initrd.systemd.services.sshd = {
+    after = ["boot.mount"];
+    requires = ["boot.mount"];
+  };
 
   hardware.enableRedistributableFirmware = true; # apparently, this also requires:
   nixpkgs.overlays = [
