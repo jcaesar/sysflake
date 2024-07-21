@@ -15,6 +15,22 @@
     "/boot/leakrets/ssh/host_ed25519_key"
   ];
   networking.supplicant.wlan0.configFile.path = "/boot/leakrets/wpa_supplicant.conf";
+  boot.initrd.systemd.mounts = [
+    {
+      what = "/dev/mmcblk0p2";
+      where = "/boot";
+      type = "ext4";
+    }
+  ];
+  # can't do: boot.initrd.networking.supplicant = config.networking.supplicant; so:
+  boot.initrd.systemd.services.supplicant-wlan0 = let cfg = config.systemd.services.supplicant-wlan0; in {
+    serviceConfig = cfg.serviceConfig;
+    after = cfg.after ++ ["boot.mount"];
+    wantedBy = ["sys-subsystem-net-devices-wlan0.device"];
+    bindsTo = cfg.bindsTo;
+    requires = ["boot.mount"];
+  };
+  boot.initrd.systemd.services.sshd.after = ["boot.mount"];
 
   hardware.enableRedistributableFirmware = true; # apparently, this also requires:
   nixpkgs.overlays = [
