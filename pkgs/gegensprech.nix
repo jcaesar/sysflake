@@ -9,6 +9,7 @@ in
     cmake,
     libopus,
     libpulseaudio,
+    pkg-config,
   }:
     rustPlatform.buildRustPackage rec {
       pname = name;
@@ -27,9 +28,13 @@ in
         };
       };
 
-      nativeBuildInputs = [cmake];
+      nativeBuildInputs = [cmake pkg-config];
       buildInputs = [libopus libpulseaudio];
       buildFeatures = ["audio-as-lib"];
+      # libpulse-simple-sys links by name if pkgconfig fails,
+      # and that results in a a binary that can't be run
+      # postFixup = "${lib.getExe libtree} $out/bin/gegensprech";
+      postFixup = "$out/bin/gegensprech help";
 
       meta = {
         description = "Matrix push-to-talk";
