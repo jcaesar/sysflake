@@ -8,7 +8,14 @@
   njx.sshUnlock.modules = ["smsc95xx"];
 
   boot.loader.systemd-boot.enable = lib.mkForce false;
+  # one little nastiness: the bootloader doesn't support secrets, so we need to hack around
   boot.initrd.secrets = lib.mkForce {};
+  boot.initrd.network.ssh.hostKeys = lib.mkForce [
+    "/boot/leakrets/ssh/host_rsa_key"
+    "/boot/leakrets/ssh/host_ed25519_key"
+  ];
+  networking.supplicant.wlan0.configFile.path = "/boot/leakrets/wpa_supplicant.conf";
+
   hardware.enableRedistributableFirmware = true; # apparently, this also requires:
   nixpkgs.overlays = [
     (self: super: {
@@ -30,7 +37,6 @@
   boot.loader.generic-extlinux-compatible.enable = true;
   boot.consoleLogLevel = lib.mkDefault 7;
 
-  networking.supplicant.wlan0.configFile.path = "/etc/wpa_supplicant.conf";
   networking.supplicant.wlan0.userControlled.enable = true;
   networking.supplicant.wlan0.configFile.writable = true;
   systemd.network = {
