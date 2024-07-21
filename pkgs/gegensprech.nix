@@ -1,5 +1,5 @@
 let
-  name = "regensprech";
+  name = "gegensprech";
   author = "jcaesar";
 in
   {
