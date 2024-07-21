@@ -30,5 +30,6 @@ in {
     (mkModOption "prometheus-nvml-exporter")
     (mkModOption "squid")
     (mkModOption "work")
+    (mkModOption "pi3")
   ];
 }
