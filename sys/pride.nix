@@ -142,6 +142,7 @@ in {
   environment.systemPackages = with pkgs; [
     gnomeExtensions.desktop-cube
     gnomeExtensions.burn-my-windows
+    hdparm
   ];
   users.users.julius.extraGroups = ["nzbget"];
   users.users.julius.packages = with pkgs; [
