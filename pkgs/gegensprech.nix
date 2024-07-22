@@ -10,6 +10,7 @@ in
     libopus,
     libpulseaudio,
     pkg-config,
+    stdenv,
   }:
     rustPlatform.buildRustPackage rec {
       pname = name;
@@ -34,7 +35,9 @@ in
       # libpulse-simple-sys links by name if pkgconfig fails,
       # and that results in a a binary that can't be run
       # postFixup = "${lib.getExe libtree} $out/bin/gegensprech";
-      postFixup = "$out/bin/gegensprech help";
+      postFixup = lib.optionalString (stdenv.buildPlatform.canExecute stdenv.hostPlatform) ''
+        $out/bin/gegensprech help
+      '';
 
       meta = {
         description = "Matrix push-to-talk";
