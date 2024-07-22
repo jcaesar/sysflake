@@ -53,18 +53,23 @@ in {
 
     let vols = [{DeviceName:/dev/xvda,Ebs:{VolumeType:gp3,VolumeSize:80,DeleteOnTermination:true}}];
 
-    (
-      ${lib.getExe pkgs.awscli} ec2 run-instances
-        --image-id $ami
-        --count 1 --instance-type m5a.xlarge
-        --subnet-id subnet-00c8ce36439b1b7d8
-        --security-group-ids sg-0e93028f51a4617c2
-        --instance-initiated-shutdown-behavior terminate
-        --block-device-mappings ($vols | to json)
-        --key-name mic-korsika
-        --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=mic-${name}}]'
-        --user-data file://${config.system.build.deployScript}
-    )
+    let insts = (${lib.getExe pkgs.awscli} ec2 run-instances
+      --image-id $ami
+      --count 1 --instance-type m5a.xlarge
+      --subnet-id subnet-00c8ce36439b1b7d8
+      --security-group-ids sg-0e93028f51a4617c2
+      --instance-initiated-shutdown-behavior terminate
+      --block-device-mappings ($vols | to json)
+      --key-name mic-korsika
+      --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=mic-${name}}]'
+      --user-data file://${config.system.build.deployScript}
+      --no-associate-public-ip-address
+      | from json)
+
+    $insts | table
+    let id = ($insts.Instances.0.InstanceId)
+    $id | table
+    aws ec2 associate-address --instance-id $id --allocation-id eipalloc-0b6b1834ec4953923
   '';
 
   system.build.deployScript = pkgs.writeScript "become-${name}" ''
