@@ -20,7 +20,6 @@
       what = "/dev/mmcblk0p2";
       where = "/boot";
       type = "ext4";
-      options = "ro";
     }
   ];
   # can't do: boot.initrd.networking.supplicant = config.networking.supplicant; so:
