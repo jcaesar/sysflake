@@ -91,7 +91,9 @@
       lg = "log --graph --abbrev-commit --decorate --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'";
       quickserve = "daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths .git/";
     };
-    extraConfig = let creds = ["" "${lib.getExe pkgs.github-cli} auth git-credential"]; in {
+    extraConfig = let
+      creds = ["" "${lib.getExe pkgs.github-cli} auth git-credential"];
+    in {
       pull.ff = "only";
       rerere.enable = true;
       user.name = "Julius Michaelis";

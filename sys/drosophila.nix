@@ -22,6 +22,14 @@ in {
   users.users.julius = {
     extraGroups = ["wheel" "docker"];
     openssh.authorizedKeys.keys = common.sshKeys.client;
+    packages = with pkgs; [
+      awscli
+      k9s
+      kubectl
+      eksctl
+      openjdk11
+      kcat
+    ];
   };
   systemd.network = {
     enable = true;

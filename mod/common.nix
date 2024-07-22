@@ -37,6 +37,7 @@
       unar
       delta # better diff
       difftastic # much better diff
+      glow # cat for markdown
       sshfs
       wol
       pwgen

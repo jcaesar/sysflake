@@ -23,7 +23,9 @@
     }
   ];
   # can't do: boot.initrd.networking.supplicant = config.networking.supplicant; so:
-  boot.initrd.systemd.services.supplicant-wlan0 = let cfg = config.systemd.services.supplicant-wlan0; in {
+  boot.initrd.systemd.services.supplicant-wlan0 = let
+    cfg = config.systemd.services.supplicant-wlan0;
+  in {
     serviceConfig = cfg.serviceConfig;
     after = cfg.after ++ ["boot.mount"];
     wantedBy = ["sys-subsystem-net-devices-wlan0.device"];

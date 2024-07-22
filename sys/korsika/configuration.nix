@@ -84,6 +84,7 @@
     awscli
     k9s
     kubectl
+    eksctl
     jetbrains.idea-community
     openjdk11
     kcat
