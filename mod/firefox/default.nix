@@ -137,6 +137,16 @@ in
                 Name = "Google";
                 URLTemplate = "https://google.com/search?q={searchTerms}&lr=lang_en";
               }
+              {
+                Alias = "leo";
+                Name = "Leo Dictionary";
+                URLTemplate = "https://dict.leo.org/german-english/{searchTerms}";
+              }
+              {
+                Alias = "ud";
+                Name = "Urban Dictionary";
+                URLTemplate = "https://www.urbandictionary.com/define.php?term={searchTerms}";
+              }
             ];
           };
         };
