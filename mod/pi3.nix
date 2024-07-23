@@ -32,7 +32,19 @@
     bindsTo = cfg.bindsTo;
     requires = ["boot.mount"];
   };
-  boot.initrd.systemd.storePaths = [pkgs.wpa_supplicant];
+  # weird that it doesn't do this automatically
+  boot.initrd.systemd.storePaths = let
+    inherit (lib) splitString;
+    inherit (pkgs) writeClosure writeText;
+    inherit (builtins) readFile toJSON;
+    cfg = config.systemd.services.supplicant-wlan0.serviceConfig;
+    json = toJSON cfg;
+    jsonFile = writeText "supplicant-wlan0-service-config.json" json;
+    closureFile = writeClosure jsonFile;
+    closure = readFile closureFile;
+    paths = splitString "\n" closure;
+  in
+    paths;
   boot.initrd.systemd.services.sshd = {
     after = ["boot.mount"];
     requires = ["boot.mount"];
