@@ -26,7 +26,7 @@
   boot.initrd.systemd.services.supplicant-wlan0 = let
     cfg = config.systemd.services.supplicant-wlan0;
   in {
-    serviceConfig.ExecStart = cfg.serviceConfig.ExecStart;
+    serviceConfig = cfg.serviceConfig;
     after = cfg.after ++ ["boot.mount"];
     wantedBy = ["sys-subsystem-net-devices-wlan0.device"];
     bindsTo = cfg.bindsTo;
@@ -37,7 +37,7 @@
     inherit (lib) splitString;
     inherit (pkgs) writeClosure writeText;
     inherit (builtins) readFile toJSON;
-    cfg = config.systemd.services.supplicant-wlan0.serviceConfig.ExecStart;
+    cfg = config.systemd.services.supplicant-wlan0.serviceConfig;
     json = toJSON cfg;
     jsonFile = writeText "supplicant-wlan0-service-config.json" json;
     closureFile = writeClosure jsonFile;
@@ -45,6 +45,7 @@
     paths = splitString "\n" closure;
   in
     paths;
+  boot.initrd.systemd.groups.wheel.gid = 123;
   boot.initrd.systemd.services.sshd = {
     after = ["boot.mount"];
     requires = ["boot.mount"];
