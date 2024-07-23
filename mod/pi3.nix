@@ -30,7 +30,8 @@
     after = cfg.after ++ ["boot.mount"];
     wantedBy = ["sys-subsystem-net-devices-wlan0.device"];
     bindsTo = cfg.bindsTo;
-    requires = ["boot.mount"];
+    requires = ["boot.mount" "sys-subsystem-net-devices-wlan0.device"];
+    wants = ["network.target"];
   };
   # weird that it doesn't do this automatically
   boot.initrd.systemd.storePaths = let
