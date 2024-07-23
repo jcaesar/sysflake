@@ -32,6 +32,7 @@
     bindsTo = cfg.bindsTo;
     requires = ["boot.mount" "sys-subsystem-net-devices-wlan0.device"];
     wants = ["network.target"];
+    unitConfig.DefaultDependencies = false;
   };
   # weird that it doesn't do this automatically
   boot.initrd.systemd.storePaths = let
