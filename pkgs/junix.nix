@@ -15,4 +15,5 @@ buildPythonPackage {
   };
   propagatedBuildInputs = [setuptools click];
   doCheck = false;
+  meta.description = "JUpyter Notebook Image eXporter";
 }
