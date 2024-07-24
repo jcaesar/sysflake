@@ -38,6 +38,16 @@ in
           DisplayBookmarksToolbar = "never";
           DisplayMenuBar = "default-off";
           SearchBar = "separate";
+          FirefoxHome = {
+            Search = false;
+            TopSites = false;
+            SponsoredTopSites = false;
+            Highlights = false;
+            Pocket = false;
+            SponsoredPocket = false;
+            Snippets = false;
+            Locked = false;
+          };
 
           # ---- EXTENSIONS ----
           # cat ~/.mozilla/firefox/*.default/addons.json | from json
@@ -84,9 +94,20 @@ in
 
             "browser.ctrlTab.sortByRecentlyUsed" = true;
             "network.captive-portal-service.enabled" = false;
+            "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts.havePinned" = lock "[]";
+            "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts.searchEngines" = lock "[]";
+            "browser.newtabpage.pinned" = lock "[]";
+
+            # arken
+            "toolkit.telemetry.coverage.opt-out" = lock true;
+            "toolkit.coverage.opt-out" = lock true;
+            "browser.newtabpage.activity-stream.feeds.telemetry" = lock false;
+            "browser.newtabpage.activity-stream.telemetry" = lock false;
+            "browser.urlbar.speculativeConnect.enabled" = false;
+            "browser.urlbar.showSearchTerms.enabled" = false;
           };
           SearchEngines = {
-            Remove = ["Bing" "@bing" "bing" "Google" "DuckDuckGo" "Wikipedia (en)"];
+            Remove = ["Bing" "@bing" "bing" "Google" "Wikipedia (en)" "Amazon" "Amazon.co.jp" "Amazon.de"];
             Add = [
               {
                 Alias = "wde";
@@ -129,12 +150,12 @@ in
               }
               {
                 Alias = "d";
-                Name = "DuckDuckGo";
+                Name = "DuckDuckGo (policied)";
                 URLTemplate = "https://duckduckgo.com/?t=ffab&q={searchTerms}&ia=web";
               }
               {
                 Alias = "g";
-                Name = "Google";
+                Name = "Google (policied)";
                 URLTemplate = "https://google.com/search?q={searchTerms}&lr=lang_en";
               }
               {
@@ -149,6 +170,8 @@ in
               }
             ];
           };
+          Default = "DuckDuckGo";
+          PreventInstalls = true;
         };
       };
     };
