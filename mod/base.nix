@@ -27,8 +27,8 @@
 
   boot.loader = {
     systemd-boot = {
-      enable = true;
-      configurationLimit = 15;
+      enable = lib.mkDefault true;
+      configurationLimit = lib.mkDefault 15;
       editor = false;
     };
     efi.canTouchEfiVariables = true;

@@ -26,9 +26,9 @@
         lasta = sysI ./sys/lasta/configuration.nix;
         pride = sysI ./sys/pride.nix;
         doggieworld = sysI ./sys/doggieworld/configuration.nix;
-        drosophila = sysI ./sys/drosophila.nix;
+        palmarola = sysI ./sys/palmarola.nix;
         pitivi = sysA ./sys/pitivi.nix;
-        gegensprech = sysA ./sys/gegensprech.nix;
+        drosophila = sysI ./sys/drosophila.nix;
       }
       // work.shamo.eachNixed (index: {
         name = "shamo${toString index}";
@@ -90,5 +90,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    wsl.url = "github:nix-community/NixOS-WSL";
+    wsl.inputs.nixpkgs.follows = "nixpkgs";
   };
 }
