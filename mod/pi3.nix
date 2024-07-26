@@ -73,6 +73,7 @@
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
   boot.consoleLogLevel = lib.mkDefault 7;
+  console.earlySetup = true;
 
   networking.supplicant.wlan0.userControlled.enable = true;
   networking.supplicant.wlan0.configFile.writable = true;
