@@ -7,14 +7,6 @@
   njx.base = true;
   njx.sshUnlock.modules = ["smsc95xx"];
 
-  boot.kernelPackages = lib.mkDefault pkgs.linuxKernel.packages.linux_rpi3; 
-  nixpkgs.overlays = [
-    (_final: super: {
-      makeModulesClosure = x:
-        super.makeModulesClosure (x // { allowMissing = true; });
-    })
-  ];
-
   boot.loader.systemd-boot.enable = lib.mkForce false;
   # one little nastiness: the bootloader doesn't support secrets, so we need to hack around
   boot.initrd.secrets = lib.mkForce {};
