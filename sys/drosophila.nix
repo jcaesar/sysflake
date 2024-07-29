@@ -38,8 +38,18 @@ in {
       DHCP = "yes";
     };
   };
+  systemd.timers.stop-loss.timerConfig = {
+    OnBootSec = "32h";
+    Unit = "shutdown.target";
+  };
+  fileSystems."/home" = {
+    device = "/dev/disk/by-label/homedisk";
+    fsType = "ext4";
+  };
 
-  system.build.createScript = pkgs.writeScriptBin "create-${name}-instance" ''
+  system.build.createScript = let
+    aws = lib.getExe pkgs.awscli;
+  in pkgs.writeScriptBin "create-${name}-instance" ''
     #!${lib.getExe pkgs.nushell}
 
     nix eval ${sysflake}#nixosConfigurations.${name}.config.system.build.toplevel.drvPath
@@ -51,9 +61,9 @@ in {
         --filter 'Name=architecture,Values=x86_64'
       | from json | get Images | sort-by -r CreationDate).0.ImageId
 
-    let vols = [{DeviceName:/dev/xvda,Ebs:{VolumeType:gp3,VolumeSize:80,DeleteOnTermination:true}}];
+    let vols = [{DeviceName:/dev/xvda,Ebs:{VolumeType:gp3,VolumeSize:50,DeleteOnTermination:true}}];
 
-    let insts = (${lib.getExe pkgs.awscli} ec2 run-instances
+    let insts = (${aws} ec2 run-instances
       --image-id $ami
       --count 1 --instance-type m5a.xlarge
       --subnet-id subnet-00c8ce36439b1b7d8
@@ -66,10 +76,15 @@ in {
       --no-associate-public-ip-address
       | from json)
 
-    $insts | table
+    echo $insts
     let id = ($insts.Instances.0.InstanceId)
-    $id | table
-    aws ec2 associate-address --instance-id $id --allocation-id eipalloc-0b6b1834ec4953923
+    echo $id
+    ${aws} ec2 wait instance-running --instance-ids $id
+    # volume precreated
+    # aws ec2 create-volume --availability-zone ap-northeast-1a --size 60 --volume-type gp3
+    # (az matches subnet)
+    ${aws} ec2 attach-volume --volume-id vol-0a71f75ff89e3d034 --instance-id $id --device /dev/xvdb
+    ${aws} ec2 associate-address --instance-id $id --allocation-id eipalloc-0b6b1834ec4953923
   '';
 
   system.build.deployScript = pkgs.writeScript "become-${name}" ''
@@ -77,7 +92,7 @@ in {
     mkdir -p ~/.ssh
     ${lib.concatStringsSep "\n" (map (k: "echo '${k}' >~/.ssh/authorized_keys") common.sshKeys.strong)}
     nixos-rebuild boot --flake ${sysflake}#${name} --verbose
-    touch /root/.deployed
+    mkfs.ext4 -L homelabel /dev/xvdb
     systemctl reboot
   '';
   virtualisation.amazon-init.enable = false;
