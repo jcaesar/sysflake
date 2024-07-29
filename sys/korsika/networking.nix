@@ -3,7 +3,7 @@ let
   cameoPort = "enp2s0";
   common = import ../../work.nix;
 in
-  {    pkgs,    ...  }: {
+  {pkgs, ...}: {
     systemd.network = {
       enable = true;
       networks."10-palmarola-eth-net" = {

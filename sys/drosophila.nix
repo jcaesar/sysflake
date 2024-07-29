@@ -46,53 +46,60 @@ in {
     device = "/dev/disk/by-label/homedisk";
     fsType = "ext4";
   };
+  services.openssh.hostKeys = [
+    {
+      path = "/home/ssh/ssh_host_ed25519_key";
+      type = "ed25519";
+    }
+  ];
 
   system.build.createScript = let
     aws = lib.getExe pkgs.awscli;
-  in pkgs.writeScriptBin "create-${name}-instance" ''
-    #!${lib.getExe pkgs.nushell}
+  in
+    pkgs.writeScriptBin "create-${name}-instance" ''
+      #!${lib.getExe pkgs.nushell}
 
-    nix eval ${sysflake}#nixosConfigurations.${name}.config.system.build.toplevel.drvPath
+      nix eval ${sysflake}#nixosConfigurations.${name}.config.system.build.toplevel.drvPath
 
-    let nixorg = 427812963091
+      let nixorg = 427812963091
 
-    let ami = (${lib.getExe pkgs.awscli} ec2 describe-images --owners $nixorg
-        --filter 'Name=name,Values=nixos/${lib.trivial.release}*'
-        --filter 'Name=architecture,Values=x86_64'
-      | from json | get Images | sort-by -r CreationDate).0.ImageId
+      let ami = (${lib.getExe pkgs.awscli} ec2 describe-images --owners $nixorg
+          --filter 'Name=name,Values=nixos/${lib.trivial.release}*'
+          --filter 'Name=architecture,Values=x86_64'
+        | from json | get Images | sort-by -r CreationDate).0.ImageId
 
-    let vols = [{DeviceName:/dev/xvda,Ebs:{VolumeType:gp3,VolumeSize:50,DeleteOnTermination:true}}];
+      let vols = [{DeviceName:/dev/xvda,Ebs:{VolumeType:gp3,VolumeSize:50,DeleteOnTermination:true}}];
 
-    let insts = (${aws} ec2 run-instances
-      --image-id $ami
-      --count 1 --instance-type m5a.xlarge
-      --subnet-id subnet-00c8ce36439b1b7d8
-      --security-group-ids sg-0e93028f51a4617c2
-      --instance-initiated-shutdown-behavior terminate
-      --block-device-mappings ($vols | to json)
-      --key-name mic-korsika
-      --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=mic-${name}}]'
-      --user-data file://${config.system.build.deployScript}
-      --no-associate-public-ip-address
-      | from json)
+      let insts = (${aws} ec2 run-instances
+        --image-id $ami
+        --count 1 --instance-type m5a.xlarge
+        --subnet-id subnet-00c8ce36439b1b7d8
+        --security-group-ids sg-0e93028f51a4617c2
+        --instance-initiated-shutdown-behavior terminate
+        --block-device-mappings ($vols | to json)
+        --key-name mic-korsika
+        --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=mic-${name}}]'
+        --user-data file://${config.system.build.deployScript}
+        --no-associate-public-ip-address
+        | from json)
 
-    echo $insts
-    let id = ($insts.Instances.0.InstanceId)
-    echo $id
-    ${aws} ec2 wait instance-running --instance-ids $id
-    # volume precreated
-    # aws ec2 create-volume --availability-zone ap-northeast-1a --size 60 --volume-type gp3
-    # (az matches subnet)
-    ${aws} ec2 attach-volume --volume-id vol-0a71f75ff89e3d034 --instance-id $id --device /dev/xvdb
-    ${aws} ec2 associate-address --instance-id $id --allocation-id eipalloc-0b6b1834ec4953923
-  '';
+      echo $insts
+      let id = ($insts.Instances.0.InstanceId)
+      echo $id
+      ${aws} ec2 wait instance-running --instance-ids $id
+      # volume precreated
+      # aws ec2 create-volume --availability-zone ap-northeast-1a --size 60 --volume-type gp3
+      # (az matches subnet)
+      # mkfs.ext4 -L homelabel /dev/xvdb
+      ${aws} ec2 attach-volume --volume-id vol-0a71f75ff89e3d034 --instance-id $id --device /dev/xvdb
+      ${aws} ec2 associate-address --instance-id $id --allocation-id eipalloc-0b6b1834ec4953923
+    '';
 
   system.build.deployScript = pkgs.writeScript "become-${name}" ''
     #!/usr/bin/env bash
     mkdir -p ~/.ssh
     ${lib.concatStringsSep "\n" (map (k: "echo '${k}' >~/.ssh/authorized_keys") common.sshKeys.strong)}
     nixos-rebuild boot --flake ${sysflake}#${name} --verbose
-    mkfs.ext4 -L homelabel /dev/xvdb
     systemctl reboot
   '';
   virtualisation.amazon-init.enable = false;
