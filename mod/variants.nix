@@ -18,6 +18,9 @@
     fileSystems = {};
     boot.supportedFilesystems.zfs = lib.mkForce false;
     systemd.services.rescue.environment.SYSTEMD_SULOGIN_FORCE = "1";
+    services.matrix-synapse.enable = false; # Don't want weird stuff happening in test vms
+    services.smartd.enable = false;
+    boot.initrd.services.resolved.enable = false;
   };
   common = {lib, ...}: {
     imports = [base];

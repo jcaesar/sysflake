@@ -26,6 +26,7 @@
         lasta = sysI ./sys/lasta/configuration.nix;
         pride = sysI ./sys/pride.nix;
         doggieworld = sysI ./sys/doggieworld/configuration.nix;
+        spitz = sysI ./sys/spitz/configuration.nix;
         drosophila = sysI ./sys/drosophila.nix;
         pitivi = sysA ./sys/pitivi.nix;
         gegensprech = sysA ./sys/gegensprech.nix;
