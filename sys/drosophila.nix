@@ -41,6 +41,7 @@ in {
   systemd.timers.stop-loss.timerConfig = {
     OnBootSec = "32h";
     Unit = "shutdown.target";
+    wantedBy = ["timers.target"];
   };
   fileSystems."/home" = {
     device = "/dev/disk/by-label/homedisk";
@@ -52,6 +53,13 @@ in {
       type = "ed25519";
     }
   ];
+  systemd.services.serial-htop = {
+    wantedBy = ["multi-user.target"];
+    serviceConfig.ExecStart = "${lib.getExe' pkgs.expect "unbuffer"} ${lib.getExe pkgs.htop}";
+    serviceConfig.StandardOutput = "tty";
+    serviceConfig.TTYPath = "/dev/ttyS0";
+  };
+  systemd.services."serial-getty@ttyS0".enable = lib.mkForce false;
 
   system.build.createScript = let
     aws = lib.getExe pkgs.awscli;
@@ -90,7 +98,7 @@ in {
       # volume precreated
       # aws ec2 create-volume --availability-zone ap-northeast-1a --size 60 --volume-type gp3
       # (az matches subnet)
-      # mkfs.ext4 -L homelabel /dev/xvdb
+      # mkfs.ext4 -L homedisk /dev/xvdb
       ${aws} ec2 attach-volume --volume-id vol-0a71f75ff89e3d034 --instance-id $id --device /dev/xvdb
       ${aws} ec2 associate-address --instance-id $id --allocation-id eipalloc-0b6b1834ec4953923
     '';
@@ -99,6 +107,7 @@ in {
     #!/usr/bin/env bash
     mkdir -p ~/.ssh
     ${lib.concatStringsSep "\n" (map (k: "echo '${k}' >~/.ssh/authorized_keys") common.sshKeys.strong)}
+    rm -rf /etc/nixos
     nixos-rebuild boot --flake ${sysflake}#${name} --verbose
     systemctl reboot
   '';
