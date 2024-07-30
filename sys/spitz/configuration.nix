@@ -25,10 +25,7 @@ in {
     enable = true;
     networks."10-cameo-net" = {
       matchConfig.Name = [wlan "enp3s0"];
-      DHCP = "no";
-      address = ["10.13.52.18/25"];
-      dns = ["10.13.52.1" "9.9.9.9"];
-      gateway = ["10.13.52.1"];
+      DHCP = "yes";
     };
   };
   networking.supplicant.${wlan} = {

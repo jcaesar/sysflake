@@ -6,7 +6,7 @@
   fqdn = "${config.networking.hostName}.${config.networking.domain}";
   baseUrl = "https://${fqdn}";
   clientConfig."m.homeserver".base_url = baseUrl;
-  # TODO: blackhole id server
+  clientConfig."m.identity_server".base_url = "https://blackhole.liftm.de";
   serverConfig."m.server" = "${fqdn}:443";
   mkWellKnown = data: ''
     default_type application/json;
@@ -19,9 +19,11 @@ in {
     # - import/create db https://nixos.org/manual/nixos/stable/index.html#module-services-matrix-synapse
     # - import media store to /var/lib/matrix-synapse/media_store
     # - import signing key to /var/lib/matrix-synapse/homeserver.signing.key
-    enable = false; # until import
+    # - password pepper
+    enable = true; # until import
     settings.server_name = fqdn;
     settings.public_baseurl = baseUrl;
+    settings.url_preview_enabled = false;
     settings.listeners = [
       {
         port = 8008;
