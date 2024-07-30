@@ -6,8 +6,10 @@ in {
   networking.hostName = "spitz";
   networking.domain = "liftm.de";
   njx.base = true;
-  njx.sshUnlock.keys = private.terminalKeys;
   njx.sshUnlock.modules = ["igc" "rtw89_8852be"];
+  njx.sshUnlock.keys = private.terminalKeys;
+  users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
+  services.openssh.openFirewall = true;
 
   boot.loader = {
     systemd-boot = {
