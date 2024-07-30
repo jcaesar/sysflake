@@ -9,7 +9,7 @@ in {
   njx.sshUnlock.modules = ["igc" "rtw89_8852be"];
   njx.sshUnlock.keys = private.terminalKeys;
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
-  services.openssh.openFirewall = true;
+  services.openssh.enable = true;
 
   boot.loader = {
     systemd-boot = {
