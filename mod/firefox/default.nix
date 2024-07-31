@@ -168,6 +168,16 @@ in
                 Name = "Urban Dictionary";
                 URLTemplate = "https://www.urbandictionary.com/define.php?term={searchTerms}";
               }
+              {
+                Alias = "nixo";
+                Name = "NixOS Options";
+                URLTemplate = "https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query={searchTerms}";
+              }
+              {
+                Alias = "nixp";
+                Name = "NixOS Packages";
+                URLTemplate = "https://search.nixos.org/packages?channel=unstable&from=0&size=50&sort=relevance&type=packages&query={searchTerms}";
+              }
             ];
           };
           Default = "DuckDuckGo";
