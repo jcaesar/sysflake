@@ -44,9 +44,7 @@ in
     systemd.network.networks."13-cameo" = {
       matchConfig.Name = cameoPort;
       DHCP = "ipv4";
-      networkConfig = {
-        IPv6AcceptRA = false;
-      };
+      networkConfig.IPv6AcceptRA = false;
       dhcpV4Config = {
         UseRoutes = false;
         UseDNS = false;

@@ -26,7 +26,9 @@ in {
     networks."10-cameo-net" = {
       matchConfig.Name = wlan;
       DHCP = "yes";
-      dns = ["1.1.1.1" "8.8.4.4"]; # ISP's dns servers keep failing over, cache flushes, thrashing occurs
+      dns = ["1.1.1.1"];
+      # keeps failing over, cache flushes, thrashing occurs
+      dhcpV4Config.UseDNS = false;
     };
   };
   networking.supplicant.${wlan} = {
