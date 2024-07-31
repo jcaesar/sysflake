@@ -24,8 +24,9 @@ in {
   systemd.network = {
     enable = true;
     networks."10-cameo-net" = {
-      matchConfig.Name = [wlan "enp3s0"];
+      matchConfig.Name = wlan;
       DHCP = "yes";
+      dns = ["1.1.1.1" "8.8.4.4"]; # ISP's dns servers keep failing over, cache flushes, thrashing occurs
     };
   };
   networking.supplicant.${wlan} = {
