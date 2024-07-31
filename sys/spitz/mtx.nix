@@ -13,6 +13,7 @@
     add_header Access-Control-Allow-Origin *;
     return 200 '${builtins.toJSON data}';
   '';
+  mtxCfg = config.services.matrix-synapse;
 in {
   services.matrix-synapse = {
     # manual install/migration steps
@@ -28,6 +29,7 @@ in {
     settings.server_name = fqdn;
     settings.public_baseurl = baseUrl;
     settings.url_preview_enabled = false;
+    settings.enable_registration = false;
     settings.listeners = [
       {
         port = 8008;
@@ -44,6 +46,9 @@ in {
       }
     ];
     settings.database.args.database = "synapse";
+    settings.turn_uris = ["turn:turn.${fqdn}:3478?transport=udp" "turn:turn.${fqdn}:3478?transport=tcp"];
+    settings.turn_user_lifetime = "1h";
+    extraConfigFiles = ["${mtxCfg.dataDir}/turn-secret.yaml"]; # contains one line turn_shared_secret: "foobar"
   };
 
   services.nginx = {
