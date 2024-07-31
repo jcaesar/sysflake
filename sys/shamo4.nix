@@ -32,6 +32,20 @@ in
     programs.java.binfmt = true;
     programs.nix-ld.enable = true;
 
+    services.ollama.enable = true;
+    services.ollama.environmentVariables = {
+      OLLAMA_KEEP_ALIVE = "1h";
+      OLLAMA_MAX_LOADED_MODELS = "5";
+    };
+    # services.open-webui.enable = true;
+    # services.open-webui.environment = {
+    #   ANONYMIZED_TELEMETRY = "False";
+    #   DO_NOT_TRACK = "True";
+    #   SCARF_NO_ANALYTICS = "True";
+    #   OLLAMA_API_BASE_URL = "http://127.0.0.1:11434";
+    #   WEBUI_AUTH = "False";
+    # };
+
     users.users.yamaguchi = {
       uid = 1006;
       isNormalUser = true;
