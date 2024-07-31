@@ -107,6 +107,7 @@ in rec {
       }
     );
   systemd.services.etcd.serviceConfig.SupplementaryGroups = "kubernetes";
+  zramSwap.enable = false; # failed to run Kubelet: running with swap on is not supported
 
   networking.firewall = let
     inherit (lib.strings) concatStringsSep;

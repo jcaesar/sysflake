@@ -90,7 +90,7 @@
 
   services.xserver.displayManager.gdm.autoSuspend = false;
 
-  zramSwap = {
+  zramSwap = lib.mkDefault {
     enable = true;
     memoryMax = 8 * 1024 * 1024 * 1024;
     memoryPercent = 30;
