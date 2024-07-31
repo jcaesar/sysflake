@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  fqdn = "${config.networking.hostName}.${config.networking.domain}";
+  fqdn = "mtx.liftm.de";
   baseUrl = "https://${fqdn}";
   clientConfig."m.homeserver".base_url = baseUrl;
   clientConfig."m.identity_server".base_url = "https://blackhole.liftm.de";
@@ -58,13 +58,9 @@ in {
         locations."= /.well-known/matrix/server".extraConfig = mkWellKnown serverConfig;
         locations."= /.well-known/matrix/client".extraConfig = mkWellKnown clientConfig;
       };
-      "element.${fqdn}" = {
+      "riot.${config.networking.domain}" = {
         enableACME = true;
         forceSSL = true;
-        serverAliases = [
-          "element.${config.networking.domain}"
-        ];
-
         root = pkgs.element-web.override {
           conf.default_server_config = clientConfig;
         };
