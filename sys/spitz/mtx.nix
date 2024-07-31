@@ -49,6 +49,8 @@ in {
     settings.turn_uris = ["turn:turn.${fqdn}:3478?transport=udp" "turn:turn.${fqdn}:3478?transport=tcp"];
     settings.turn_user_lifetime = "1h";
     extraConfigFiles = ["${mtxCfg.dataDir}/turn-secret.yaml"]; # contains one line turn_shared_secret: "foobar"
+    log.root.level = "WARN";
+    log.loggers."synapse.storage.SQL".level = "INFO";
   };
 
   services.nginx = {
