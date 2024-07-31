@@ -39,6 +39,10 @@ in {
         ];
       }
     ];
+    settings.database.args = {
+      database = "synapse";
+      user = "synapse";
+    };
   };
 
   services.nginx = {
