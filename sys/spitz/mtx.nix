@@ -19,7 +19,11 @@ in {
     # - import/create db https://nixos.org/manual/nixos/stable/index.html#module-services-matrix-synapse
     # - import media store to /var/lib/matrix-synapse/media_store
     # - import signing key to /var/lib/matrix-synapse/homeserver.signing.key
-    # - password pepper
+    # - password pepper?
+    # CREATE ROLE "matrix-synapse";
+    # GRANT ALL ON DATABASE synapse TO "matrix-synapse";
+    # GRANT ALL PRIVILEGES ON ALL {FUNCTIONS,SEQUENCES,TABLES} IN SCHEMA public to "matrix-synapse";
+    # alter role "matrix-synapse" login;
     enable = true; # until import
     settings.server_name = fqdn;
     settings.public_baseurl = baseUrl;
