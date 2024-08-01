@@ -36,14 +36,14 @@
   };
   # weird that it doesn't do this automatically
   boot.initrd.systemd.storePaths = let
-    inherit (lib) splitString;
+    inherit (lib) splitString removeSuffix;
     inherit (pkgs) writeClosure writeText;
     inherit (builtins) readFile toJSON;
     cfg = config.systemd.services.supplicant-wlan0.serviceConfig;
     json = toJSON cfg;
     jsonFile = writeText "supplicant-wlan0-service-config.json" json;
     closureFile = writeClosure jsonFile;
-    closure = readFile closureFile;
+    closure = removeSuffix "\n" (readFile closureFile);
     paths = splitString "\n" closure;
   in
     paths;
