@@ -30,6 +30,7 @@ in {
     settings.public_baseurl = baseUrl;
     settings.url_preview_enabled = false;
     settings.enable_registration = false;
+    settings.federation.client_timeout_ms = 300 * 1000;
     settings.listeners = [
       {
         port = 8008;
