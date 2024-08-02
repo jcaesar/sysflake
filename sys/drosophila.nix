@@ -38,9 +38,11 @@ in {
       DHCP = "yes";
     };
   };
-  systemd.timers.stop-loss.timerConfig = {
-    OnBootSec = "32h";
-    Unit = "shutdown.target";
+  systemd.timers.stop-loss = {
+    timerConfig = {
+      OnCalendar = "23:00:00 Asia/Tokyo";
+      Unit = "shutdown.target";
+    };
     wantedBy = ["timers.target"];
   };
   fileSystems."/home" = {
@@ -109,6 +111,9 @@ in {
     ${lib.concatStringsSep "\n" (map (k: "echo '${k}' >~/.ssh/authorized_keys") common.sshKeys.strong)}
     rm -rf /etc/nixos
     nixos-rebuild boot --flake ${sysflake}#${name} --verbose
+    mount /dev/xvdb /home
+    rm /home/julius/.local/state/nix/profiles/home-manager*
+    rm /home/julius/.local/state/home-manager/gcroots/current-home
     systemctl reboot
   '';
   virtualisation.amazon-init.enable = false;
