@@ -29,6 +29,13 @@
     languages = {
       language = [
         {
+          name = "java";
+          indent = {
+            tab-width = 4;
+            unit = "    ";
+          };
+        }
+        {
           name = "nix";
           language-servers = ["nixd"];
         }
@@ -36,15 +43,8 @@
       language-server.nixd.command = "${pkgs.nixd}/bin/nixd";
     };
     extraPackages = with pkgs; [
-      dhall-lsp-server
       rust-analyzer
-      libclang
-      bear
-      metals
-      gopls
-      gleam
-      zls
-      vhdl-ls
+      python3.pkgs.python-lsp-ruff
     ];
   };
 

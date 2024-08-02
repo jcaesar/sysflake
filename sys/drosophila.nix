@@ -27,8 +27,6 @@ in {
       k9s
       kubectl
       eksctl
-      openjdk11
-      kcat
     ];
   };
   systemd.network = {

@@ -40,5 +40,10 @@ in {
     iotop
     logcheck
     direnv
+    jdt-language-server
+    kcat
+    maven
+    openjdk11
+    openjdk17
   ];
 }
