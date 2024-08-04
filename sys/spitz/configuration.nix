@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}: let
+{pkgs, ...}: let
   private = import ../../private.nix;
   wlan = "wlp1s0";
 in {
@@ -33,6 +29,7 @@ in {
       dns = ["1.1.1.1"];
       # keeps failing over, cache flushes, thrashing occurs
       dhcpV4Config.UseDNS = false;
+      networkConfig.Tunnel = "he-ipv6";
     };
     networks."11-ll" = {
       matchConfig.Name = "enp3s0";
@@ -68,10 +65,11 @@ in {
   ];
   systemd.services.he-tunnel-update = {
     serviceConfig = {
-      ExecStart = pkgs.writeScript "he-tunnel-update" ''
-        set -eu
-        ${lib.getExe' pkgs.xh "xhs"} "https://$(cat /etc/secrets/he-tunnel-update-auth)@ipv4.tunnelbroker.net/nic/update" hostname==504322
-      '';
+      ExecStart = pkgs.writeShellApplication {
+        name = "he-tunnel-update";
+        runtimeInputs = [pkgs.xh];
+        text = ''xhs "https://$(cat /etc/secrets/he-tunnel-update-auth)@ipv4.tunnelbroker.net/nic/update" hostname==504322'';
+      };
       RootDirectory = "/run/he-tunnel-update";
       BindReadOnlyPaths = ["/nix/store" "/etc/secrets/he-tunnel-update-auth"];
     };
