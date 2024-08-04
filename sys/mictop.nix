@@ -47,6 +47,7 @@
     };
   };
   njx.wireguardToDoggieworld = {
+    enable = true;
     listenPort = 51820;
     finalOctet = 2;
     privateKeyFile = "/etc/secret-wg-private.key";

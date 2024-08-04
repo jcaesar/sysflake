@@ -99,8 +99,11 @@ in {
       gateway = ["10.13.52.1"];
     };
   };
-  njx.wireguardToDoggieworld.listenPort = 16816;
-  njx.wireguardToDoggieworld.finalOctet = 8;
+  njx.wireguardToDoggieworld = {
+    enable = true;
+    listenPort = 16816;
+    finalOctet = 8;
+  };
 
   hardware.cpu.amd.updateMicrocode = true;
 
