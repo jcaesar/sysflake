@@ -20,6 +20,7 @@ in {
     ./variants.nix
     ./ssh-unlock.nix
     ./wg-doggieworld.nix
+    ./manual.nix
     (mkModOption "base")
     (mkModOption "binfmt")
     (mkModOption "bluetooth")

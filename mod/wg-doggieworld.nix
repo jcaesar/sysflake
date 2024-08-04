@@ -22,6 +22,17 @@ in {
     };
   };
   config = lib.mkIf cfg.enable {
+    njx.manual.wg-doggieworld = ''
+      Make sure /etc/secrets/wg.pk has a wireguard private key with access to doggieworld.
+      E.g.:
+      ```
+      k=/etc/secrets/wg.pk
+      wg genkey | tee $k | wg pubkey
+      chown root:systemd-network $k
+      chmod 640 $k
+      ```
+      and add that key for `10.13.38.${toString cfg.finalOctet}` on doggieworld.
+    '';
     systemd.network = {
       enable = true;
       netdevs."42-wg-dev" = {

@@ -82,6 +82,10 @@ in {
     "cameo1" = dev "4d8fe471-1685-4540-844c-d76000911869";
     "cameo2" = dev "54b76e1d-ce44-4dad-93c4-a8f3030da827";
   };
+  njx.manual.hdd-key = ''
+    Not entering 5 encryption passwords at boot requires a keyfile added to the 4 HDDs at
+    /etc/secrets/filekey
+  '';
 
   swapDevices = [];
 
