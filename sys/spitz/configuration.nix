@@ -52,9 +52,11 @@ in {
         TTL = 255;
       };
     };
-    networks."13-he-tunnel" = let pfx = "2001:470:23:1c3:"; in {
+    networks."13-he-tunnel" = let
+      pfx = "2001:470:23:1c3:";
+    in {
       matchConfig.Name = "he-ipv6";
-      address = ["${pfx}2/64"];
+      address = ["${pfx}:2/64"];
       gateway = ["${pfx}:1"];
     };
   };
@@ -75,7 +77,11 @@ in {
         text = ''xhs "https://$(cat /etc/secrets/he-tunnel-update-auth)@ipv4.tunnelbroker.net/nic/update" hostname==568820'';
       });
       RootDirectory = "/run/he-tunnel-update";
-      BindReadOnlyPaths = ["/nix/store" "/etc/secrets/he-tunnel-update-auth"];
+      BindReadOnlyPaths = [
+        "/nix/store"
+        "/etc/secrets/he-tunnel-update-auth"
+        "/etc/resolve.conf"
+      ];
     };
   };
   systemd.timers.he-tunnel-update = {
