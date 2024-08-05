@@ -14,10 +14,12 @@ in {
 
   # Execute your favorite apps at launch
   exec-once = [
-    "swww init & swww clear"
+    "hyprpaper"
     "exec blueman-applet"
     "exec swayidle -w timeout 330 hyprlock before-sleep hyprlock"
     "waybar"
+    "element-desktop"
+    "fcitx5"
   ];
 
   env = ["XCURSOR_SIZE,24"];
