@@ -30,7 +30,6 @@ in {
     networks."10-cameo-net" = {
       matchConfig.Name = wlan;
       DHCP = "yes";
-      dns = ["1.1.1.1"];
       # keeps failing over, cache flushes, thrashing occurs
       dhcpV4Config.UseDNS = false;
       networkConfig.Tunnel = "he-ipv6";
@@ -58,6 +57,7 @@ in {
       matchConfig.Name = "he-ipv6";
       address = ["${pfx}:2/64"];
       gateway = ["${pfx}:1"];
+      dns = ["2001:470:20::2"];
     };
   };
   networking.supplicant.${wlan} = {
