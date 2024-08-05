@@ -57,7 +57,7 @@ in {
       matchConfig.Name = "he-ipv6";
       address = ["${pfx}:2/64"];
       gateway = ["${pfx}:1"];
-      dns = ["2001:470:20::2"];
+      dns = ["2001:4860:4860::8844#dns.google"];
     };
   };
   networking.supplicant.${wlan} = {
