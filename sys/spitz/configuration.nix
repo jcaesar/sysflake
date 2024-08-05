@@ -80,7 +80,7 @@ in {
       BindReadOnlyPaths = [
         "/nix/store"
         "/etc/secrets/he-tunnel-update-auth"
-        "/etc/resolve.conf"
+        "/etc/resolv.conf"
       ];
     };
   };
