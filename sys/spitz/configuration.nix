@@ -47,7 +47,7 @@ in {
         MTUBytes = toString 1480;
       };
       tunnelConfig = {
-        Local = "192.168.0.243";
+        Local = "192.168.0.253";
         Remote = "74.82.46.6";
         TTL = 255;
       };
