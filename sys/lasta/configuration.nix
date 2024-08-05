@@ -59,6 +59,7 @@
     element-desktop-wayland
     pyanidb
     (himalaya.override {buildFeatures = ["notmuch"];})
+    wl-clipboard
     notmuch
     nextcloud-client
   ];
