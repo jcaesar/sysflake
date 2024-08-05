@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  lib,
+  ...
+}: let
   private = import ../../private.nix;
   wlan = "wlp1s0";
 in {
@@ -48,10 +52,10 @@ in {
         TTL = 255;
       };
     };
-    networks."13-he-tunnel" = {
+    networks."13-he-tunnel" = let pfx = "2001:470:23:1c3:"; in {
       matchConfig.Name = "he-ipv6";
-      address = ["2001:470:1f0a:c81::2/64" "2001:470:1f0b:c82::1/64"];
-      gateway = ["2001:470:1f0a:c81::1"];
+      address = ["${pfx}2/64"];
+      gateway = ["${pfx}:1"];
     };
   };
   networking.supplicant.${wlan} = {
@@ -65,11 +69,11 @@ in {
   ];
   systemd.services.he-tunnel-update = {
     serviceConfig = {
-      ExecStart = pkgs.writeShellApplication {
+      ExecStart = lib.getExe (pkgs.writeShellApplication {
         name = "he-tunnel-update";
         runtimeInputs = [pkgs.xh];
-        text = ''xhs "https://$(cat /etc/secrets/he-tunnel-update-auth)@ipv4.tunnelbroker.net/nic/update" hostname==504322'';
-      };
+        text = ''xhs "https://$(cat /etc/secrets/he-tunnel-update-auth)@ipv4.tunnelbroker.net/nic/update" hostname==568820'';
+      });
       RootDirectory = "/run/he-tunnel-update";
       BindReadOnlyPaths = ["/nix/store" "/etc/secrets/he-tunnel-update-auth"];
     };
@@ -82,7 +86,8 @@ in {
     wantedBy = ["timers.target"];
   };
   njx.manual.he-tunnel = ''
-    Place $user:$pass file in /etc/secrets/he-tunnel-update-auth
+    Place $user:$pass file in /etc/secrets/he-tunnel-update-auth.
+    See https://ipv4.tunnelbroker.net/tunnel_detail.php?tid=568820
   '';
 
   boot.supportedFilesystems = ["bcachefs"];
