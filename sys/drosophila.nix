@@ -38,10 +38,8 @@ in {
   };
   systemd.timers.stop-loss = {
     timerConfig.OnCalendar = "23:00:00 Asia/Tokyo";
+    timerConfig.Unit = "poweroff.target";
     wantedBy = ["timers.target"];
-  };
-  systemd.services.stop-loss = {
-    serviceConfig.ExecStart = "/run/current-system/sw/bin/systemctl poweroff";
   };
   fileSystems."/home" = {
     device = "/dev/disk/by-label/homedisk";
