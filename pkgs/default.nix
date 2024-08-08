@@ -10,4 +10,5 @@ pkgs: {
   colmap = import ./colmap.nix pkgs;
   archivebox = import ./archivebox.nix pkgs;
   qemu-user-static = pkgs.pkgsStatic.callPackage ./qemu-user.nix {};
+  fx = pkgs.callPackage ./fx.nix {};
 }
