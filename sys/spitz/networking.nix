@@ -75,4 +75,10 @@ in {
     Place $user:$pass file in /etc/secrets/he-tunnel-update-auth.
     See https://ipv4.tunnelbroker.net/tunnel_detail.php?tid=568820
   '';
+  njx.wireguardToDoggieworld = {
+    # wu3G78lGZRcQ5AqDL66bmrRPHpWOK7BCIhJhcjMofwM=
+    enable = true;
+    listenPort = 30985;
+    finalOctet = 14;
+  };
 }

@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   key = "wireguardToDoggieworld";
@@ -26,7 +27,7 @@ in {
       Make sure /etc/secrets/wg.pk has a wireguard private key with access to doggieworld.
       E.g.:
       ```
-      k=/etc/secrets/wg.pk
+      k=${cfg.privateKeyFile}
       wg genkey | tee $k | wg pubkey
       chown root:systemd-network $k
       chmod 640 $k
@@ -66,5 +67,6 @@ in {
         };
       };
     };
+    users.users.root.packages = [pkgs.wireguard-tools];
   };
 }

@@ -44,6 +44,12 @@
       DHCP = "yes";
     };
   };
+  njx.wireguardToDoggieworld = {
+    # ChUBhy0Mmeki9NKVwba0fBVWx/U6BRRwU+WKFr0jOyY=
+    enable = true;
+    listenPort = 35633;
+    finalOctet = 13;
+  };
 
   services.openssh.enable = true;
 
