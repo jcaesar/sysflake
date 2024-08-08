@@ -61,6 +61,54 @@ in {
 
   system.build.createScript = let
     aws = lib.getExe pkgs.awscli;
+    instanceSpec = {
+      ImageId = "NIXOSAMI";
+      InstanceType = "m5a.xlarge";
+      KeyName = "mic-korsika";
+      MaxCount = 1;
+      MinCount = 1;
+      SecurityGroupIds = ["sg-0e93028f51a4617c2"];
+      SubnetId = "subnet-00c8ce36439b1b7d8";
+      UserData = "file://${config.system.build.deployScript}";
+      EbsOptimized = true;
+      IamInstanceProfile = {Name = "mic-ir-op";};
+      InstanceInitiatedShutdownBehavior = "terminate";
+      TagSpecifications = [
+        {
+          ResourceType = "instance";
+          Tags = [
+            {
+              Key = "Name";
+              Value = "ephemeral-mic-${name}";
+            }
+            {
+              Key = "documentation";
+              Value = ''
+                Machine is ephemeral and slated to auto-delete on TOMORROW.
+                If it is running after that date, feel free to terminate it and notify Julius.
+              '';
+            }
+          ];
+        }
+      ];
+      BlockDeviceMappings = [
+        {
+          DeviceName = "/dev/xvda";
+          Ebs = {
+            VolumeType = "gp3";
+            VolumeSize = 50;
+            DeleteOnTermination = true;
+          };
+        }
+      ];
+      NetworkInterfaces = [
+        {
+          DeviceIndex = 0;
+          AssociatePublicIpAddress = false;
+        }
+      ];
+    };
+    instanceFile = pkgs.writeText "spec.json" (builtins.toJSON instanceSpec);
   in
     pkgs.writeScriptBin "create-${name}-instance" ''
       #!${lib.getExe pkgs.nushell}
@@ -69,27 +117,15 @@ in {
 
       let nixorg = 427812963091
 
-      let ami = (${lib.getExe pkgs.awscli} ec2 describe-images --owners $nixorg
+      let ami = (${aws} ec2 describe-images --owners $nixorg
           --filter 'Name=name,Values=nixos/${lib.trivial.release}*'
           --filter 'Name=architecture,Values=x86_64'
         | from json | get Images | sort-by -r CreationDate).0.ImageId
 
-      let vols = [{DeviceName:/dev/xvda,Ebs:{VolumeType:gp3,VolumeSize:50,DeleteOnTermination:true}}];
+      let spec = sed $"s/TOMORROW/((date now) + 1day | format date "%Y-%m-%d")/; s/NIXOSAMI/($ami)/;" ${instanceFile} # meh
+      let insts = (${aws} ec2 run-instances --cli-input-json ($spec) | from json);
 
-      let insts = (${aws} ec2 run-instances
-        --image-id $ami
-        --count 1 --instance-type m5a.xlarge
-        --subnet-id subnet-00c8ce36439b1b7d8
-        --security-group-ids sg-0e93028f51a4617c2
-        --instance-initiated-shutdown-behavior terminate
-        --block-device-mappings ($vols | to json)
-        --key-name mic-korsika
-        --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=mic-${name}}]'
-        --user-data file://${config.system.build.deployScript}
-        --no-associate-public-ip-address
-        | from json)
-
-      echo $insts
+      $insts.Instances | cat
       let id = ($insts.Instances.0.InstanceId)
       echo $id
       ${aws} ec2 wait instance-running --instance-ids $id
