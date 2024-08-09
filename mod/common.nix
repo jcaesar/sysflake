@@ -47,6 +47,7 @@
       tokei
       cyrly
       qemu_kvm
+      nix-update
       (python3.withPackages (ps:
         with ps; [
           netaddr
