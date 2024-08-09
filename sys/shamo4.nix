@@ -37,14 +37,19 @@ in
       OLLAMA_KEEP_ALIVE = "1h";
       OLLAMA_MAX_LOADED_MODELS = "5";
     };
-    services.open-webui.enable = true;
-    services.open-webui.environment = {
-      ANONYMIZED_TELEMETRY = "False";
-      DO_NOT_TRACK = "True";
-      SCARF_NO_ANALYTICS = "True";
-      OLLAMA_API_BASE_URL = "http://127.0.0.1:11434";
-      WEBUI_AUTH = "False";
-    };
+    # services.open-webui.enable = true;
+    # services.open-webui.environment = {
+    #   ANONYMIZED_TELEMETRY = "False";
+    #   DO_NOT_TRACK = "True";
+    #   SCARF_NO_ANALYTICS = "True";
+    #   OLLAMA_API_BASE_URL = "http://127.0.0.1:11434";
+    #   WEBUI_AUTH = "False";
+    # };
+    # # why do I have to do this manually?
+    # systemd.services.open-webui.environment = {
+    #   http_proxy = config.networking.proxy.default;
+    #   https_proxy = config.networking.proxy.default;
+    # };
 
     users.users.yamaguchi = {
       uid = 1006;
