@@ -25,6 +25,7 @@ in {
     # GRANT ALL ON DATABASE synapse TO "matrix-synapse";
     # GRANT ALL PRIVILEGES ON ALL {FUNCTIONS,SEQUENCES,TABLES} IN SCHEMA public to "matrix-synapse";
     # alter role "matrix-synapse" login;
+    # alter table {local_media_repository,remote_media_cache} owner to "matrix-synapse"; # the same with alter database didn't do the trick
     enable = true; # until import
     settings.server_name = fqdn;
     settings.public_baseurl = baseUrl;
