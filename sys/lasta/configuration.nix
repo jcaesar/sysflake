@@ -71,8 +71,8 @@
   ];
 
   home-manager.users.julius.home.file.".config/hypr/hyprpaper.conf".text = ''
-    preload = /home/julius/nextcloud/Micxedo-Bilder/crx/sd7/DCIM/100MSDCF/DSC05053.JPG
-    wallpaper = eDP-1,/home/julius/nextcloud/Micxedo-Bilder/crx/sd7/DCIM/100MSDCF/DSC05053.JPG
+    preload = /home/julius/nextcloud/Micxedo-Bilder/crx/sd7/DCIM/100MSDCF/DSC05055.JPG
+    wallpaper = eDP-1,/home/julius/nextcloud/Micxedo-Bilder/crx/sd7/DCIM/100MSDCF/DSC05055.JPG
   '';
 
   services.nzbget = {
