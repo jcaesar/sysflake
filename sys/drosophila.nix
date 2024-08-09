@@ -59,8 +59,7 @@ in {
   };
   systemd.services."serial-getty@ttyS0".enable = lib.mkForce false;
 
-  system.build.createScript = let
-    aws = lib.getExe pkgs.awscli;
+  system.build.instanceSpec = let
     instanceSpec = {
       ImageId = "NIXOSAMI";
       InstanceType = "m5a.xlarge";
@@ -69,7 +68,7 @@ in {
       MinCount = 1;
       SecurityGroupIds = ["sg-0e93028f51a4617c2"];
       SubnetId = "subnet-00c8ce36439b1b7d8";
-      UserData = "file://${config.system.build.deployScript}";
+      UserData = builtins.readFile config.system.build.deployScript;
       EbsOptimized = true;
       IamInstanceProfile = {Name = "mic-ir-op";};
       InstanceInitiatedShutdownBehavior = "terminate";
@@ -108,7 +107,10 @@ in {
         }
       ];
     };
-    instanceFile = pkgs.writeText "spec.json" (builtins.toJSON instanceSpec);
+  in pkgs.writeText "spec.json" (builtins.toJSON instanceSpec);
+  system.build.createScript = let
+    aws = lib.getExe pkgs.awscli;
+    instanceFile = config.system.build.instanceSpec;
   in
     pkgs.writeScriptBin "create-${name}-instance" ''
       #!${lib.getExe pkgs.nushell}
