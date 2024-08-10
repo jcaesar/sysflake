@@ -28,6 +28,7 @@ in {
   };
   boot.initrd.systemd.enable = true;
 
+  networking.firewall.allowedTCPPorts = [80 443];
   services.postgresql.enable = true;
   services.postgresql.package = pkgs.postgresql_16;
   services.nginx.enable = true;
