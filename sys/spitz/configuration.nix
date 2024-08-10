@@ -40,7 +40,7 @@ in {
   # todo: modulize
   networking.firewall = let
     rulesAllowSport = sign: ''
-      ip46tables -${sign} nixos-fw -i wg -p tcp -m tcp --dport 9100 -j nixos-fw-accept
+      ip46tables -${sign} nixos-fw -i wg0 -p tcp -m tcp --dport 9100 -j nixos-fw-accept
     '';
   in {
     allowedTCPPorts = [80 443];
