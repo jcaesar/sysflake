@@ -21,6 +21,7 @@ in {
     ./ssh-unlock.nix
     ./wg-doggieworld.nix
     ./manual.nix
+    ./powercap.nix
     (mkModOption "base")
     (mkModOption "binfmt")
     (mkModOption "bluetooth")

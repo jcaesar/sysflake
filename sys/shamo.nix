@@ -138,6 +138,7 @@ in rec {
       enable = true;
       openFirewall = true;
       port = 9100;
+      njx.powercap = true;
     };
     port = 9090;
     enable = shamoIndex == 2;

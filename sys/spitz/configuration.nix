@@ -28,12 +28,25 @@ in {
   };
   boot.initrd.systemd.enable = true;
 
-  networking.firewall.allowedTCPPorts = [80 443];
   services.postgresql.enable = true;
   services.postgresql.package = pkgs.postgresql_16;
   services.nginx.enable = true;
   security.acme.defaults.email = "letsencrypt-n" + "@" + "liftm.de";
   security.acme.acceptTerms = true;
+  services.prometheus.exporters.node = {
+    enable = true;
+    njx.powercap = true;
+  };
+  # todo: modulize
+  networking.firewall = let
+    rulesAllowSport = sign: ''
+      ip46tables -${sign} nixos-fw -i wg -p tcp -m tcp --dport 9100 -j nixos-fw-accept
+    '';
+  in {
+    allowedTCPPorts = [80 443];
+    extraCommands = rulesAllowSport "A";
+    extraStopCommands = rulesAllowSport "D";
+  };
 
   system.stateVersion = "24.11";
 }
