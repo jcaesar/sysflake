@@ -36,16 +36,11 @@ in {
   services.prometheus.exporters.node = {
     enable = true;
     njx.powercap = true;
-  };
-  # todo: modulize
-  networking.firewall = let
-    rulesAllowSport = sign: ''
-      ip46tables -${sign} nixos-fw -i wg0 -p tcp -m tcp --dport 9100 -j nixos-fw-accept
-    '';
-  in {
-    allowedTCPPorts = [80 443];
-    extraCommands = rulesAllowSport "A";
-    extraStopCommands = rulesAllowSport "D";
+    openFirewall = true;
+    firewallFilter = "-i wg0 -p tcp -m tcp --dport 9100";
+    firewallRules = ''iifname "wg0" tcp dport 9100 counter accept'';
+    # mounted twice, once with bind mount. would otherwise result in duplicate metrics error
+    extraFlags = ["--collector.filesystem.ignored-mount-points=/nix/store"];
   };
 
   system.stateVersion = "24.11";
