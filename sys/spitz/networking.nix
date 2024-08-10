@@ -8,16 +8,17 @@ in {
   systemd.network = {
     enable = true;
     networks."10-cameo-net" = {
-      matchConfig.Name = wlan;
+      matchConfig.Name = "enp3s0";
       DHCP = "yes";
       # keeps failing over, cache flushes, thrashing occurs
       dhcpV4Config.UseDNS = false;
       networkConfig.Tunnel = "he-ipv6";
     };
-    networks."11-ll" = {
-      matchConfig.Name = "enp3s0";
-      DHCP = "yes";
+    networks."11-wifi" = {
+      matchConfig.Name = wlan;
+      DHCP = "no";
       linkConfig.RequiredForOnline = false;
+      dhcpV4Config.UseDNS = false;
     };
     netdevs."12-he-tunnel" = {
       netdevConfig = {
