@@ -41,7 +41,7 @@ in {
     firewallFilter = "-i wg0 -p tcp -m tcp --dport 9100";
     firewallRules = ''iifname "wg0" tcp dport 9100 counter accept'';
     # mounted twice, once with bind mount. would otherwise result in duplicate metrics error
-    extraFlags = ["--collector.filesystem.ignored-mount-points=/nix/store"];
+    extraFlags = ["--collector.filesystem.mount-points-exclude=/nix/store"];
   };
 
   system.stateVersion = "24.11";
