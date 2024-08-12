@@ -40,17 +40,28 @@ in {
         type = "http";
         tls = false;
         x_forwarded = true;
-        resources = [
-          {
-            names = ["client" "federation"];
-            compress = true;
-          }
-        ];
+        resources = [{
+          names = ["client" "federation"];
+          compress = true;
+        }];
+      }
+      {
+        port = 9102;
+        bind_addresses = [config.njx.wireguardToDoggieworld.v4Addr];
+        type = "http";
+        tls = false;
+        x_forwarded = false;
+        resources = [{
+          names = ["metrics"];
+          compress = true;
+        }];
       }
     ];
     settings.database.args.database = "synapse";
     settings.turn_uris = ["turn:turn.${fqdn}:3478?transport=udp" "turn:turn.${fqdn}:3478?transport=tcp"];
     settings.turn_user_lifetime = "1h";
+    settings.enable_metric = true;
+    settings.report_stats = false;
     extraConfigFiles = ["${mtxCfg.dataDir}/turn-secret.yaml"]; # contains one line turn_shared_secret: "foobar"
     log.root.level = "WARN";
     log.loggers."synapse.storage.SQL".level = "INFO";

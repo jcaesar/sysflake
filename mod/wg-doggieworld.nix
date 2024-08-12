@@ -21,6 +21,10 @@ in {
       type = lib.types.path;
       default = "/etc/secrets/wg.pk";
     };
+    v4Addr = lib.mkOption {
+      type = lib.types.string;
+      default = "10.13.38.${toString cfg.finalOctet}";
+    };
   };
   config = lib.mkIf cfg.enable {
     njx.manual.wg-doggieworld = ''
@@ -32,7 +36,7 @@ in {
       chown root:systemd-network $k
       chmod 640 $k
       ```
-      and add that key for `10.13.38.${toString cfg.finalOctet}` on doggieworld.
+      and add that key for `${cfg.v4Addr}` on doggieworld.
     '';
     systemd.network = {
       enable = true;
@@ -58,7 +62,7 @@ in {
       networks."42-wg-net" = {
         matchConfig.Name = "wg0";
         address = [
-          "10.13.38.${toString cfg.finalOctet}/24"
+          "cfg.v4Addr/24"
           "fc00:1337:dead:beef:caff::${toString cfg.finalOctet}/96"
         ];
         DHCP = "no";
