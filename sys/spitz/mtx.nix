@@ -66,6 +66,7 @@ in {
     log.root.level = "WARN";
     log.loggers."synapse.storage.SQL".level = "INFO";
   };
+  #chroot
   systemd.services.matrix-synapse = {
     serviceConfig = {
       RootDirectory = "/run/matrix-synapse/root";
@@ -86,7 +87,12 @@ in {
     "D ${root} 755 root root - -"
     "D ${root}/${wd} 700 matrix-synapse matrix-synapse - -"
   ];
-
+  # metrics firewall
+  networking.firewall.extraCommands = ''
+    iptables -A nixos-fw -i wg0 -p tcp -m tcp --dport 9102 \
+      -m comment --comment synapse-metrics -j nixos-fw-accept
+  '';
+  
   services.nginx = {
     recommendedTlsSettings = true;
     recommendedOptimisation = true;
