@@ -40,7 +40,7 @@ in {
     }
     {
       job_name = "synapse";
-      metrics_path = "/_metrics/synapse/";
+      metrics_path = "/_synapse/metrics/";
       static_configs = [
         {
           targets = ["services.akachan.liftm:9102"];

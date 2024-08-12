@@ -47,7 +47,7 @@ in {
       }
       {
         port = 9102;
-        bind_addresses = [config.njx.wireguardToDoggieworld.v4Addr];
+        bind_addresses = [config.njx.wireguardToDoggieworld.v4Addr "::1"];
         type = "http";
         tls = false;
         x_forwarded = false;
