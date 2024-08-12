@@ -54,6 +54,26 @@ in {
     log.root.level = "WARN";
     log.loggers."synapse.storage.SQL".level = "INFO";
   };
+  systemd.services.matrix-synapse = {
+    serviceConfig = {
+      RootDirectory = "/run/matrix-synapse/root";
+      BindReadOnlyPaths = [
+        "/nix/store"
+        "/etc/resolv.conf"
+      ];
+      BindPaths = [
+        "/var/lib/matrix-synapse"
+        "/run/postgresql"
+      ];
+    };
+  };
+  systemd.tmpfiles.rules = let
+    root = "/run/matrix-synapse/root";
+    wd = config.systemd.services.matrix-synapse.serviceConfig.WorkingDirectory; 
+  in [
+    "D ${root} 755 root root - -"
+    "D ${root}/${wd} 700 matrix-synapse matrix-synapse - -"
+  ];
 
   services.nginx = {
     recommendedTlsSettings = true;
