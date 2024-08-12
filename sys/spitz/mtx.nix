@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: let
   fqdn = "mtx.liftm.de";
@@ -70,7 +71,7 @@ in {
   systemd.tmpfiles.rules = let
     root = "/run/matrix-synapse/root";
     wd = config.systemd.services.matrix-synapse.serviceConfig.WorkingDirectory; 
-  in [
+  in lib.mkIf config.services.matrix-synapse.enable [
     "D ${root} 755 root root - -"
     "D ${root}/${wd} 700 matrix-synapse matrix-synapse - -"
   ];
