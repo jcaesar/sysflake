@@ -1,6 +1,4 @@
-{config, pkgs, ...}: {
-  services.mysql.enable = true;
-  services.mysql.package = pkgs.mariadb;
+{config, ...}: {
   services.nextcloud = {
     enable = false;
     hostName = "cloud.liftm.de";
@@ -15,7 +13,7 @@
   };
   njx.manual.nextcloud = ''
     Create admin password file under ${config.services.nextcloud.config.adminpassFile}
-    Make it be 440, owned by nextcloud:nextcloud 
+    Make it be 440, owned by nextcloud:nextcloud
   '';
 
   services.nginx.virtualHosts.${config.services.nextcloud.hostName} = {
