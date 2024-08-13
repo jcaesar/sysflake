@@ -67,8 +67,8 @@ in {
     settings.enable_metrics = true;
     settings.report_stats = false;
     extraConfigFiles = ["${mtxCfg.dataDir}/turn-secret.yaml"]; # contains one line turn_shared_secret: "foobar"
-    log.root.level = "WARN";
-    log.loggers."synapse.storage.SQL".level = "INFO";
+    # log.root.level = "WARN";
+    # log.loggers."synapse.storage.SQL".level = "INFO";
   };
   #chroot
   systemd.services.matrix-synapse = {
@@ -77,6 +77,8 @@ in {
       BindReadOnlyPaths = [
         "/nix/store"
         "/etc/resolv.conf"
+        "/nix/var/nix/profiles"
+        "/run/current-system"
       ];
       BindPaths = [
         "/var/lib/matrix-synapse"
