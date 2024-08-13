@@ -70,30 +70,34 @@ in {
     log.root.level = "WARN";
     log.loggers."synapse.storage.SQL".level = "INFO";
   };
-  #chroot
-  # systemd.services.matrix-synapse = {
-  #   serviceConfig = {
-  #     RootDirectory = "/run/matrix-synapse/root";
-  #     BindReadOnlyPaths = [
-  #       "/nix/store"
-  #       "/etc/resolv.conf"
-  #       "/nix/var/nix/profiles"
-  #       "/run/current-system"
-  #     ];
-  #     BindPaths = [
-  #       "/var/lib/matrix-synapse"
-  #       "/run/postgresql"
-  #     ];
-  #   };
-  # };
-  # systemd.tmpfiles.rules = let
-  #   root = "/run/matrix-synapse/root";
-  #   wd = config.systemd.services.matrix-synapse.serviceConfig.WorkingDirectory;
-  # in
-  #   lib.mkIf config.services.matrix-synapse.enable [
-  #     "D ${root} 755 root root - -"
-  #     "D ${root}/${wd} 700 matrix-synapse matrix-synapse - -"
-  #   ];
+  # chroot
+  systemd.services.matrix-synapse = {
+    serviceConfig = {
+      RootDirectory = "/run/matrix-synapse/root";
+      BindReadOnlyPaths = [
+        "/nix/store"
+        "/nix/var/nix/profiles"
+        "/run/current-system"
+        "/run/systemd/resolve"
+        "/etc/static"
+        "/etc/resolv.conf"
+        "/etc/hosts"
+        "/etc/nsswitch.conf"
+      ];
+      BindPaths = [
+        "/var/lib/matrix-synapse"
+        "/run/postgresql"
+      ];
+    };
+  };
+  systemd.tmpfiles.rules = let
+    root = "/run/matrix-synapse/root";
+    wd = config.systemd.services.matrix-synapse.serviceConfig.WorkingDirectory;
+  in
+    lib.mkIf config.services.matrix-synapse.enable [
+      "D ${root} 755 root root - -"
+      "D ${root}/${wd} 700 matrix-synapse matrix-synapse - -"
+    ];
   # metrics firewall
   networking.firewall.extraCommands = ''
     iptables -A nixos-fw -i wg0 -p tcp -m tcp --dport 9102 \
