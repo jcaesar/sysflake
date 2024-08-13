@@ -1,6 +1,6 @@
 {config, ...}: {
   services.nextcloud = {
-    enable = false;
+    enable = true;
     hostName = "cloud.liftm.de";
     https = true;
     database.createLocally = true;
