@@ -40,10 +40,12 @@ in {
         type = "http";
         tls = false;
         x_forwarded = true;
-        resources = [{
-          names = ["client" "federation"];
-          compress = true;
-        }];
+        resources = [
+          {
+            names = ["client" "federation"];
+            compress = true;
+          }
+        ];
       }
       {
         port = 9102;
@@ -51,10 +53,12 @@ in {
         type = "http";
         tls = false;
         x_forwarded = false;
-        resources = [{
-          names = ["metrics"];
-          compress = true;
-        }];
+        resources = [
+          {
+            names = ["metrics"];
+            compress = true;
+          }
+        ];
       }
     ];
     settings.database.args.database = "synapse";
@@ -82,17 +86,18 @@ in {
   };
   systemd.tmpfiles.rules = let
     root = "/run/matrix-synapse/root";
-    wd = config.systemd.services.matrix-synapse.serviceConfig.WorkingDirectory; 
-  in lib.mkIf config.services.matrix-synapse.enable [
-    "D ${root} 755 root root - -"
-    "D ${root}/${wd} 700 matrix-synapse matrix-synapse - -"
-  ];
+    wd = config.systemd.services.matrix-synapse.serviceConfig.WorkingDirectory;
+  in
+    lib.mkIf config.services.matrix-synapse.enable [
+      "D ${root} 755 root root - -"
+      "D ${root}/${wd} 700 matrix-synapse matrix-synapse - -"
+    ];
   # metrics firewall
   networking.firewall.extraCommands = ''
     iptables -A nixos-fw -i wg0 -p tcp -m tcp --dport 9102 \
       -m comment --comment synapse-metrics -j nixos-fw-accept
   '';
-  
+
   services.nginx = {
     recommendedTlsSettings = true;
     recommendedOptimisation = true;

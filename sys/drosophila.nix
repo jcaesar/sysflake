@@ -107,7 +107,8 @@ in {
         }
       ];
     };
-  in pkgs.writeText "spec.json" (builtins.toJSON instanceSpec);
+  in
+    pkgs.writeText "spec.json" (builtins.toJSON instanceSpec);
   system.build.createScript = let
     aws = lib.getExe pkgs.awscli;
     instanceFile = config.system.build.instanceSpec;
