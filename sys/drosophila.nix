@@ -128,7 +128,7 @@ in {
       let spec = sed $"s/TOMORROW/((date now) + 1day | format date "%Y-%m-%d")/; s/NIXOSAMI/($ami)/;" ${instanceFile} # meh
       let insts = (${aws} ec2 run-instances --cli-input-json ($spec) | from json);
 
-      $insts.Instances | cat
+      $insts.Instances.0 | cat
       let id = ($insts.Instances.0.InstanceId)
       echo $id
       ${aws} ec2 wait instance-running --instance-ids $id
@@ -138,7 +138,7 @@ in {
       # mkfs.ext4 -L homedisk /dev/xvdb
       ${aws} ec2 attach-volume --volume-id vol-0a71f75ff89e3d034 --instance-id $id --device /dev/xvdb
       ${aws} ec2 associate-address --instance-id $id --allocation-id eipalloc-0b6b1834ec4953923
-      ${aws} ec2-instance-connect send-serial-console-ssh-public-key --instance-id --ssh-public-key $"file://($env.HOME)/.ssh/id_rsa.pub"
+      ${aws} ec2-instance-connect send-serial-console-ssh-public-key --instance-id $id --ssh-public-key $"file://($env.HOME)/.ssh/id_rsa.pub"
     '';
 
   system.build.deployScript = pkgs.writeScript "become-${name}" ''
