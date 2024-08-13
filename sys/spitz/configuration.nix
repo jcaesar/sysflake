@@ -7,6 +7,7 @@
 in {
   imports = [
     ./mtx.nix
+    ./cloud.nix
     ./networking.nix
     ./filesystems.nix
   ];

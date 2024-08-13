@@ -21,6 +21,7 @@
     services.matrix-synapse.enable = lib.mkForce false; # Don't want weird stuff happening in test vms
     services.smartd.enable = false;
     boot.initrd.services.resolved.enable = false;
+    security.acme.defaults.server = "https://acme-staging-v02.api.letsencrypt.org/directory";
   };
   common = {lib, ...}: {
     imports = [base];
