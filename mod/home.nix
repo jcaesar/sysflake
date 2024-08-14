@@ -44,6 +44,7 @@
     };
     extraPackages = with pkgs; [
       rust-analyzer
+      rustfmt
       python3.pkgs.python-lsp-ruff
     ];
   };

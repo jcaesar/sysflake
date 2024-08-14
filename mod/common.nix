@@ -48,6 +48,10 @@
       cyrly
       qemu_kvm
       nix-update
+      cargo
+      rustc
+      cargo-watch
+      cargo-edit
       (python3.withPackages (ps:
         with ps; [
           netaddr
