@@ -75,5 +75,7 @@
     0.0.0.0 pr0gramm.com
   '';
 
+  powerManagement.cpufreq.max = "18000000";
+
   system.stateVersion = "24.05";
 }
