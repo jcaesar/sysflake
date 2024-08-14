@@ -60,14 +60,12 @@
     iftop
     iotop
     smartmontools
-    alejandra
     efibootmgr
     openssl
     nvd
     nix-diff
     miniserve # better python -m http.server
     inotify-tools
-    vulnix
     tcpdump
     lshw
     cyme # better lsusb

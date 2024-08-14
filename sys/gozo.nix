@@ -109,5 +109,11 @@ in
       };
     };
 
+    system.forbiddenDependenciesRegexes = [
+      "-dev$"
+      "language-server"
+      "rustfmt"
+    ];
+
     system.stateVersion = "24.05";
   }

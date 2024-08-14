@@ -15,7 +15,7 @@
 
   environment.systemPackages = with pkgs; [
     deadnix
-    nil
+    vulnix
   ];
 
   hardware.graphics.enable = true;
@@ -47,6 +47,7 @@
       tokei
       cyrly
       qemu_kvm
+      alejandra
       nix-update
       cargo
       rustc

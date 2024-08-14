@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   ...
 }: let
   inherit (import ../work.nix) shamo noProxy;
@@ -21,7 +22,7 @@ in {
       setSocketVariable = true;
     };
   };
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = (with pkgs; [
     vim
     helix
     nil
@@ -40,10 +41,11 @@ in {
     iotop
     logcheck
     direnv
+  ]) ++ lib.optionals config.njx.common (with pkgs; [
     jdt-language-server
     kcat
     maven
     openjdk11
     openjdk17
-  ];
+  ]);
 }
