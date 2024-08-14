@@ -8,7 +8,8 @@
 }: let
   common = import ../work.nix;
   name = "drosophila";
-  sysflake = "github:jcaesar/sysflake/${flakes.self.rev}";
+  sysflakeUrl = "github:jcaesar/sysflake/${flakes.self.rev or ""}";
+  buildUrl = "${sysflakeUrl}#nixosConfigurations.drosophila.config.system.build";
 in {
   imports = ["${modulesPath}/virtualisation/amazon-image.nix"];
   njx.common = true;
@@ -68,7 +69,11 @@ in {
       MinCount = 1;
       SecurityGroupIds = ["sg-0e93028f51a4617c2"];
       SubnetId = "subnet-00c8ce36439b1b7d8";
-      UserData = builtins.readFile config.system.build.deployScript;
+      UserData = ''
+        #!/usr/bin/env bash
+        set -x
+        exec nix --extra-experimental-features "nix-command flakes" run ${buildUrl}.deployScript
+      '';
       EbsOptimized = true;
       IamInstanceProfile = {Name = "mic-ir-op";};
       InstanceInitiatedShutdownBehavior = "terminate";
@@ -116,7 +121,7 @@ in {
     pkgs.writeScriptBin "create-${name}-instance" ''
       #!${lib.getExe pkgs.nushell}
 
-      nix eval ${sysflake}#nixosConfigurations.${name}.config.system.build.toplevel.drvPath
+      nix eval --raw "${buildUrl}.toplevel"
 
       let nixorg = 427812963091
 
@@ -130,7 +135,7 @@ in {
 
       $insts.Instances.0 | cat
       let id = ($insts.Instances.0.InstanceId)
-      echo $id
+      print $id
       ${aws} ec2 wait instance-running --instance-ids $id
       # volume precreated
       # aws ec2 create-volume --availability-zone ap-northeast-1a --size 60 --volume-type gp3
@@ -141,17 +146,22 @@ in {
       ${aws} ec2-instance-connect send-serial-console-ssh-public-key --instance-id $id --ssh-public-key $"file://($env.HOME)/.ssh/id_rsa.pub"
     '';
 
-  system.build.deployScript = pkgs.writeScript "become-${name}" ''
-    #!/usr/bin/env bash
-    mkdir -p ~/.ssh
-    ${lib.concatStringsSep "\n" (map (k: "echo '${k}' >~/.ssh/authorized_keys") common.sshKeys.strong)}
-    rm -rf /etc/nixos
-    nixos-rebuild boot --flake ${sysflake}#${name} --verbose
-    mount /dev/xvdb /home
-    rm /home/julius/.local/state/nix/profiles/home-manager*
-    rm /home/julius/.local/state/home-manager/gcroots/current-home
-    systemctl reboot
-  '';
+  system.build.deployScript =
+    pkgs.resholve.writeScriptBin "become-${name}" {
+      interpreter = "${pkgs.bash}/bin/bash";
+      inputs = with pkgs; [coreutils util-linux nixos-rebuild systemd];
+      fix.mount = true;
+      execer = ["cannot:${lib.getExe' pkgs.systemd "systemctl"}"];
+    } ''
+      mkdir -p ~/.ssh
+      ${lib.concatStringsSep "\n" (map (k: "echo '${k}' >~/.ssh/authorized_keys") common.sshKeys.strong)}
+      rm -rf /etc/nixos
+      nixos-rebuild boot --flake ${sysflakeUrl}#${name} --verbose
+      mount /dev/xvdb /home
+      rm /home/julius/.local/state/nix/profiles/home-manager*
+      rm /home/julius/.local/state/home-manager/gcroots/current-home
+      systemctl reboot
+    '';
   virtualisation.amazon-init.enable = false;
 
   boot.initrd.services.resolved.enable = lib.mkDefault false;
