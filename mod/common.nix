@@ -53,6 +53,7 @@
       rustc
       cargo-watch
       cargo-edit
+      python3.pkgs.python-fx
       (python3.withPackages (ps:
         with ps; [
           netaddr

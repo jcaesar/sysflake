@@ -9,5 +9,4 @@ pkgs: {
   rowserext = pkgs.callPackage ./rowserext.nix {};
   colmap = import ./colmap.nix pkgs;
   archivebox = import ./archivebox.nix pkgs;
-  fx = pkgs.callPackage ./fx.nix {};
 }
