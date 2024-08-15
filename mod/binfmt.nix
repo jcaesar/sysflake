@@ -8,7 +8,7 @@
   hostCpuTargets = map (system: "${arches.${system}}-linux-user") systems;
   qus = pkgs.pkgsStatic.qemu-user.override {inherit hostCpuTargets;};
   qusAttrs = system: {
-    interpreter = "${lib.getExe' qus arches.${system}}";
+    interpreter = "${lib.getExe' qus "qemu-${arches.${system}}"}";
     wrapInterpreterInShell = false;
     preserveArgvZero = true;
     matchCredentials = true;
