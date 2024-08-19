@@ -60,3 +60,8 @@ $env.PATH = (
 # aliases
 export def lsm [] { ls | sort-by modified }
 export def psf [name] { ps --long | where command =~ $name }
+
+# nushell doesn't pick up environment.extraInit. Only one thing there I really need
+if ("XDG_RUNTIME_DIR" in $env) and not ("DOCKER_HOST" in $env) {
+  $env.DOCKER_HOST = unix://($env.XDG_RUNTIME_DIR)/docker.sock
+}
