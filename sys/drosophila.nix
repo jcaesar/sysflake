@@ -38,6 +38,7 @@ in {
       DHCP = "yes";
     };
   };
+  virtualisation.docker.rootless.daemon.settings.dns = ["10.14.83.130" "1.1.1.1"];
   systemd.timers.stop-loss = {
     timerConfig.OnCalendar = "23:00:00 Asia/Tokyo";
     timerConfig.Unit = "poweroff.target";
