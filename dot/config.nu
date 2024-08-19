@@ -11,6 +11,10 @@ let external_completer = {|spans|
     fish --command $'complete "--do-complete=($spans | str join " ")"'
     | $"value(char tab)description(char newline)" + $in
     | from tsv --flexible --no-infer
+    | each {|r| 
+        if (" " in $r.value) and not ("`" in $r.value) { $r | update value $"`($r.value)`" }
+        else { $r.value } 
+      }
   }
 
   let expanded_alias = scope aliases
