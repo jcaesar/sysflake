@@ -31,6 +31,12 @@ in {
     ];
   };
   home-manager.users.julius.home.file.".config/kcat.conf".text = "bootstrap.servers=localhost:9091";
+  virtualisation.docker.rootless.enable = lib.mkForce false;
+  fileSystems."/var/lib/docker" = {
+    device = "/home/docker";
+    fsType = "none";
+    options = ["bind"];
+  };
   systemd.network = {
     enable = true;
     networks."10-wired" = {
@@ -38,7 +44,6 @@ in {
       DHCP = "yes";
     };
   };
-  virtualisation.docker.rootless.daemon.settings.dns = ["10.14.83.130" "1.1.1.1"];
   systemd.timers.stop-loss = {
     timerConfig.OnCalendar = "23:00:00 Asia/Tokyo";
     timerConfig.Unit = "poweroff.target";

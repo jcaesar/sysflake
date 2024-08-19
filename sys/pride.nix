@@ -10,6 +10,7 @@ in {
   njx.binfmt = true;
   njx.dlna = true;
   njx.prometheus-nvml-exporter = true;
+  njx.docker = true;
 
   boot.loader = {
     systemd-boot = {
@@ -174,14 +175,6 @@ in {
     enable = true;
     openFirewall = true;
     njx.powercap = true;
-  };
-
-  virtualisation.docker = {
-    enable = true;
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
   };
 
   services.ollama = {

@@ -33,5 +33,6 @@ in {
     (mkModOption "squid")
     (mkModOption "work")
     (mkModOption "pi3")
+    (mkModOption "docker")
   ];
 }

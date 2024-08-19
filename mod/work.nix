@@ -7,6 +7,7 @@
   inherit (import ../work.nix) shamo noProxy;
 in {
   njx.base = true;
+  njx.docker = true;
   networking.proxy.noProxy = noProxy;
   networking.extraHosts = ''
     10.38.90.22 capri
@@ -15,13 +16,6 @@ in {
   boot.initrd.systemd.network.enable = true; # Not sure if necessary or effectful
   networking.firewall.enable = true;
   services.openssh.enable = true;
-  virtualisation.docker = {
-    enable = true;
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
-  };
   environment.systemPackages = (with pkgs; [
     vim
     helix
