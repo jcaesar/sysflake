@@ -17,25 +17,11 @@ in {
   networking.firewall.enable = true;
   services.openssh.enable = true;
   environment.systemPackages = (with pkgs; [
-    vim
-    helix
-    nil
-    pv
-    jq
-    rq
-    wget
-    httpie
-    git
-    screen
-    tmux
     rxvt-unicode
-    lls
-    htop
     bottom
-    iotop
     logcheck
-    direnv
   ]) ++ lib.optionals config.njx.common (with pkgs; [
+    nil
     jdt-language-server
     kcat
     maven

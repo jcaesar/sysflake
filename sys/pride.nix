@@ -162,7 +162,6 @@ in {
     colmap
     archivebox
     pyanidb
-    nixpkgs-review
     ffmpeg
     piper-tts
   ];

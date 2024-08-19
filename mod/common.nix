@@ -49,6 +49,8 @@
       qemu_kvm
       alejandra
       nix-update
+      nix-tree
+      nixpkgs-review
       cargo
       rustc
       cargo-watch
