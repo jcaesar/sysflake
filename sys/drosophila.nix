@@ -30,6 +30,7 @@ in {
       eksctl
     ];
   };
+  home-manager.users.julius.home.file.".config/kcat.conf".text = "bootstrap.servers=localhost:9091";
   systemd.network = {
     enable = true;
     networks."10-wired" = {
