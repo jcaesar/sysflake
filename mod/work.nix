@@ -7,7 +7,7 @@
   inherit (import ../work.nix) shamo noProxy;
 in {
   njx.base = true;
-  njx.docker = true;
+  njx.docker = config.njx.common;
   networking.proxy.noProxy = noProxy;
   networking.extraHosts = ''
     10.38.90.22 capri

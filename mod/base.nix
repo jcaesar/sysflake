@@ -3,6 +3,7 @@
   lib,
   flakes,
   system,
+  config,
   ...
 }: {
   nix.registry.n.flake = flakes.nixpkgs;
@@ -94,7 +95,12 @@
     memoryPercent = 30;
   };
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "olm-3.2.16"
-  ];
+  nixpkgs.config.permittedInsecurePackages =
+    [
+      "olm-3.2.16"
+    ]
+    ++ lib.optionals config.njx.squid [
+      # TODO permittedInsecurePkcages doesn't get merged
+      "squid-6.8"
+    ];
 }
