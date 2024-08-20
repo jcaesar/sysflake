@@ -93,4 +93,8 @@
     memoryMax = 8 * 1024 * 1024 * 1024;
     memoryPercent = 30;
   };
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "olm-3.2.16"
+  ];
 }
