@@ -10,8 +10,8 @@ rustPlatform.buildRustPackage rec {
   src = fetchFromGitHub {
     owner = "jcaesar";
     repo = "prometheus-nvml-exporter";
-    rev = "1f3be5d394d83631228ee5ae15117f5667c7718d";
-    hash = "sha256-HOIbxQqKAI+yVHQ8RVEUr9Yj8mi7AzgKArhSbJDtLMI=";
+    rev = "1e8c0f0084b9863ac8408cd942f5fd9b8c836363";
+    hash = "sha256-3hXVpytETTPuzChO+v8Y4fTOHiU0k0H6XQFEdn3iYsY=";
   };
   cargoLock.lockFile = "${src}/Cargo.lock";
 
