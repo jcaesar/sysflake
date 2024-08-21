@@ -16,16 +16,18 @@ in {
   boot.initrd.systemd.network.enable = true; # Not sure if necessary or effectful
   networking.firewall.enable = true;
   services.openssh.enable = true;
-  environment.systemPackages = (with pkgs; [
-    rxvt-unicode
-    bottom
-    logcheck
-  ]) ++ lib.optionals config.njx.common (with pkgs; [
-    nil
-    jdt-language-server
-    kcat
-    maven
-    openjdk11
-    openjdk17
-  ]);
+  environment.systemPackages =
+    (with pkgs; [
+      rxvt-unicode
+      bottom
+      logcheck
+    ])
+    ++ lib.optionals config.njx.common (with pkgs; [
+      nil
+      jdt-language-server
+      kcat
+      maven
+      openjdk11
+      openjdk17
+    ]);
 }
