@@ -16,7 +16,7 @@ def tag [hostname: string] {
 
 def main [host?: string] {
   if ($host == work) {
-    [shamo0 shamo2 shamo4 shamo6 shamo7 capri null gozo gemini5] | par-each { main $in } | flatten
+    [shamo0 shamo2 shamo4 shamo6 shamo7 capri null gozo] | par-each { main $in } | flatten
   } else if ($host == home) {
     [pride null] | par-each { main $in } | flatten
   } else if ($host == null) {
