@@ -29,5 +29,7 @@ in {
       maven
       openjdk11
       openjdk17
+      typescript-language-server
+      nodejs
     ]);
 }
