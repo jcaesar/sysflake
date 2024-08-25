@@ -16,6 +16,7 @@
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-intel"];
   boot.initrd.systemd.enable = true;
+  boot.initrd.systemd.suppressedUnits = "tpm2.target"; # timeouts waiting on dev-tpmrm0
   hardware.cpu.intel.updateMicrocode = true;
 
   fileSystems."/" = {
