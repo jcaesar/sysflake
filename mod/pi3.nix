@@ -53,7 +53,7 @@
     requires = ["boot.mount"];
   };
 
-  hardware.enableRedistributableFirmware = true;
+  # hardware.enableRedistributableFirmware = true;
   boot.kernelPackages = lib.mkDefault pkgs.linuxKernel.packages.linux_rpi3;
   nixpkgs.overlays = [
     (_final: super: {
