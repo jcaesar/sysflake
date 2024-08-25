@@ -6,7 +6,8 @@
   private = import ../private.nix;
 in {
   njx.pi3 = true;
-  njx.sshUnlock.keys = private.terminalKeys;
+  # njx.sshUnlock.keys = private.terminalKeys;
+  boot.initrd.systemd.enable = true;
   networking.hostName = "gegensprech";
   networking.supplicant.wlan0.extraConf = "country=JP";
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys ++ [private.prideKey];

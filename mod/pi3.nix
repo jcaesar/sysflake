@@ -54,6 +54,13 @@
   };
 
   hardware.enableRedistributableFirmware = true;
+  boot.kernelPackages = lib.mkDefault pkgs.linuxKernel.packages.linux_rpi3;
+  nixpkgs.overlays = [
+    (_final: super: {
+      makeModulesClosure = x:
+        super.makeModulesClosure (x // { allowMissing = true; });
+    })
+  ];
 
   boot.initrd.kernelModules = ["vc4" "bcm2835_dma" "i2c_bcm2835"];
   boot.initrd.availableKernelModules = ["brcmfmac_wcc"];
