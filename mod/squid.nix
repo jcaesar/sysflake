@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   nixpkgs.config.permittedInsecurePackages = [
-    "squid-6.8"
+    "squid-6.10"
   ];
   njx.manual.squid = ''
     Make sure that `/etc/secrets/squid` contains at least one line like

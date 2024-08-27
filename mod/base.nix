@@ -101,6 +101,6 @@
     ]
     ++ lib.optionals config.njx.squid [
       # TODO permittedInsecurePkcages doesn't get merged
-      "squid-6.8"
+      "squid-6.10"
     ];
 }
