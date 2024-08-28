@@ -13,8 +13,7 @@
     config = lib.mkIf config.njx.${name} (import ./${name}.nix args);
   };
 in {
-  options.njx = {
-  };
+  config.hardware.nvidia.open = false; # https://github.com/NixOS/nixpkgs/pull/337289#issuecomment-2313802016
   imports = [
     "${modulesPath}/installer/scan/not-detected.nix"
     ./variants.nix
