@@ -6,13 +6,14 @@
   } @ flakes: let
     pkgsForSystem = system: import nixpkgs {inherit system;};
     eachSystem = f: nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux"] (system: f (pkgsForSystem system));
-    sys = system: cross: main:
+    sys = system: main:
       nixpkgs.lib.nixosSystem {
+        inherit system;
         specialArgs = {inherit flakes system;};
-        modules = builtins.attrValues self.nixosModules ++ [main cross {nixpkgs.hostPlatform = system;}];
+        modules = builtins.attrValues self.nixosModules ++ [main];
       };
-    sysI = sys "x86_64-linux" {};
-    sysA = sys "aarch64-linux" {nixpkgs.buildPlatform = "x86_64-linux";};
+    sysI = sys "x86_64-linux";
+    sysA = sys "aarch64-linux";
     work = import ./work.nix;
   in {
     nixosConfigurations =

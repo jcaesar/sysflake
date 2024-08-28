@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  flakes,
   ...
 }: {
   njx.base = true;
@@ -139,6 +140,12 @@
     };
   };
   services.smartd.enable = false;
+
+  services.home-assistant.package = pkgs.home-assistant.override {
+    packageOverrides = _: _: {
+      zha = flakes.nixpkgs.legacyPackages.x86_64-linux.pkgsCross.aarch64-multiplatform.home-assistant.python.pkgs.zha;
+    };
+  };
 
   system.stateVersion = "24.05";
 }
