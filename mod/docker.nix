@@ -14,7 +14,7 @@
   home-manager.users.julius.programs.nushell.extraEnv = lib.mkIf config.virtualisation.docker.rootless.enable ''
     # rootless docker socket
     if ("XDG_RUNTIME_DIR" in $env) and not ("DOCKER_HOST" in $env) {
-      $env.DOCKER_HOST = unix://($env.XDG_RUNTIME_DIR)/docker.sock
+      $env.DOCKER_HOST = $"unix://($env.XDG_RUNTIME_DIR)/docker.sock"
     }
   '';
 }
