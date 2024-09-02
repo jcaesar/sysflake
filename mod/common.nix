@@ -39,23 +39,27 @@
       pwgen
       binutils
       binwalk
-      bat
+      bat # better cat
       urlencode
       nmap
       dos2unix
       dnsutils
-      tokei
+      tokei # better cloc
       cyrly
       qemu_kvm
       alejandra
+      nixfmt-rfc-style
       nix-update
       nix-tree
+      nix-top
+      nix-output-monitor # better nix build
       nixpkgs-review
       cargo
       rustc
       cargo-watch
       cargo-edit
       python3.pkgs.python-fx
+      rusti-cal # rustier cal
       (python3.withPackages (ps:
         with ps; [
           netaddr

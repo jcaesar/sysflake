@@ -93,6 +93,7 @@
     simplescreenrecorder
     ffmpeg
     piper-tts
+    barrier
   ];
   home-manager.users.julius.programs.git.extraConfig."url \"github.com:fltech-dev/\"".insteadOf = "https://github.com/fltech-dev/";
 

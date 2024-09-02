@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: {
   virtualisation.docker = {
@@ -17,4 +18,5 @@
       $env.DOCKER_HOST = $"unix://($env.XDG_RUNTIME_DIR)/docker.sock"
     }
   '';
+  users.users.julius.packages = [pkgs.regctl];
 }

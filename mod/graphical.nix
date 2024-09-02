@@ -77,23 +77,24 @@
     xpra
     mpv
     yt-dlp
-    vlc
+    vlc # better windows media player
     helvum
     pulseaudio
     pavucontrol
     dunst
     gomuks
     activitywatch
-    sxiv
+    sxiv # better feh
     zathura
-    barrier
     imagemagick
     libreoffice
     gimp
     xclip
     polaris-fuse
     dolphin
-    asak
+    asak # "better audacity" / just an audio recorder
+    gnome-clocks
+    easyeffects
     # Hyprland stuff
     #qt6-wayland
     wofi
@@ -113,10 +114,6 @@
     package = pkgs.buildEnv {
       name = "opengl-drivers";
       paths = [cfg.package] ++ cfg.extraPackages;
-    };
-    package32 = pkgs.buildEnv {
-      name = "opengl-drivers-32bit";
-      paths = [cfg.package32] ++ cfg.extraPackages32;
     };
   in ''
     mkdir -p $out/opengl
