@@ -72,7 +72,7 @@ in rec {
   };
   networking.hostName = shamo.name shamoIndex;
 
-  environment.systemPackages = with pkgs; [kompose kubectl kubernetes logcheck nixpkgs-review];
+  environment.systemPackages = with pkgs; [kompose kubectl kubernetes logcheck nixpkgs-review nix-output-monitor];
 
   # Configure client: ssh shamo2 kubectl config view  --flatten | save -f .kube/config
   # Join a node: ssh shamo2 cat /var/lib/kubernetes/secrets/apitoken.secret | ssh shamoX nixos-kubernetes-node-join
