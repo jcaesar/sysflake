@@ -54,24 +54,7 @@
     requires = ["boot.mount"];
   };
 
-  # hardware.enableRedistributableFirmware = true;
-  boot.kernelPackages = let
-    # override results in a recompile, 
-    # emulated compiling a linux kernel would be insanity
-    pkgsCross = flakes.nixpkgs.legacyPackages.x86_64-linux.pkgsCross.aarch64-multiplatform;
-    # side note: linux_rpi02w is an alias for linux_rpi3
-    linux = pkgsCross.linux_rpi3.overrideDerivation (old: {postFixup = old.postFixup + ''
-      copyDTB bcm2710-rpi-zero-2-w.dtb bcm2837-rpi-zero-2-w.dtb
-    '';});
-    packages = pkgs.linuxPackagesFor linux;
-  in lib.mkDefault packages;
-  # A thing that doesn't work:
-  # hardware.deviceTree.dtbSource = pkgs.device-tree_rpi.overrideAttrs (old: {
-  #   buildCommand = old.buildCommand + ''
-  #     cp bcm2708-rpi-zero-2-w.dtb bcm2835-rpi-zero-2-w.dtb
-  #   '';
-  # });
-  # Maybe I'll find a way that doesn't require recompiling linux some day…
+  boot.kernelPackages = pkgs.linuxPackagesFor pkgs.linux_rpi3;
   nixpkgs.overlays = [
     (_final: super: {
       makeModulesClosure = x:
