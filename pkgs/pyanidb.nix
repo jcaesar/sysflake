@@ -9,7 +9,7 @@ buildPythonPackage {
   src = fetchFromGitHub {
     owner = "jcaesar";
     repo = "pyanidb";
-    rev = "e9963b4669ce3f0026e8c9853813b989ea97999e";
+    rev = "6391c5d5598ac820843624854824e02f88ea4946";
     hash = "sha256-aBqwvcXXELgIJOQICnOr6HecWNUkUdyqMaC4UNrU98M=";
   };
   propagatedBuildInputs = [setuptools];
