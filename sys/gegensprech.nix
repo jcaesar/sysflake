@@ -14,9 +14,16 @@ in {
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys ++ [private.prideKey];
   users.users.gegensprech = {
     isNormalUser = true;
-    packages = with pkgs; [gegensprech];
+    packages = with pkgs; [gegensprech mpv];
     openssh.authorizedKeys.keys = private.terminalKeys;
   };
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+  environment.systemPackages = [pkgs.alsa-utils];
 
   system.stateVersion = "24.05";
 }
