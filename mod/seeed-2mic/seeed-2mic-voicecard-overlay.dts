@@ -34,8 +34,8 @@
                 compatible = "wlf,wm8960";
                 reg = <0x1a>;
                 #sound-dai-cells = <0>;
-                // AVDD-supply = <&vdd_5v0_reg>;
-                // DVDD-supply = <&vdd_3v3_reg>;
+                AVDD-supply = <&vdd_5v0_reg>;
+                DVDD-supply = <&vdd_3v3_reg>;
             };
         };
     };
