@@ -7,7 +7,7 @@
   virtualisation.docker = {
     enable = true;
     rootless = {
-      enable = true;
+      enable = lib.mkDefault true;
       setSocketVariable = true;
     };
   };
