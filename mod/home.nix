@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  config,
   ...
 }: rec {
   home.username = "julius";

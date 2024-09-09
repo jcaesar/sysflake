@@ -21,6 +21,7 @@ in {
     ./wg-doggieworld.nix
     ./manual.nix
     ./powercap.nix
+    ./common-home-nushell-env.nix
     (mkModOption "base")
     (mkModOption "binfmt")
     (mkModOption "bluetooth")
