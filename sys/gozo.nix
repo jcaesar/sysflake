@@ -114,6 +114,7 @@ in
       "language-server"
       "rustfmt"
     ];
+    documentation.enable = false;
 
     system.stateVersion = "24.05";
   }

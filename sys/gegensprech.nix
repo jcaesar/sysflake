@@ -31,6 +31,7 @@ in {
   };
   environment.systemPackages = with pkgs; [alsa-utils dtc libraspberrypi];
 
+  documentation.enable = false;
   system.stateVersion = "24.05";
   home-manager.users.gegensprech.home.stateVersion = "24.05";
 }
