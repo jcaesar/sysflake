@@ -74,10 +74,10 @@
         };
     };
 
-    // __overrides__ {
-    //     alsaname = <&slave_overlay>,"simple-audio-card,name";
-    //     compatible = <&wm8960>,"compatible";
-    //     master = <0>,"=2!3";
-    // };
+    __overrides__ {
+        // alsaname = <&slave_overlay>,"simple-audio-card,name";
+        compatible = <&wm8960>,"compatible";
+        master = <0>,"=2!3";
+    };
 };
 
