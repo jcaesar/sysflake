@@ -62,6 +62,7 @@ in {
 
   services.acpid.enable = true; # Was supposed to prevent shutdown hang, doesn't
   virtualisation.vmware.guest.enable = true;
+  virtualisation.docker.rootless.enable = false;
 
   networking.firewall.allowedTCPPorts = [2223 1337];
   networking.firewall.allowedUDPPorts = [];
