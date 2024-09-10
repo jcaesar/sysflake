@@ -16,6 +16,11 @@ in {
     isNormalUser = true;
     packages = with pkgs; [gegensprech mpv];
     openssh.authorizedKeys.keys = private.terminalKeys;
+    extraGroups = ["gpio"];
+  };
+  home-manager.users.gegensprech.systemd.user.services.gegensprech = {
+    Unit.Description = "Gegensprech";
+    Service.ExecStart = "${lib.getExe pkgs.gegensprech} run seeed-2mic";
   };
   services.pipewire = {
     enable = true;
@@ -23,7 +28,8 @@ in {
     alsa.support32Bit = true;
     pulse.enable = true;
   };
-  environment.systemPackages = [pkgs.alsa-utils];
+  environment.systemPackages = with pkgs; [alsa-utils dtc libraspberrypi];
 
   system.stateVersion = "24.05";
+  home-manager.users.gegensprech.home.stateVersion = "24.05";
 }

@@ -140,5 +140,11 @@
   };
   services.smartd.enable = false;
 
+  users.groups.gpio = {};
+  services.udev.extraRules = ''
+    SUBSYSTEM=="bcm2835-gpiomem", KERNEL=="gpiomem", GROUP="gpio",MODE="0660"
+    SUBSYSTEM=="spidev", KERNEL=="spidev*", GROUP="gpio",MODE="0660"
+  '';
+
   system.stateVersion = "24.05";
 }
