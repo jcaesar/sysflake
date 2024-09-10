@@ -21,6 +21,7 @@ in {
   home-manager.users.gegensprech.systemd.user.services.gegensprech = {
     Unit.Description = "Gegensprech";
     Service.ExecStart = "${lib.getExe pkgs.gegensprech} run seeed-2mic";
+    Install.WantedBy = ["default.target"];
   };
   services.pipewire = {
     enable = true;

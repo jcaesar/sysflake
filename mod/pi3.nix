@@ -142,7 +142,8 @@
 
   users.groups.gpio = {};
   services.udev.extraRules = ''
-    SUBSYSTEM=="bcm2835-gpiomem", KERNEL=="gpiomem", GROUP="gpio",MODE="0660"
+    SUBSYSTEM=="gpiomem", KERNEL=="gpio*", GROUP="gpio",MODE="0660"
+    SUBSYSTEM=="gpio", KERNEL=="gpio*", GROUP="gpio",MODE="0660"
     SUBSYSTEM=="spidev", KERNEL=="spidev*", GROUP="gpio",MODE="0660"
   '';
 
