@@ -16,11 +16,13 @@ in {
     isNormalUser = true;
     packages = with pkgs; [gegensprech mpv];
     openssh.authorizedKeys.keys = private.terminalKeys;
+    linger = true;
     extraGroups = ["gpio"];
   };
   home-manager.users.gegensprech.systemd.user.services.gegensprech = {
     Unit.Description = "Gegensprech";
     Service.ExecStart = "${lib.getExe pkgs.gegensprech} run seeed-2mic";
+    Service.Environment = "RUST_LOG=info,gegensprech=warn";
     Install.WantedBy = ["default.target"];
   };
   services.pipewire = {
