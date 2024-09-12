@@ -3,11 +3,12 @@ let
   common =
     import ../work.nix;
 in
-  {lib, ...}: {
+  {lib, pkgs, ...}: {
     njx.work = true;
 
     networking.hostName = "gozo";
 
+    boot.kernelPackages = pkgs.linuxPackagesFor pkgs.linux_6_1;
     boot.initrd.systemd.enable = true;
     virtualisation.docker = {
       enable = lib.mkForce false;
@@ -110,7 +111,7 @@ in
     };
 
     system.forbiddenDependenciesRegexes = [
-      "-dev$"
+      # "-dev$"
       "language-server"
       "rustfmt"
     ];
