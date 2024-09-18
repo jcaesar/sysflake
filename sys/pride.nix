@@ -12,6 +12,14 @@ in {
   njx.prometheus-nvml-exporter = true;
   njx.docker = true;
 
+  # https://github.com/NixOS/nixpkgs/issues/338315
+  nixpkgs.overlays = [
+    (fin: prev: {
+      opencv = prev.opencv.override {enableLto = false;};
+      cudaPackages = fin.cudaPackages_12_3;
+    })
+  ];
+
   boot.loader = {
     systemd-boot = {
       enable = true;

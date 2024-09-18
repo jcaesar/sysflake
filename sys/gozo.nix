@@ -3,7 +3,11 @@ let
   common =
     import ../work.nix;
 in
-  {lib, pkgs, ...}: {
+  {
+    lib,
+    pkgs,
+    ...
+  }: {
     njx.work = true;
 
     networking.hostName = "gozo";
