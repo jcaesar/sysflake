@@ -12,12 +12,14 @@ in {
   njx.prometheus-nvml-exporter = true;
   njx.docker = true;
 
-  # https://github.com/NixOS/nixpkgs/issues/338315
   nixpkgs.overlays = [
+    # https://github.com/NixOS/nixpkgs/issues/338315
     (fin: prev: {
-      opencv = prev.opencv.override {enableLto = false;};
+      opencv4 = prev.opencv4.override {enableLto = false;};
       cudaPackages = fin.cudaPackages_12_3;
     })
+    # avoid needing two versions of opencv
+    (_: prev: {opencv4 = prev.opencv4.override {enablePython = true;};})
   ];
 
   boot.loader = {
