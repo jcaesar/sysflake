@@ -78,11 +78,11 @@
     mpv
     yt-dlp
     vlc # better windows media player
-    helvum
+    helvum # pipewire patch bay
     pulseaudio
     pavucontrol
-    dunst
-    gomuks
+    dunst # better du
+    gomuks # better element
     activitywatch
     sxiv # better feh
     zathura
@@ -91,14 +91,14 @@
     gimp
     xclip
     polaris-fuse
-    dolphin
+    dolphin # better explorer.exe
     asak # "better audacity" / just an audio recorder
     gnome-clocks
-    easyeffects
+    easyeffects # pipewire remixer
+    omekasy # unicode font style changer
     # Hyprland stuff
     #qt6-wayland
-    wofi
-    swww
+    wofi # worse rofi
     hyprpaper
     hyprlock
     swayidle
