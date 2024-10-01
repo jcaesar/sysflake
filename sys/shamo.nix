@@ -166,5 +166,21 @@ in rec {
     ];
   };
 
+  # https://nixos.wiki/wiki/Storage_optimization#Automation
+  nix.optimise = {
+    automatic = true;
+    dates = [ "03:45 Asia/Japan" ];
+  };
+  nix.extraOptions = let gb = x: toString (x * 1024 * 1024 * 1024); in ''
+    min-free = ${gb 3}
+    max-free = ${gb 20}
+  '';
+  systemd.services.njx-delete-generations.serviceConfig.ExecStart = "${lib.getExe' pkgs.njx "njx-delete-generations"} fmuf";
+  systemd.timers.njx-delete-generations = {
+    timerConfig.OnBootSec = "6 days";
+    wantedBy = ["timers.target"];
+  };
+
+
   system.stateVersion = "23.05";
 }
