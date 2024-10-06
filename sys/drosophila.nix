@@ -13,7 +13,6 @@
 in {
   imports = ["${modulesPath}/virtualisation/amazon-image.nix"];
   njx.common = true;
-  njx.binfmt = false; # takes like 10 minutes to build :(
   njx.work = true;
   networking.hostName = name;
   services.openssh.ports = [22];

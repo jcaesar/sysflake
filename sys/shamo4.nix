@@ -28,7 +28,6 @@ in
         setSocketVariable = true;
       };
     };
-    boot.binfmt.emulatedSystems = ["aarch64-linux" "wasm32-wasi" "wasm64-wasi"];
     programs.java.binfmt = true;
     programs.nix-ld.enable = true;
 

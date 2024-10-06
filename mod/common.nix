@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   njx.base = true;
+  njx.binfmt = true;
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
