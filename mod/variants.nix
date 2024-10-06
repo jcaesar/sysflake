@@ -31,14 +31,14 @@
     # # /etc/sysflake/diskoScript
     # # nixos-install --system /etc/sysflake/toplevel
     environment.etc."sysflake/toplevel".source = topCfg.system.build.toplevel;
-    environment.etc."sysflake/diskoScript" = let
-      cfg = topCfg.system.build;
-    in
-      lib.mkIf (cfg ? diskoScript) {source = cfg.diskoScript;};
+    environment.etc."sysflake/diskoScript" = lib.mkIf (
+      topCfg.disko.devices.disk != {}
+    ) {source = topCfg.system.build.diskoScript;};
   };
-  iso = {
+  iso = {lib, ...}: {
     imports = [common];
     isoImage.squashfsCompression = squashzstd;
+    programs.ssh.setXAuthLocation = lib.mkForce false; # conflict between minimal and ssh modules
   };
   sd = {
     lib,
