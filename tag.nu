@@ -7,8 +7,13 @@ def tag [hostname: string] {
       let rev = (do { git rev-parse $"refs/tags/($tag)" } | complete | get exit_code)
       if $rev == 128 {
         let desc = ($l | select date generation kernelVersion nixosVersion | to yaml)
-        git tag -a -m $desc $tag $l.configurationRevision
-        return $"($tag) created"
+        let tagres = (git tag -a -m $desc $tag $l.configurationRevision | complete)
+        let str = $"($tag) -> ($l.configurationRevision)"
+        if $tagres.exit_code == 0 {
+          return $"($str) created"
+        } else {
+          return $"Failed to tag ($str)"
+        }
       }
     }
   }
@@ -20,8 +25,8 @@ def main [host?: string] {
   } else if ($host == home) {
     [pride null] | par-each { main $in } | flatten
   } else if ($host == null) {
-    nixos-rebuild --no-build-nix list-generations --json | tag (hostname)
+    nixos-rebuild --no-build-nix list-generations --json | complete | get stdout | tag (hostname)
   } else {
-    ssh -q $host nixos-rebuild --no-build-nix list-generations --json | tag (ssh -q $host hostname)
+    ssh -q $host nixos-rebuild --no-build-nix list-generations --json | complete | get stdout | tag (ssh -q $host hostname)
   }
 }
