@@ -48,7 +48,7 @@ $env.config = {
     }
   }
   hooks: {
-    pre_prompt: [{ print -n $"(ansi title)($user)@($hostname):(pwd) $(ansi st)" }]
+    pre_prompt: [{ print -n $"\a(ansi title)($user)@($hostname):(pwd) $(ansi st)" }]
     pre_execution: [
       { print -n $"(ansi title)($user)@($hostname):(pwd) > (commandline)(ansi st)" }
       $load_direnv
