@@ -76,30 +76,5 @@
     wallpaper = eDP-1,/home/julius/nextcloud/Micxedo-Bilder/crx/sd7/DCIM/100MSDCF/DSC05055.JPG
   '';
 
-  services.nzbget = {
-    enable = true;
-    settings.MainDir = "/home/julius/nz";
-    user = "julius";
-    group = "users";
-  };
-  services.minidlna = {
-    enable = true;
-    openFirewall = true;
-    settings = {
-      inotify = "yes";
-      media_dir = [
-        "V,/home/julius/nz/dst/"
-        "V,/home/julius/anime/"
-      ];
-    };
-  };
-  systemd.services.minidlna.serviceConfig.SupplementaryGroups = "users";
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    (
-      name: (builtins.elem name [
-        "unrar"
-      ])
-    ) (lib.getName pkg);
-
   system.stateVersion = "24.05";
 }
