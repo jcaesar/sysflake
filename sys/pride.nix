@@ -174,6 +174,7 @@ in {
     pyanidb
     ffmpeg
     piper-tts
+    gpt4all
   ];
 
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
