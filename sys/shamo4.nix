@@ -48,6 +48,7 @@ in
     systemd.services.open-webui.environment = {
       http_proxy = config.networking.proxy.default;
       https_proxy = config.networking.proxy.default;
+      no_proxy = "127.0.0.1,127.0.0.1:11434";
     };
 
     users.users.yamaguchi = {
