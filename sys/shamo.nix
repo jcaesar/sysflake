@@ -169,9 +169,11 @@ in rec {
   # https://nixos.wiki/wiki/Storage_optimization#Automation
   nix.optimise = {
     automatic = true;
-    dates = [ "03:45 Asia/Japan" ];
+    dates = ["03:45 Asia/Japan"];
   };
-  nix.extraOptions = let gb = x: toString (x * 1024 * 1024 * 1024); in ''
+  nix.extraOptions = let
+    gb = x: toString (x * 1024 * 1024 * 1024);
+  in ''
     min-free = ${gb 3}
     max-free = ${gb 20}
   '';
@@ -180,7 +182,6 @@ in rec {
     timerConfig.OnBootSec = "6 days";
     wantedBy = ["timers.target"];
   };
-
 
   system.stateVersion = "23.05";
 }

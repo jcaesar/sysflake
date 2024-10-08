@@ -1,7 +1,4 @@
-{
-  lib,
-  ...
-}: let
+{lib, ...}: let
   systems = ["aarch64-linux" "armv7l-linux" "riscv64-linux" "wasm32-wasi" "wasm64-wasi"];
   qusAttrs = system: {
     wrapInterpreterInShell = false;
