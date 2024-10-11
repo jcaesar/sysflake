@@ -191,7 +191,17 @@ in {
     enable = true;
     settings.MainDir = "/mnt/file/nzbget";
   };
-
+  services.minidlna = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      inotify = "yes";
+      media_dir = [
+        "V,/mnt/file/nzbget/dst/"
+        "V,/mnt/file/data/julius/anime/"
+      ];
+    };
+  };
   networking.firewall.allowedTCPPorts = [6789 9151];
 
   system.stateVersion = "23.11";
