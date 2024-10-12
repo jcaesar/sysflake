@@ -8,23 +8,17 @@
 }: {
   nix.registry.n.flake = flakes.nixpkgs;
   nix.registry.sf.flake = flakes.self;
-  nix.nixPath = ["nixpkgs=${flakes.nixpkgs}"];
   nix.channel.enable = false;
   system.configurationRevision =
     flakes.self.rev or flakes.self.dirtyRev or "nogit";
   system.nixos.version = let
     r = flakes.self.shortRev or flakes.self.dirtyShortRev or "nogit";
   in "j_${r}_${flakes.self.lastModifiedDate}";
-  environment.etc = let
-    mkLnk = name: flake: {
-      name = "sysflake/${name}";
-      value.source = flake;
-    };
-  in
-    lib.mapAttrs' mkLnk flakes;
 
   nixpkgs.overlays = [(_: _: flakes.self.packages.${system})];
   nix.settings.experimental-features = ["nix-command" "flakes" "repl-flake"];
+  programs.command-not-found.enable = false; # doesn't work anyway
+  njx.source-flakes = lib.mkDefault true;
 
   boot.loader = {
     systemd-boot = {
@@ -41,7 +35,6 @@
   networking.networkmanager.enable = false;
 
   environment.systemPackages = with pkgs; [
-    vim
     pv
     jq
     rq
@@ -51,7 +44,6 @@
     screen
     tmux # better screen
     lls # better ss -loptun
-    direnv
     nload
     ripgrep # better grep -R
     fd # better find
@@ -73,7 +65,6 @@
     libtree # better ldd
     njx
     helix # better vim
-    git # better svn/hg
     rsync # better scp
   ];
 

@@ -26,10 +26,11 @@
     extraGroups = ["wheel"];
     #openssh.authorizedKeys.keys = common.sshKeys.client;
     packages = with pkgs; [
+      vim
       fish
       helix
-      git
       gh
+      git # better svn/hg
       file
       unar
       delta # better diff
