@@ -53,8 +53,6 @@
   };
   services.displayManager.defaultSession = "none+i3";
 
-  programs.command-not-found.enable = true;
-
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
