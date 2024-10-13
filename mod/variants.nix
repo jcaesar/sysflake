@@ -13,7 +13,11 @@
     .config
     .system
     .build;
-  base = {lib, ...}: {
+  base = {
+    lib,
+    pkgs,
+    ...
+  }: {
     boot.initrd.luks.devices = lib.mkForce {};
     fileSystems = {};
     boot.supportedFilesystems.zfs = lib.mkForce false;
@@ -22,6 +26,7 @@
     services.smartd.enable = false;
     boot.initrd.services.resolved.enable = false;
     security.acme.defaults.server = "https://acme-staging-v02.api.letsencrypt.org/directory";
+    environment.systemPackages = [pkgs.keyutils];
   };
   common = {lib, ...}: {
     imports = [base];
