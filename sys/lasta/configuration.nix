@@ -10,7 +10,11 @@
 
   networking.hostName = "lasta";
 
-  boot.loader.systemd-boot.editor = lib.mkForce true;
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/etc/secureboot";
+  };
   boot.supportedFilesystems = ["bcachefs"];
   boot.initrd.availableKernelModules = import ./bootmods.nix;
   boot.initrd.kernelModules = [];
