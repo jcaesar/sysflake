@@ -39,7 +39,6 @@
       njx = import ./mod;
       home-manager = flakes.home-manager.nixosModules.home-manager;
       disko = flakes.disko.nixosModules.disko;
-      lanzaboote = flakes.lanzaboote.nixosModules.lanzaboote;
     };
     packages = eachSystem (pkgs: import ./pkgs pkgs);
     formatter = eachSystem (pkgs: pkgs.alejandra);
@@ -92,7 +91,5 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.1";
-    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
   };
 }
