@@ -13,27 +13,28 @@
     daemonIOSchedClass = "idle";
   };
 
-  fonts.packages = with pkgs; [
-    ipafont
-    ipaexfont
-    hanazono
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    liberation_ttf
-    fira-code
-    fira-code-symbols
-    mplus-outline-fonts.githubRelease
-    dina-font
-    proggyfonts
-    (nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "Terminus"];})
-    iosevka
-    sarasa-gothic
-    source-code-pro
-    terminus_font
-    inconsolata
-    "${wine64}/share/wine/fonts"
-  ];
+  fonts.packages = with pkgs;
+    [
+      ipafont
+      ipaexfont
+      hanazono
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      liberation_ttf
+      fira-code
+      fira-code-symbols
+      mplus-outline-fonts.githubRelease
+      dina-font
+      proggyfonts
+      (nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "Terminus"];})
+      iosevka
+      sarasa-gothic
+      source-code-pro
+      terminus_font
+      inconsolata
+    ]
+    ++ lib.optional config.njx.work "${wine64}/share/wine/fonts";
 
   services.xserver = {
     xkb = {
