@@ -68,7 +68,7 @@
           linkFor = sys: "ln -s ${self.nixosConfigurations.${sys}.config.system.build.toplevel} $out/${sys}";
           links = filt: builtins.concatStringsSep "\n" (map linkFor (filter (name: filt name) all));
           toplevels = filt:
-            pkgs.runCommand "toplevels" {} ''
+            pkgs.runCommandLocal "toplevels" {} ''
               mkdir $out
               ${links filt}
             '';
