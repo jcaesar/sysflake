@@ -6,8 +6,6 @@
   config,
   ...
 }: {
-  nix.registry.n.flake = flakes.nixpkgs;
-  nix.registry.sf.flake = flakes.self;
   nix.channel.enable = false;
   system.configurationRevision =
     flakes.self.rev or flakes.self.dirtyRev or "nogit";

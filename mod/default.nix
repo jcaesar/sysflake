@@ -36,5 +36,6 @@ in {
     (mkModOption "pi3")
     (mkModOption "docker")
     (mkModOption "seeed-2mic/default")
+    (mkModOption "slim")
   ];
 }

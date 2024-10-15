@@ -9,6 +9,7 @@ in
     ...
   }: {
     njx.work = true;
+    njx.slim = true;
 
     networking.hostName = "gozo";
 
@@ -21,12 +22,6 @@ in
     virtualisation.virtualbox.guest.enable = true;
     users.users.root.openssh.authorizedKeys.keys = common.sshKeys.strong;
     services.smartd.enable = false;
-
-    # Too little ram for nix run nixpkgs#… anyway
-    nixpkgs.flake = {
-      setNixPath = false;
-      setFlakeRegistry = false;
-    };
 
     services.resolved.extraConfig = ''
       FallbackDNS=

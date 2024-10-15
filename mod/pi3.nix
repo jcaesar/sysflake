@@ -6,6 +6,7 @@
   ...
 }: {
   njx.base = true;
+  njx.slim = true;
   njx.sshUnlock.modules = ["smsc95xx"];
 
   boot.loader.systemd-boot.enable = lib.mkForce false;
@@ -146,26 +147,6 @@
     SUBSYSTEM=="gpio", KERNEL=="gpio*", GROUP="gpio",MODE="0660"
     SUBSYSTEM=="spidev", KERNEL=="spidev*", GROUP="gpio",MODE="0660"
   '';
-
-  # slim down
-  documentation.enable = false;
-  documentation.nixos.enable = false;
-  documentation.doc.enable = false;
-  documentation.info.enable = false;
-  documentation.man.enable = false;
-  documentation.man.man-db.enable = false;
-  environment.defaultPackages = [];
-  environment.stub-ld.enable = false;
-  programs.less.lessopen = null;
-  boot.enableContainers = false;
-  programs.ssh.setXAuthLocation = false;
-  services.udisks2.enable = false;
-  xdg.autostart.enable = false;
-  xdg.icons.enable = false;
-  xdg.mime.enable = false;
-  xdg.sounds.enable = false;
-  njx.source-flakes = false;
-  nix.registry = lib.mkForce {};
 
   system.stateVersion = "24.05";
 }
