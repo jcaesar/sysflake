@@ -23,7 +23,6 @@
         # gemini5 = sysI ./sys/gemini5.nix;
         gozo = sysI ./sys/gozo.nix;
         mictop = sysI ./sys/mictop.nix;
-        lasta = sysI ./sys/lasta/configuration.nix;
         pride = sysI ./sys/pride.nix;
         doggieworld = sysI ./sys/doggieworld/configuration.nix;
         spitz = sysI ./sys/spitz/configuration.nix;
