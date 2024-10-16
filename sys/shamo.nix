@@ -169,7 +169,7 @@ in rec {
   # https://nixos.wiki/wiki/Storage_optimization#Automation
   nix.optimise = {
     automatic = true;
-    dates = ["03:45 Asia/Japan"];
+    dates = ["*-*-* 18:45 UTC"];
   };
   nix.extraOptions = let
     gb = x: toString (x * 1024 * 1024 * 1024);
