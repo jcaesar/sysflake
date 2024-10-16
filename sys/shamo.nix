@@ -185,6 +185,7 @@ in rec {
 
   services.vector = {
     enable = true;
+    journaldAccess = true;
     settings = {
       sources.journal.type = "journald";
       sinks.cw = {
