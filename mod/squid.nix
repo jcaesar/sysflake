@@ -86,7 +86,9 @@
         acl acclogexclude1 url_regex ^cache_object://localhost/counters$
         acl acclogexclude2 url_regex shamo.*/jobs/
         acl acclogexclude3 url_regex stratus.*\.stratus\..*/(jobs|datasources)/
-        acl acclogexclude any-of acclogexclude1 acclogexclude2 acclogexclude3
+        # sending logs to aws causes logs…
+        acl acclogexclude4 dstdomain logs.ap-northeast-1.amazonaws.com
+        acl acclogexclude any-of acclogexclude1 acclogexclude2 acclogexclude3 acclogexclude4
         access_log none acclogexclude
         access_log syslog:debug squid
 
