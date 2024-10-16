@@ -8,6 +8,7 @@
 in {
   imports = [
     ./hardware-configuration.nix
+    ./log-to-aws.nix
   ];
   njx.common = true;
   njx.binfmt = true;
