@@ -17,6 +17,7 @@
   environment.systemPackages = with pkgs; [
     deadnix
     vulnix
+    git # better svn/hg
   ];
 
   hardware.graphics.enable = true;
@@ -30,18 +31,18 @@
       fish
       helix
       gh
-      git # better svn/hg
       file
       unar
+      bat # better cat
+      glow # cat for markdown
+      socat # better netcat
       delta # better diff
       difftastic # much better diff
-      glow # cat for markdown
       sshfs
       wol
       pwgen
       binutils
       binwalk
-      bat # better cat
       urlencode
       nmap
       dos2unix
@@ -60,6 +61,7 @@
       rustc
       cargo-watch
       cargo-edit
+      gcc
       python3.pkgs.python-fx
       rusti-cal # rustier cal
       (python3.withPackages (ps:
