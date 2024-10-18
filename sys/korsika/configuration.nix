@@ -94,6 +94,7 @@
     barrier
   ];
   home-manager.users.julius.programs.git.extraConfig."url \"github.com:fltech-dev/\"".insteadOf = "https://github.com/fltech-dev/";
+  users.users.julius.openssh.authorizedKeys.keys = (import ../../work.nix).sshKeys.client;
 
   networking.extraHosts = ''
     0.0.0.0 blog.fefe.de
