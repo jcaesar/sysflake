@@ -37,7 +37,10 @@ in {
         };
     };
   };
-  networking.firewall.allowedTCPPorts = [1514];
+  networking.firewall.extraCommands = ''
+    iptables -A nixos-fw -i ens32 -s 10.38.90.52 -p tcp -m tcp --dport 1514 \
+      -m comment --comment gemini4syslog -j nixos-fw-accept
+  '';
   systemd.services.vector = {
     serviceConfig.LoadCredential = "cloudwatch:/etc/secrets/cloudwatch";
     environment.VECTOR_LOG = "warn";
@@ -48,8 +51,8 @@ in {
     VMware:
     ```
     esxcli network firewall ruleset set -e true -r syslog
-    esxcli system syslog config set --loghost ip:1514
-    esxcli system syslog reload <- If something's stuck
+    esxcli system syslog config set --loghost $ip:1514
+    esxcli system syslog reload # <- If something's stuck
     ```
   '';
 }
