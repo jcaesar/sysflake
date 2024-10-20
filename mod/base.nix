@@ -14,7 +14,7 @@
   in "j_${r}_${flakes.self.lastModifiedDate}";
 
   nixpkgs.overlays = [(_: _: flakes.self.packages.${system})];
-  nix.settings.experimental-features = ["nix-command" "flakes" "repl-flake"];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   programs.command-not-found.enable = false; # doesn't work anyway
   njx.source-flakes = lib.mkDefault true;
 
