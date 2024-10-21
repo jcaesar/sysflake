@@ -5,6 +5,19 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.julius = import ./home.nix;
+  home-manager.sharedModules = [
+    ({
+      lib,
+      pkgs,
+      config,
+      ...
+    }: {
+      home.activation.cleanGenerations = lib.hm.dag.entryAfter ["linkGeneration"] ''
+        run ${lib.getExe' pkgs.nix "nix-env"} $VERBOSE_ARG --delete-generations \
+          --profile ${config.xdg.stateHome}/nix/profiles/home-manager +1
+      '';
+    })
+  ];
 
   systemd.oomd.enableUserSlices = true;
 
