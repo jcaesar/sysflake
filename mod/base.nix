@@ -13,7 +13,14 @@
     r = flakes.self.shortRev or flakes.self.dirtyShortRev or "nogit";
   in "j_${r}_${flakes.self.lastModifiedDate}";
 
-  nixpkgs.overlays = [(_: _: flakes.self.packages.${system})];
+  nixpkgs.overlays = [
+    (_: _: flakes.self.packages.${system})
+    (_: prev: {
+      vector = prev.vector.overrideAttrs {
+        RUSTFLAGS = "--cap-lints=warn";
+      };
+    })
+  ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
   programs.command-not-found.enable = false; # doesn't work anyway
   njx.source-flakes = lib.mkDefault true;
