@@ -14,7 +14,16 @@ in {
 
   nixpkgs.overlays = [
     # avoid needing two versions of opencv
-    (_: prev: {opencv4 = prev.opencv4.override {enablePython = true;};})
+    (_: prev: {
+      opencv4 = prev.opencv4.override {enablePython = true;};
+      python3 = prev.python3.override {
+        packageOverrides = _: prev: {
+          torch = prev.torch.overrideAttrs (orig: {
+            env.NIX_CFLAGS_COMPILE = orig.env.NIX_CFLAGS_COMPILE + " -w";
+          });
+        };
+      };
+    })
   ];
 
   boot.loader = {
