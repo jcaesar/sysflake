@@ -17,7 +17,14 @@
     (_: _: flakes.self.packages.${system})
     (_: prev: {
       vector = prev.vector.overrideAttrs {
-        RUSTFLAGS = "--cap-lints=warn";
+        cargoBuildFeatures = [
+          "unix"
+          "sinks-aws_cloudwatch_logs"
+          "sources-syslog"
+          "sources-journald"
+          "transforms-filter"
+          "transforms-remap"
+        ];
       };
     })
   ];
