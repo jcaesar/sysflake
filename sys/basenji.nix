@@ -1,4 +1,8 @@
-{lib, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   private = import ../private.nix;
 in {
   networking.hostName = "basenji";
@@ -34,6 +38,7 @@ in {
   services.airsonic = {
     enable = true;
     virtualHost = "funk.liftm.de";
+    maxMemory = 2500;
   };
   services.nginx.enable = true;
   services.nginx.virtualHosts."funk.liftm.de" = {
@@ -41,6 +46,7 @@ in {
     enableACME = true;
   };
   services.smartd.enable = lib.mkForce false;
+  systemd.services.airsonic.path = [pkgs.ffmpeg]; # complains about not finding ffprobe
   networking.firewall.allowedTCPPorts = [80 443];
   systemd.network = {
     enable = true;
