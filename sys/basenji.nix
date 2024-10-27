@@ -1,6 +1,8 @@
 {lib, ...}: let
-  private = import ../../private.nix;
+  private = import ../private.nix;
 in {
+  networking.hostName = "basenji";
+  
   njx.base = true;
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
 
@@ -27,6 +29,7 @@ in {
   ];
   security.acme.defaults.email = "letsencrypt-n" + "@" + "liftm.de";
   security.acme.acceptTerms = true;
+  services.openssh.enable = true;
   services.qemuGuest.enable = true;
   services.airsonic = {
     enable = true;
@@ -44,7 +47,7 @@ in {
       matchConfig.Name = "enp2s0";
       DHCP = "no";
       address = ["10.13.43.14/24"];
-      gateway = ["10.13.43.1.1"];
+      gateway = ["10.13.43.1"];
       dns = ["10.13.43.1"];
     };
   };
