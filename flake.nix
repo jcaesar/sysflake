@@ -29,6 +29,7 @@
         drosophila = sysI ./sys/drosophila.nix;
         pitivi = sysA ./sys/pitivi.nix;
         gegensprech = sysA ./sys/gegensprech.nix;
+        basenji = sysI ./sys/basenji.nix;
       }
       // work.shamo.eachNixed (index: {
         name = "shamo${toString index}";
