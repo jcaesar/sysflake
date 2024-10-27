@@ -2,7 +2,7 @@
   private = import ../private.nix;
 in {
   networking.hostName = "basenji";
-  
+
   njx.base = true;
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
 
@@ -41,6 +41,7 @@ in {
     enableACME = true;
   };
   services.smartd.enable = lib.mkForce false;
+  networking.firewall.allowedTCPPorts = [80 443];
   systemd.network = {
     enable = true;
     networks."10-main" = {
