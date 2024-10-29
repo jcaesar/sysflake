@@ -51,6 +51,7 @@
       socat # better netcat
       delta # better diff
       difftastic # much better diff
+      oha # http bench
       sshfs
       wol
       pwgen
