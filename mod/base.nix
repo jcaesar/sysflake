@@ -14,19 +14,21 @@
   in "j_${r}_${flakes.self.lastModifiedDate}";
 
   nixpkgs.overlays = [
-    (_: _: flakes.self.packages.${system})
-    (_: prev: {
-      vector = prev.vector.overrideAttrs {
-        cargoBuildFeatures = [
-          "unix"
-          "sinks-aws_cloudwatch_logs"
-          "sources-syslog"
-          "sources-journald"
-          "transforms-filter"
-          "transforms-remap"
-        ];
-      };
-    })
+    (_: prev:
+      flakes.self.packages.${system}
+      // {
+        vector = prev.vector.overrideAttrs {
+          cargoBuildFeatures = [
+            "unix"
+            "sinks-aws_cloudwatch_logs"
+            "sources-syslog"
+            "sources-journald"
+            "transforms-filter"
+            "transforms-remap"
+          ];
+          cargoBuildNoDefaultFeatures = true;
+        };
+      })
   ];
   nix.settings.experimental-features = ["nix-command" "flakes"];
   programs.command-not-found.enable = false; # doesn't work anyway
