@@ -91,7 +91,6 @@
     libreoffice
     gimp
     xclip
-    polaris-fuse
     dolphin # better explorer.exe
     asak # "better audacity" / just an audio recorder
     gnome-clocks

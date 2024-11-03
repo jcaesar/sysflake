@@ -173,8 +173,7 @@ in {
     meshlab
     # python3Packages.opensfm # todo
     opensplat
-    colmap
-    archivebox
+    # colmap # todo
     pyanidb
     ffmpeg
     piper-tts
