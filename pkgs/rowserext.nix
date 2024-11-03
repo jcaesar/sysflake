@@ -5,8 +5,8 @@
   src = fetchFromGitHub {
     owner = "jcaesar";
     repo = "rowserext";
-    rev = "c9fa4453fd964f3bf25eb3c2da7ff7cc36b903bc";
-    hash = "sha256-GG64mykdk+cKW0W6fhtnUEVf81qkdeQftzhbdblfdU4=";
+    rev = "527ea5618da50343c98e26d8919591f3220779bc";
+    hash = "sha256-s+3EyIVyUfPkJHzHhqBprpCHlG1G4NNE3bZ98J5W6zI=";
   };
 in
   callPackage src {}
