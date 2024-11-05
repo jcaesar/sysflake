@@ -32,5 +32,6 @@ rec {
   };
   noProxy = "127.0.0.1,localhost,fujitsu.co.jp,${builtins.concatStringsSep "," (shamo.each shamo.name)}";
   dns = ["10.0.238.1" "10.0.238.70"];
+  dnsG = ["10.12.255.254"];
   ntp = ["ntp2.css.fujitsu.com" "ntp1.css.fujitsu.com"];
 }

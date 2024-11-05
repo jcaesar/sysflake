@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}: let
+{lib, ...}: let
   common = import ../../work.nix;
   eth = "ens32";
 in {
@@ -11,8 +7,6 @@ in {
     ./log-to-aws.nix
   ];
   njx.common = true;
-  njx.binfmt = true;
-  njx.squid = true;
   njx.work = true;
 
   boot.initrd.luks.devices = {
@@ -27,7 +21,6 @@ in {
   njx.sshUnlock.keys = common.sshKeys.strong;
   njx.sshUnlock.modules = ["e1000"];
 
-  networking.proxy.default = "http://10.13.24.255:3128/";
   systemd.network = {
     enable = true;
     networks."10-vm-${eth}" = {
@@ -35,16 +28,7 @@ in {
       DHCP = "no";
       address = ["10.38.90.22/24"];
       gateway = ["10.38.90.1"];
-      dns = common.dns;
-    };
-    netdevs."8-stubbytoe".netdevConfig = {
-      Name = "stubbytoe";
-      Kind = "dummy";
-      MACAddress = "de:ad:be:ef:ca:fe";
-    };
-    networks."9-stubbytoe" = {
-      matchConfig.Name = "stubbytoe";
-      address = ["10.13.24.255/32"];
+      dns = common.dnsG;
     };
   };
   networking.hostName = "capri";
@@ -54,7 +38,8 @@ in {
     openssh.authorizedKeys.keys = common.sshKeys.client;
   };
   users.users.aoki = {
-    openssh.authorizedKeys.keys = common.sshKeys.aoki;
+    # used it to exchange data before. project gone.
+    # openssh.authorizedKeys.keys = common.sshKeys.aoki;
     isNormalUser = true;
   };
   security.sudo.wheelNeedsPassword = false;
@@ -68,19 +53,5 @@ in {
   networking.firewall.allowedTCPPorts = [2223 1337];
   networking.firewall.allowedUDPPorts = [];
   networking.firewall.enable = true;
-
-  #system.copySystemConfiguration = true;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
-  #fileSystems."/boot" =
-  #  { device = "/dev/disk/by-label/boot";
-  #    fsType = "vfat";
-  #  };
 }

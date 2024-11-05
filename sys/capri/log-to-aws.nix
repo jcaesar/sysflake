@@ -1,4 +1,4 @@
-{config, ...}: let
+let
   aws_sink = {
     type = "aws_cloudwatch_logs";
     encoding.codec = "json";
@@ -7,8 +7,6 @@
     batch.timeout_secs = 10;
     create_missing_group = true;
     create_missing_stream = true;
-    proxy.enabled = true;
-    proxy.https = config.networking.proxy.default;
   };
 in {
   services.vector = {
