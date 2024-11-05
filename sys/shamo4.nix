@@ -46,7 +46,7 @@ in
       packages =
         (with pkgs; [
           #jupyter-all # Somehow, jupyter works anyway. No idea how
-          conda
+          # conda # license doubts - conda itself is fine, the stuff it downloads might not be
           micromamba
           openvscode-server
           (python3.withPackages (ps:
