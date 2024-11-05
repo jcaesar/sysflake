@@ -1,4 +1,8 @@
-{lib, ...}: let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   common = import ../../work.nix;
   eth = "ens32";
 in {
@@ -39,7 +43,11 @@ in {
   };
   users.users.aoki = {
     # used it to exchange data before. project gone.
-    # openssh.authorizedKeys.keys = common.sshKeys.aoki;
+    openssh.authorizedKeys.keys =
+      map
+      (k: "no-port-forwarding,no-agent-forwarding ${k}")
+      (common.sshKeys.aoki ++ common.sshKeys.client);
+    shell = lib.getExe' pkgs.git "git-shell";
     isNormalUser = true;
   };
   security.sudo.wheelNeedsPassword = false;
