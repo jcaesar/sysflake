@@ -175,6 +175,7 @@ in {
     opensplat
     # colmap # todo
     pyanidb
+    ruri
     ffmpeg
     piper-tts
   ];

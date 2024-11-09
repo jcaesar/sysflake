@@ -6,5 +6,6 @@ pkgs: {
   junix = pkgs.python3.pkgs.callPackage ./junix.nix {};
   njx = pkgs.callPackage ./njx.nix {};
   rowserext = pkgs.callPackage ./rowserext.nix {};
+  ruri = pkgs.callPackage ./ruri.nix {};
   colmap = import ./colmap.nix pkgs;
 }
