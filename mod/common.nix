@@ -78,6 +78,7 @@
       gcc
       python3.pkgs.python-fx
       rusti-cal # rustier cal
+      man-pages
       (python3.withPackages (ps:
         with ps; [
           netaddr
