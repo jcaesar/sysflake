@@ -27,7 +27,7 @@
       {
         korsika = sysI ./sys/korsika/configuration.nix;
         capri = sysI ./sys/capri/configuration.nix;
-        # gemini5 = sysI ./sys/gemini5.nix;
+        gemini5 = sysI ./sys/gemini5.nix;
         gozo = sysI ./sys/gozo.nix;
         mictop = sysI ./sys/mictop.nix;
         pride = sysI ./sys/pride.nix;

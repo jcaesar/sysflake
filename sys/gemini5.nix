@@ -6,7 +6,6 @@
   common = import ../work.nix;
 in {
   njx.base = true;
-  njx.squid = true;
   njx.binfmt = true;
   njx.work = true;
 
@@ -63,18 +62,8 @@ in {
   users.users.root.openssh.authorizedKeys.keys =
     common.sshKeys.strong
     ++ common.sshKeys.aoki;
-  networking.proxy.default = "http://10.13.24.255:3128/";
   systemd.network = {
     enable = true;
-    netdevs."8-stubbytoe".netdevConfig = {
-      Name = "stubbytoe";
-      Kind = "dummy";
-      MACAddress = "de:ad:be:ef:ca:fe";
-    };
-    networks."9-stubbytoe" = {
-      matchConfig.Name = "stubbytoe";
-      address = ["10.13.24.255/32"];
-    };
     networks."10-fnet" = {
       matchConfig.Name = "eno1";
       DHCP = "no";
