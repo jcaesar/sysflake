@@ -1,4 +1,4 @@
-pkgs: {
+pkgs: prev: {
   cyrly = pkgs.callPackage ./cyrly.nix {};
   prometheus-nvml-exporter = pkgs.callPackage ./prometheus-nvml-exporter.nix {};
   gegensprech = pkgs.callPackage ./gegensprech.nix {};
@@ -7,5 +7,6 @@ pkgs: {
   njx = pkgs.callPackage ./njx.nix {};
   rowserext = pkgs.callPackage ./rowserext.nix {};
   ruri = pkgs.callPackage ./ruri.nix {};
-  colmap = import ./colmap.nix pkgs;
+  colmap = import ./colmap.nix prev;
+  vector-cloudwatchsyslogs = import ./vector-cloudwatchsyslogs.nix pkgs;
 }

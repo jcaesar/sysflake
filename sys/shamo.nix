@@ -185,6 +185,7 @@ in rec {
 
   services.vector = {
     enable = true;
+    package = pkgs.vector-cloudwatchsyslogs;
     journaldAccess = true;
     settings = {
       sources.journal.type = "journald";

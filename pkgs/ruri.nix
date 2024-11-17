@@ -18,7 +18,7 @@ rustPlatform.buildRustPackage rec {
   meta = {
     description = "Calculates the CRC-32 of files and checks them against their filename";
     license = lib.licenses.agpl3Plus;
-    maintainers = [ lib.maintainers.jcaesar ];
+    maintainers = [lib.maintainers.jcaesar];
     homepage = "https://gitlab.com/Timmy1e/ruri";
     mainProgram = "ruri";
   };
