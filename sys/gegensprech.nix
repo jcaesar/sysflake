@@ -33,8 +33,9 @@ in {
   };
   environment.systemPackages = with pkgs; [alsa-utils dtc libraspberrypi];
   boot.initrd.systemd.services.blinky = {
+    unitConfig.DefaultDependencies = false;
     serviceConfig.ExecStart = lib.getExe pkgs.seeed-2mic-blinky;
-    wantedBy = ["basic.target"];
+    wantedBy = ["local-fs.target"];
   };
 
   documentation.enable = false;
