@@ -1,7 +1,6 @@
 {
   lib,
   pkgs,
-  config,
   ...
 }: rec {
   home.username = "julius";
@@ -128,6 +127,15 @@
   wayland.windowManager.hyprland = {
     settings = import ../dot/hypr/hyprland.nix;
     xwayland.enable = true;
+  };
+
+  systemd.user.services.stehauf = {
+    Unit.Description = "Ich hab Rücken";
+    Service.ExecStart = "${lib.getExe pkgs.libnotify} \"Streck Dich\" \"Du krummbuckla!\"";
+  };
+  systemd.user.timers.stehauf = {
+    Timer.OnCalendar = "*-*-* *:57 UTC";
+    Install.WantedBy = ["timers.target"];
   };
 
   home.file.".config/i3/config".source = ../dot/i3/config;
