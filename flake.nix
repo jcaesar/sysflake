@@ -4,8 +4,14 @@
     self,
     ...
   } @ flakes: let
-    pkgsForSystem = system: import nixpkgs {inherit system;};
-    eachSystem = f: nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux"] (system: f (pkgsForSystem system));
+    inherit (nixpkgs.lib) genAttrs attrNames attrValues mapAttrs filter;
+    pkgsForSystem = system:
+      import nixpkgs {
+        inherit system;
+        overlays = attrValues self.overlays;
+      };
+    genSystems = genAttrs ["x86_64-linux" "aarch64-linux"];
+    eachSystem = f: genSystems (system: f (pkgsForSystem system));
     sys = system: main:
       nixpkgs.lib.nixosSystem {
         inherit system;
@@ -16,11 +22,12 @@
     sysA = sys "aarch64-linux";
     work = import ./work.nix;
   in {
+    inherit flakes;
     nixosConfigurations =
       {
         korsika = sysI ./sys/korsika/configuration.nix;
         capri = sysI ./sys/capri/configuration.nix;
-        # gemini5 = sysI ./sys/gemini5.nix;
+        gemini5 = sysI ./sys/gemini5.nix;
         gozo = sysI ./sys/gozo.nix;
         mictop = sysI ./sys/mictop.nix;
         pride = sysI ./sys/pride.nix;
@@ -40,30 +47,13 @@
       home-manager = flakes.home-manager.nixosModules.home-manager;
       disko = flakes.disko.nixosModules.disko;
     };
-    packages = eachSystem (pkgs: import ./pkgs pkgs);
+    overlays.default = final: prev: import ./pkgs final prev;
     formatter = eachSystem (pkgs: pkgs.alejandra);
     checks = eachSystem (
       pkgs: let
-        myPkgs = self.packages.${pkgs.system};
-        pkgTests = let
-          nixosLib = import "${nixpkgs}/nixos/lib" {};
-          hostPkgs = import nixpkgs {
-            inherit (pkgs) system;
-            overlays = [(_: _: myPkgs)];
-          };
-        in
-          pkgs.lib.concatMapAttrs (pkgName: pkg:
-            pkgs.lib.mapAttrs' (testName: test: {
-              name = "${pkgName}_${testName}";
-              value = nixosLib.runTest {
-                inherit hostPkgs;
-                imports = [test];
-              };
-            }) (pkg.tests or {}))
-          myPkgs;
-        sysTests = builtins.mapAttrs (_: sys: sys.config.system.build.toplevel) self.nixosConfigurations;
+        myPkgs = genAttrs (attrNames (self.overlays.default null null)) (p: pkgs.${p});
+        sysTests = mapAttrs (_: sys: sys.config.system.build.toplevel) self.nixosConfigurations;
         aggSys = let
-          inherit (builtins) attrNames filter;
           all = attrNames self.nixosConfigurations;
           linkFor = sys: "ln -s ${self.nixosConfigurations.${sys}.config.system.build.toplevel} $out/${sys}";
           links = filt: builtins.concatStringsSep "\n" (map linkFor (filter (name: filt name) all));
@@ -79,7 +69,6 @@
         };
       in
         myPkgs
-        // pkgTests
         // sysTests
         // aggSys
     );

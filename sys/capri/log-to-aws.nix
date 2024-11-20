@@ -1,4 +1,4 @@
-let
+{pkgs, ...}: let
   aws_sink = {
     type = "aws_cloudwatch_logs";
     encoding.codec = "json";
@@ -11,6 +11,7 @@ let
 in {
   services.vector = {
     enable = true;
+    package = pkgs.vector-cloudwatchsyslogs;
     journaldAccess = true;
     settings = {
       sources.gemini4syslog = {

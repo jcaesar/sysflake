@@ -5,8 +5,8 @@
   src = fetchFromGitHub {
     owner = "jcaesar";
     repo = "gegensprech";
-    rev = "2492e139a42c516df74e7c9011671e4441fe6295";
-    hash = "sha256-wxMGBayFbiiDgv+MUgrW1RKPrfyFXXf326TaJiHXNRU=";
+    rev = "1370c03bfbd2d21b490e347b32053da241c9a681";
+    hash = "sha256-SmdH9/ckrF7JFWLzpBIHBvzWZ+uAriH4JnwTpNnzyOE=";
   };
 in
   callPackage src {}

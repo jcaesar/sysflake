@@ -32,6 +32,10 @@ in {
     pulse.enable = true;
   };
   environment.systemPackages = with pkgs; [alsa-utils dtc libraspberrypi];
+  boot.initrd.systemd.services.blinky = {
+    serviceConfig.ExecStart = lib.getExe pkgs.seeed-2mic-blinky;
+    wantedBy = ["basic.target"];
+  };
 
   documentation.enable = false;
   system.stateVersion = "24.05";
