@@ -9,6 +9,7 @@ in {
   imports = [
     ./hardware-configuration.nix
     ./log-to-aws.nix
+    ./pua.nix
   ];
   njx.common = true;
   njx.work = true;
