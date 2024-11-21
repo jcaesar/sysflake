@@ -10,15 +10,7 @@
   prod = un ["tex" "re" "co"];
   env = pkgs.buildFHSEnv {
     name = "install-env";
-    targetPkgs = pkgs: [
-      pkgs.coreutils
-      pkgs.openssl
-      pkgs.getopt
-      pkgs.bash
-      pkgs.iptables
-      pkgs.systemd
-      pkgs.procps
-    ];
+    targetPkgs = pkgs: with pkgs; [coreutils openssl getopt bash iptables systemd procps];
   };
 in {
   boot.kernelPackages = pkgs.linuxPackagesFor pkgs.linux_6_1;
@@ -46,11 +38,15 @@ in {
     after = ["local-fs.target" "network.target"];
     wantedBy = ["multi-user.target"];
     serviceConfig = {
-      BindReadOnly = ["${env.fhsenv}/usr/bin:/bin"];
+      BindReadOnlyPaths = [
+        "${env.fhsenv}/usr/bin:/bin"
+        "${env.fhsenv}/usr:/usr"
+      ];
       ExecStart = "/opt/${sof}/bin/pmd";
       ExecStopPost = "/opt/${sof}/k${""}m_utils/k${""}m_manage stop";
       Restart = "always";
     };
+    environment.PATH = lib.mkForce "/bin";
   };
   users.users.${"${prod}user"} = {
     isSystemUser = true;
