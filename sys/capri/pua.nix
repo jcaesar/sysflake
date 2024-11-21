@@ -8,6 +8,18 @@
   # make sure this doesn't appear in google
   sof = un ["ps" "a" "tr"];
   prod = un ["tex" "re" "co"];
+  env = pkgs.buildFHSEnv {
+    name = "install-env";
+    targetPkgs = pkgs: [
+      pkgs.coreutils
+      pkgs.openssl
+      pkgs.getopt
+      pkgs.bash
+      pkgs.iptables
+      pkgs.systemd
+      pkgs.procps
+    ];
+  };
 in {
   boot.kernelPackages = pkgs.linuxPackagesFor pkgs.linux_6_1;
   programs.nix-ld.enable = true;
@@ -34,6 +46,7 @@ in {
     after = ["local-fs.target" "network.target"];
     wantedBy = ["multi-user.target"];
     serviceConfig = {
+      BindReadOnly = ["${env.fhsenv}/usr/bin:/bin"];
       ExecStart = "/opt/${sof}/bin/pmd";
       ExecStopPost = "/opt/${sof}/k${""}m_utils/k${""}m_manage stop";
       Restart = "always";
