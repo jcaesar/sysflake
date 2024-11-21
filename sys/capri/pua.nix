@@ -7,7 +7,7 @@
   un = x: concatStrings (reverseList x);
   # make sure this doesn't appear in google
   sof = un ["ps" "a" "tr"];
-  prod = un ["tex" "re" "co"];
+  prod = un ["tex" "r" "co"];
   env = pkgs.buildFHSEnv {
     name = "${sof}-fhs-env";
     targetPkgs = pkgs: with pkgs; [coreutils openssl getopt bash iptables systemd procps kmod];
