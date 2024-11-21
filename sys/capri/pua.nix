@@ -9,13 +9,13 @@
   sof = un ["ps" "a" "tr"];
   prod = un ["tex" "re" "co"];
   env = pkgs.buildFHSEnv {
-    name = "install-env";
-    targetPkgs = pkgs: with pkgs; [coreutils openssl getopt bash iptables systemd procps];
+    name = "${sof}-fhs-env";
+    targetPkgs = pkgs: with pkgs; [coreutils openssl getopt bash iptables systemd procps kmod];
   };
 in {
   boot.kernelPackages = pkgs.linuxPackagesFor pkgs.linux_6_1;
   programs.nix-ld.enable = true;
-  environment.systemPackages = with pkgs; [openssl];
+  environment.systemPackages = [pkgs.openssl env];
   security.pki.certificateFiles = [
     (pkgs.fetchurl {
       url = "https://certs.godaddy.com/repository/gdroot-g2.crt";
