@@ -207,6 +207,10 @@ in {
       media_dir = [
         "V,/mnt/file/nzbget/dst/"
         "V,/mnt/file/data/julius/anime/"
+        "V,/mnt/cameo/@/home/julius/media/series"
+        "V,/mnt/cameo/@/home/julius/media/doku"
+        "V,/mnt/cameo/@/home/julius/media/movie"
+        "V,/mnt/cameo/@/home/julius/media/yt"
       ];
     };
   };
