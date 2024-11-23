@@ -56,9 +56,10 @@ in rec {
     networks."10-fnet" = {
       matchConfig.Name = "eno1";
       DHCP = "no";
-      address = ["${shamo.ip shamoIndex}/24"];
-      gateway = ["10.25.211.1"];
-      inherit (common) dns ntp;
+      address = ["${shamo.ip shamoIndex}/16"];
+      gateway = ["172.16.0.1"];
+      dns = ["172.16.150.10" "172.16.150.11"];
+      inherit (common) ntp;
     };
     networks."10-rack" = {
       matchConfig.Name = "enp216s0f0";
