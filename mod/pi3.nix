@@ -37,7 +37,7 @@
     unitConfig.DefaultDependencies = false;
   };
   # weird that it doesn't do this automatically
-  njx.extraInitrdClosures = [ config.systemd.services.supplicant-wlan0.serviceConfig ];
+  njx.extraInitrdClosures = [config.systemd.services.supplicant-wlan0.serviceConfig];
   boot.initrd.systemd.groups.wheel.gid = 123;
   boot.initrd.systemd.services.sshd = {
     after = ["boot.mount"];

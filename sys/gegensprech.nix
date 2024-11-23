@@ -38,7 +38,7 @@ in {
     serviceConfig.ExecStart = lib.getExe pkgs.seeed-2mic-blinky;
     wantedBy = ["local-fs.target"];
   };
-  njx.extraInitrdClosures = [ config.boot.initrd.systemd.services.blinky.serviceConfig ];
+  njx.extraInitrdClosures = [config.boot.initrd.systemd.services.blinky.serviceConfig];
 
   documentation.enable = false;
   system.stateVersion = "24.05";

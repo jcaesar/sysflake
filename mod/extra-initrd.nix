@@ -1,6 +1,11 @@
-{lib, pkgs, config, ...}: {
-options.njx.extraInitrdClosures = lib.mkOption {
-  default = [];
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}: {
+  options.njx.extraInitrdClosures = lib.mkOption {
+    default = [];
   };
   config.boot.initrd.systemd.storePaths = let
     inherit (lib) splitString removeSuffix;
