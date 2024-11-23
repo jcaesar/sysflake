@@ -33,14 +33,15 @@ in {
     pulse.enable = true;
   };
   environment.systemPackages = with pkgs; [alsa-utils dtc libraspberrypi];
+  
   boot.initrd.systemd.services.blinky = {
     unitConfig.DefaultDependencies = false;
     serviceConfig.ExecStart = "${pkgs.seeed-2mic-blinky}/bin/blinky";
     wantedBy = ["local-fs.target"];
   };
   njx.extraInitrdClosures = [config.boot.initrd.systemd.services.blinky.serviceConfig];
+  boot.initrd.kernelModules = ["spi_bcm2835" "spidev"];
 
-  documentation.enable = false;
   system.stateVersion = "24.05";
   home-manager.users.gegensprech.home.stateVersion = "24.05";
 }
