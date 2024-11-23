@@ -37,19 +37,7 @@
     unitConfig.DefaultDependencies = false;
   };
   # weird that it doesn't do this automatically
-  boot.initrd.systemd.storePaths = let
-    inherit (lib) splitString removeSuffix attrValues;
-    inherit (pkgs) writeClosure writeText;
-    inherit (builtins) readFile toJSON;
-    services = attrValues config.boot.initrd.systemd.services;
-    cfgs = map (s: s.serviceConfig) services;
-    json = toJSON cfgs;
-    jsonFile = writeText "service-configs.json" json;
-    closureFile = writeClosure jsonFile;
-    closure = removeSuffix "\n" (readFile closureFile);
-    paths = splitString "\n" closure;
-  in
-    paths;
+  njx.extraInitrdClosures = [ config.systemd.services.supplicant-wlan0.serviceConfig ];
   boot.initrd.systemd.groups.wheel.gid = 123;
   boot.initrd.systemd.services.sshd = {
     after = ["boot.mount"];

@@ -23,6 +23,7 @@ in {
     ./powercap.nix
     ./common-home-nushell-env.nix
     ./source-flakes.nix
+    ./extra-initrd.nix
     (mkModOption "base")
     (mkModOption "binfmt")
     (mkModOption "bluetooth")
