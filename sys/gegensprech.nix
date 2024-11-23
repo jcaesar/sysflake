@@ -33,14 +33,22 @@ in {
     pulse.enable = true;
   };
   environment.systemPackages = with pkgs; [alsa-utils dtc libraspberrypi];
-  
-  boot.initrd.systemd.services.blinky = {
+
+  boot.initrd.systemd.services.blinky = let
+    spidev = "sys-devices-platform-soc-3f204000.spi-spi_master-spi0-spi0.1-spidev-spidev0.1.device";
+  in {
     unitConfig.DefaultDependencies = false;
     serviceConfig.ExecStart = "${pkgs.seeed-2mic-blinky}/bin/blinky";
     wantedBy = ["local-fs.target"];
+    after = [spidev];
+    requires = [spidev];
   };
   njx.extraInitrdClosures = [config.boot.initrd.systemd.services.blinky.serviceConfig];
   boot.initrd.kernelModules = ["spi_bcm2835" "spidev"];
+  boot.initrd.services.udev.rules = ''
+    # blinky service needs to wait with startup for spi device
+    SUBSYSTEM=="spidev", ACTION!="remove", TAG+="systemd"
+  '';
 
   system.stateVersion = "24.05";
   home-manager.users.gegensprech.home.stateVersion = "24.05";
