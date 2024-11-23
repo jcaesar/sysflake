@@ -15,7 +15,7 @@ in {
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys ++ [private.prideKey];
   users.users.gegensprech = {
     isNormalUser = true;
-    packages = with pkgs; [gegensprech mpv];
+    packages = with pkgs; [gegensprech];
     openssh.authorizedKeys.keys = private.terminalKeys;
     linger = true;
     extraGroups = ["gpio"];
