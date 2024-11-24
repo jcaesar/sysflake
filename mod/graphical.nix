@@ -88,7 +88,7 @@
     sxiv # better feh
     zathura
     imagemagick
-    libreoffice
+    libreoffice-still
     gimp
     xclip
     dolphin # better explorer.exe
