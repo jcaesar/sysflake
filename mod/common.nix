@@ -19,7 +19,7 @@
     })
   ];
   # yay at hyprland now auto-creating its config file as long as it is running
-  home-manager.backupFileExtension = ".hm.bak";
+  home-manager.backupFileExtension = "hm.bak";
 
   systemd.oomd.enableUserSlices = true;
 
