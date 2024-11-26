@@ -42,11 +42,11 @@
       ];
       language-server.nixd.command = "${pkgs.nixd}/bin/nixd";
     };
-    extraPackages = with pkgs; [
-      rust-analyzer
-      rustfmt
-      python3.pkgs.python-lsp-ruff
-    ];
+    extraPackages = let
+      p = with pkgs; [rust-analyzer rustfmt];
+      pp = with pkgs.python3.pkgs; [python-lsp-server python-lsp-ruff];
+    in
+      p ++ pp;
   };
 
   # Stolen from https://wiki.nixos.org/wiki/Nushell
