@@ -35,6 +35,8 @@
     git # better svn/hg
   ];
 
+  programs.nh.enable = true;
+
   hardware.graphics.enable = true;
 
   users.users.julius = {
