@@ -27,7 +27,9 @@
       mplus-outline-fonts.githubRelease
       dina-font
       proggyfonts
-      (nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "Terminus"];})
+      nerd-fonts.droid-sans-mono
+      fira-code
+      terminus_font
       iosevka
       sarasa-gothic
       source-code-pro
