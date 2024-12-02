@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  config,
   ...
 }: let
   private = import ../private.nix;
@@ -154,6 +155,7 @@ in {
           ])
       ) (lib.getName pkg);
   };
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.production;
 
   services.xserver = {
     displayManager.gdm.enable = true;
