@@ -180,7 +180,9 @@ in {
     ruri
     ffmpeg
     piper-tts
+    flatpak-builder
   ];
+  services.flatpak.enable = true;
 
   users.users.root.openssh.authorizedKeys.keys = private.terminalKeys;
   users.users.julius.openssh.authorizedKeys.keys = builtins.concatLists [(import ../work.nix).sshKeys.strong private.terminalKeys];
