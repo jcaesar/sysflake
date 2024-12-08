@@ -181,6 +181,7 @@ in {
     ffmpeg
     piper-tts
     flatpak-builder
+    appstream # undeclared dependency of flatpak-builder
   ];
   services.flatpak.enable = true;
 
