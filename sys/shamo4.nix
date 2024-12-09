@@ -9,6 +9,15 @@ in
   }: {
     njx.common = true;
     njx.binfmt = true;
+    assertions = [
+      {
+        assertion = let
+          vscodeNode = lib.findSingle (x: x.pname or "" == "nodejs") (throw "no nodejs") (throw "more than one nodejs") pkgs.openvscode-server.nativeBuildInputs;
+        in
+          !lib.versionAtLeast vscodeNode.version "19.0.0";
+        message = "openvscode-server is good again. readd and delete assertion.";
+      }
+    ];
 
     # Not for now
     services.kubernetes = {
@@ -48,7 +57,7 @@ in
           #jupyter-all # Somehow, jupyter works anyway. No idea how
           # conda # license doubts - conda itself is fine, the stuff it downloads might not be
           micromamba
-          openvscode-server
+          #openvscode-server # depends on EOL nodejs
           (python3.withPackages (ps:
             with ps; [
               # descartes
