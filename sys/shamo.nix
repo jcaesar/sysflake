@@ -14,6 +14,7 @@ in rec {
     ./shamo4.nix
   ];
   njx.work = true;
+  njx.sysrq = true; # can be fired of from iRMC -> Video Redirection -> Hotkeys
   njx.squid = shamoIndex == 0;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";

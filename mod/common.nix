@@ -21,7 +21,11 @@
   # yay at hyprland now auto-creating its config file as long as it is running
   home-manager.backupFileExtension = "hm.bak";
 
-  systemd.oomd.enableUserSlices = true;
+  systemd.oomd = {
+    enableUserSlices = true;
+    enableSystemSlice = true;
+    extraConfig.SwapUsedLimitPercent = "90%";
+  };
 
   environment.variables = {
     EDITOR = "hx";
