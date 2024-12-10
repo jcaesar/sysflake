@@ -25,7 +25,7 @@ in rec {
 
   njx.sshUnlock.keys = common.sshKeys.strong;
   njx.sshUnlock.modules = ["igb" "i40e"];
-  boot.initrd.luks.devices."nixroot".device =
+  boot.initrd.luks.devices.nixroot.device =
     {
       shamo0 = "/dev/mapper/nvme-nixos";
       shamo2 = "/dev/disk/by-label/nixcrypt";
@@ -34,6 +34,19 @@ in rec {
       shamo7 = "/dev/mapper/nvme-nixos";
     }
     .${shamo.name shamoIndex};
+  boot.initrd.luks.devices.nixroot.keyFile = "/etc/secrets/lukskey";
+  boot.initrd.secrets."/etc/secrets/lukskey" = "/etc/secrets/lukskey";
+  njx.manual.hdd-key = ''
+    Entering the password at boot is all fun and games until you want the servers to reboot properly unattended.
+    I don't want to break any more of them, so I'm not trusting myself with secure boot / TPM (they don't have a nice one anyway).
+
+    Thus:
+    ```
+    umask 0377
+    dd bs=512 count=4 if=/dev/random of=/etc/secrets/lukskey iflag=fullblock
+    cryptsetup luksAddKey $(shopt -s nullglob; echo /dev/mapper/nvme-nixos* /dev/disk/by-label/nixcrypt*) /etc/secrets/lukskey --new-keyfile-size 2048
+    ```
+  '';
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/ESP";
     fsType = "vfat";
