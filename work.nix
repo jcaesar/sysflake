@@ -26,12 +26,12 @@ rec {
     capriJulius = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBE1JLnsDDWqKMg+cVV9CeUE2kvZCekbQCY7hD2sBvPA+KUpCemeEC9jRPd3njoZZ/Ul515+5fZAJ25/1jZi2dn8= julius@capri";
     aoki = [
       "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLHWGalN7iJC6qR4rcWs9ivP8mTSaJ7/ucygi6u83Ca2qEzPA+hi6gwpD4gm9uEIwAhztiMz65Amhtira80buLM= g01\\aoki-hiroaki@twoseams"
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDjw4EYlDGfqJxSyC7vElqPa6JcQ3M6NoI7vQlkx13Kc68WavS7onobWwJNh0Lg/kMUdM8pA4pirGXjfjyBzrKQqoZ9zjFCRbFAlb0UsK2oLIdff/LonHp7Dhswv+WZC7Wl/tiGyJED800hR1oP5puQYQi0GcU5rXxW4XnXBVxz0tKIZbYsAPe1LhPrVNHCAB4wlcadAWs8zkwqgtWpsR13DP0wLk9B+JXn9rPmxwTM/mqJ+EnKDvaVsoD40i5eSkMrHlxA35pPqBUQx0LqjA+qhTAu/m+wCZUCc0/8tOTN0/5FnMIeKPjb4cgQzajTPV3JRs+ylsQvgc/X3WJdaohl aoki@sinker.robin.css.fujitsu.com"
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDjw4EYlDGfqJxSyC7vElqPa6JcQ3M6NoI7vQlkx13Kc68WavS7onobWwJNh0Lg/kMUdM8pA4pirGXjfjyBzrKQqoZ9zjFCRbFAlb0UsK2oLIdff/LonHp7Dhswv+WZC7Wl/tiGyJED800hR1oP5puQYQi0GcU5rXxW4XnXBVxz0tKIZbYsAPe1LhPrVNHCAB4wlcadAWs8zkwqgtWpsR13DP0wLk9B+JXn9rPmxwTM/mqJ+EnKDvaVsoD40i5eSkMrHlxA35pPqBUQx0LqjA+qhTAu/m+wCZUCc0/8tOTN0/5FnMIeKPjb4cgQzajTPV3JRs+ylsQvgc/X3WJdaohl aoki@sinker"
     ];
     k8sconfig = map (key: "command=\"kubectl config view --flatten\" ${key}") (aoki ++ [capriJulius]);
   };
-  noProxy = "127.0.0.1,localhost,fujitsu.co.jp,${builtins.concatStringsSep "," (shamo.each shamo.name)}";
+  noProxy = "127.0.0.1,localhost,${builtins.concatStringsSep "," (shamo.each shamo.name)}";
   dns = ["10.0.238.1" "10.0.238.70"];
   dnsG = ["10.12.255.254"];
-  ntp = ["ntp2.css.fujitsu.com" "ntp1.css.fujitsu.com"];
+  ntp = ["10.0.238.70" "10.134.61.180"]; # ntp2.css.… ntp1.css.…
 }

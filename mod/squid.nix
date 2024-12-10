@@ -5,7 +5,7 @@
   njx.manual.squid = ''
     Make sure that `/etc/secrets/squid` contains at least one line like
     ```
-    cache_peer oym3.proxy.nic.fujitsu.com parent 8080 0 no-query no-digest carp login=user:pw name=oym3
+    cache_peer oym3.proxy.nic.… parent 8080 0 no-query no-digest carp login=user:pw name=oym3
     ```
   '';
   services.squid = {
